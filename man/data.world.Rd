@@ -4,16 +4,24 @@
 \alias{data.world}
 \title{data.world client constructor}
 \usage{
-data.world(token)
+data.world(token = NULL, propsfile = sprintf("\%s/.data.world",
+  path.expand("~")))
 }
 \arguments{
-\item{token}{your data.world API token}
+\item{token}{your data.world API token (optional, if not present, will be read from properties file)}
+
+\item{propsfile}{a properties file containing configuration for your data.world client (defaults to ~/.data.world)}
 }
 \value{
 a data.world client
 }
 \description{
 data.world client constructor
+}
+\examples{
+connection <- data.world()
+connection <- data.world(token = "YOUR_API_TOKEN_HERE")
+connection <- data.world(propsfile = "~/.data.world")
 }
 \seealso{
 \code{\link{query}}

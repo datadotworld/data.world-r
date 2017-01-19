@@ -7,6 +7,16 @@
 #'
 #' @return the query results as a data frame
 #' @seealso \code{\link{data.world}}
+#' @examples
+#' query(connection, dataset="user/dataset",
+#'       query="SELECT *
+#'                FROM TableName
+#'               LIMIT 10")
+#' query(connection, dataset="user/dataset", type="sparql",
+#'       query="SELECT *
+#'              WHERE {
+#'                ?s ?p ?o.
+#'              } LIMIT 10")
 #' @export
 query <- function(connection, type, dataset, query) {
   UseMethod("query")

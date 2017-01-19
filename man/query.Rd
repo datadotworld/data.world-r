@@ -21,6 +21,17 @@ the query results as a data frame
 \description{
 execute a SQL or SPARQL query against a data.world client
 }
+\examples{
+query(connection, dataset="user/dataset",
+      query="SELECT *
+               FROM TableName
+              LIMIT 10")
+query(connection, dataset="user/dataset", type="sparql",
+      query="SELECT *
+             WHERE {
+               ?s ?p ?o.
+             } LIMIT 10")
+}
 \seealso{
 \code{\link{data.world}}
 }

@@ -6,6 +6,7 @@
 #' @param query      the SQL or SPARQL query to run
 #'
 #' @return the query results as a data frame
+#' @seealso \code{\link{data.world}}
 #' @export
 query <- function(connection, type, dataset, query) {
   UseMethod("query")
@@ -25,5 +26,6 @@ query.data.world <- function(connection, type = "sql", dataset, query) {
                      Accept = "text/csv",
                      Authorization = sprintf("Bearer %s", connection$token)
                    ))
-  httr::content(response)
+  if (response$status_code == 200) return(httr::content(response))
+  httr::http_status(response)
 }

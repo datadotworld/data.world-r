@@ -15,4 +15,7 @@ a data.world client
 \description{
 data.world client constructor
 }
+\seealso{
+\code{\link{query}}
+}
 

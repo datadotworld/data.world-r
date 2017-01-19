@@ -21,4 +21,7 @@ the query results as a data frame
 \description{
 execute a SQL or SPARQL query against a data.world client
 }
+\seealso{
+\code{\link{data.world}}
+}
 

@@ -8,17 +8,9 @@ data.world(token)
 }
 \arguments{
 \item{token}{your data.world API token}
-
-\item{type}{the type of the query - either "sql" or "sparql"}
-
-\item{dataset}{the "agentid/datasetid" for the dataset against which to execute the query}
-
-\item{query}{the SQL or SPARQL query to run}
 }
 \value{
 a data.world client
-
-the query results as a data frame
 }
 \description{
 data.world client constructor

@@ -1,12 +1,13 @@
 Package: data.world
 Type: Package
-Title: What the Package Does (Title Case)
+Title: R Client Library for data.world
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: Who to complain to <yourfault@somewhere.net>
+Author: Bryon Jacob (bryon@data.world)
+Maintainer: Who to complain to <help@data.world>
 Description: More about what it does (maybe more than one line)
 License: What license is it under?
 LazyData: TRUE
 Imports:
-    httr
+    httr,
+    xml2
 RoxygenNote: 5.0.1

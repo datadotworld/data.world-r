@@ -35,7 +35,7 @@ echo 'token=YOUR_API_TOKEN' > ~/.data.world
 then
 ```
 > library(data.world)
-> conn <- data.world(token = "YOUR_API_TOKEN")
+> conn <- data.world()
 ```
 
 ### Querying

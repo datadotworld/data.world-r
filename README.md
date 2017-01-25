@@ -60,12 +60,14 @@ to execute a `SPARQL` query, you need to specify the `type` as
 `sparql`:
 ```
 > df <- query(conn, dataset="bryon/odin-2015-2016", type="sparql", query='
-+ PREFIX : <http://data.world/bryon/odin-2015-2016/ODIN-2015-2016-raw.csv/ODIN-2015-2016-raw#>
-+ PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-+ SELECT * WHERE {
-+    [ :Year ?year ; :Region ?region ; :Overall_subscore ?score ]
-+    FILTER(?year = "2015")
-+ } LIMIT 10')
+PREFIX : <http://data.world/bryon/odin-2015-2016/ODIN-2015-2016-raw.csv/ODIN-2015-2016-raw#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT *
+WHERE {
+  [ :Year ?year ; :Region ?region ; :Overall_subscore ?score ]
+  FILTER(?year = "2015")
+} 
+LIMIT 10')
 > df
 # A tibble: 10 × 3
     year         region score

@@ -41,10 +41,11 @@ then
 ### Querying
 
 The client supports one method - `query`, which can be used to send a
-`dwSQL` or a `SPARQL` query to a particular dataset's query endpoint.
+`[dwSQL](https://docs.data.world/tutorials/dwsql/)` or a `SPARQL` query to a particular dataset's query endpoint.
 
 `query` returns a data frame.
 
+To get the IDs and names of all available tables:
 ```
 > df <- query(conn, dataset="bryon/odin-2015-2016", query="SELECT * FROM Tables")
 > df
@@ -56,7 +57,32 @@ The client supports one method - `query`, which can be used to send a
 3         ODIN-2015-2016-weighted.csv/ODIN-2015-2016-weighted     ODIN-2015-2016-weighted
 ```
 
-to execute a `SPARQL` query, you need to specify the `type` as
+To select one specific table, use the Name of the specific table *(note the backticks required for table names including special characters)*:
+```
+> df <- query(conn, dataset="bryon/odin-2015-2016", query="SELECT * FROM `ODIN-2015-2016-standardized`")
+> df
+# A tibble: 7,155 × 19
+    Year         Region `Region code`    Country `Country Code`
+   <int>          <chr>         <chr>      <chr>          <chr>
+1   2015 Eastern Africa           AFE    Burundi            BDI
+2   2015 Eastern Africa           AFE    Burundi            BDI
+3   2015 Eastern Africa           AFE    Burundi            BDI
+4   2015 Eastern Africa           AFE Madagascar            MDG
+5   2015 Western Africa           AFW Mauritania            MRT
+6   2015 Western Africa           AFW Mauritania            MRT
+7   2015 Western Africa           AFW Mauritania            MRT
+8   2015 Western Africa           AFW Mauritania            MRT
+9   2015 Western Africa           AFW Mauritania            MRT
+10  2015 Western Africa           AFW Mauritania            MRT
+# ... with 7,145 more rows, and 14 more variables: Elements <chr>, `Indicator Coverage and
+#   Disaggregation` <int>, `Data Available Last 5 Years` <int>, `Data Available Last 10 Years` <int>,
+#   `First Administrative Level` <int>, `Second Administrative Level` <int>, `Coverage
+#   subscore` <int>, `Machine Readable` <int>, `Non-proprietary` <int>, `Download Options` <int>,
+#   `Metadata Available` <int>, `Free/ unrestricted use and reuse` <int>, `Openness subscore` <int>,
+#   `Overall subscore` <int>
+```
+
+To execute a `SPARQL` query, you need to specify the `type` as
 `sparql`:
 ```
 > df <- query(conn, dataset="bryon/odin-2015-2016", type="sparql", query='

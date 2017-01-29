@@ -41,7 +41,7 @@ then
 ### Querying
 
 The client supports one method - `query`, which can be used to send a
-`[dwSQL](https://docs.data.world/tutorials/dwsql/)` or a `SPARQL` query to a particular dataset's query endpoint.
+[`dwSQL`](https://docs.data.world/tutorials/dwsql/) or a `SPARQL` query to a particular dataset's query endpoint.
 
 `query` returns a data frame.
 

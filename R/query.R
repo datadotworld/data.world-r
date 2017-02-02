@@ -34,17 +34,17 @@ This product includes software developed at data.world, Inc.(http://www.data.wor
 #'                ?s ?p ?o.
 #'              } LIMIT 10")
 #' @export
-query <- function(connection, type, dataset, query) {
+query <- function(connection, type, dataset, query, ...) {
   UseMethod("query")
 }
 
 #' @export
-query.default <- function(connection, type, dataset, query) {
+query.default <- function(connection, type, dataset, query, ...) {
   print("nope.")
 }
 
 #' @export
-query.data.world <- function(connection, type = "sql", dataset, query) {
+query.data.world <- function(connection, type = "sql", dataset, query, ...) {
   url = sprintf("https://query.data.world/%s/%s", type, dataset)
   response <- httr::GET( url,
                    query = list(query = query),
@@ -52,6 +52,11 @@ query.data.world <- function(connection, type = "sql", dataset, query) {
                      Accept = "text/csv",
                      Authorization = sprintf("Bearer %s", connection$token)
                    ))
-  if (response$status_code == 200) return(httr::content(response))
-  httr::http_status(response)
+  ret <- httr::http_status(response)
+  if (response$status_code == 200) {
+    text <- httr::content(x=response, as='text')
+    df <- readr::read_csv(text, ...)
+    ret <- df
+  }
+  ret
 }

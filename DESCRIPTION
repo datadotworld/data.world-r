@@ -9,5 +9,7 @@ License: What license is it under?
 LazyData: TRUE
 Imports:
     httr,
-    xml2
-RoxygenNote: 5.0.1
+    xml2, 
+    readr,
+    rjson
+RoxygenNote: 6.0.1

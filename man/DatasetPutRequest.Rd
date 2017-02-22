@@ -24,5 +24,6 @@ DatasetPutRequest(description = NULL, summary = NULL, tags = NULL,
 DatasetPutRequest per https://api.data.world/v0/swagger.json
 }
 \examples{
-datasetPutRequest <- data.world::DatasetPutRequest(visibility = "OPEN", description = "updated description")
+datasetPutRequest <- data.world::DatasetPutRequest(visibility = "OPEN",
+ description = "updated description")
 }

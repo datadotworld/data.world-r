@@ -18,5 +18,6 @@ delete a file from the dataset
 }
 \examples{
 connection <- data.world(token = "YOUR_API_TOKEN_HERE")
-data.world::deleteFilesAndSyncSources(connection, dataset = "ownerid/datasetid", names = list("file1.csv", "file2.csv"))
+data.world::deleteFilesAndSyncSources(connection, dataset = "ownerid/datasetid",
+names = list("file1.csv", "file2.csv"))
 }

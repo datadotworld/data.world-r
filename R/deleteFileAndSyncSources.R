@@ -17,10 +17,12 @@ This product includes software developed at data.world, Inc.(http://www.data.wor
 #' delete a file from the dataset
 #' @param connection the connection to data.world
 #' @param dataset the "agentid/datasetid" for the dataset against which to execute the query
-#' @param name the filename including the file extension. If a file by that name already exists in the dataset, the file will be updated/overwritten.
+#' @param name the filename including the file extension. If a file by that name already
+#' exists in the dataset, the file will be updated/overwritten.
 #' @examples
 #' connection <- data.world(token = "YOUR_API_TOKEN_HERE")
-#' data.world::deleteFileAndSyncSources(connection, dataset = "ownerid/datasetid", name = "file.csv")
+#' data.world::deleteFileAndSyncSources(connection, dataset = "ownerid/datasetid",
+#'  name = "file.csv")
 #' @export
 deleteFileAndSyncSources <- function(connection, dataset, name) {
   UseMethod("deleteFileAndSyncSources")
@@ -38,7 +40,6 @@ deleteFileAndSyncSources.data.world <- function(connection, dataset, name) {
   response <- httr::DELETE( apiUrl,
                           httr::add_headers(
                             "Authorization" = auth),
-                          httr::progress(),
                           httr::user_agent(data.world::userAgent()))
   ret <- httr::http_status(response)
   if (response$status_code == 200) {
@@ -56,7 +57,8 @@ deleteFileAndSyncSources.data.world <- function(connection, dataset, name) {
 #' @param names list names
 #' @examples
 #' connection <- data.world(token = "YOUR_API_TOKEN_HERE")
-#' data.world::deleteFilesAndSyncSources(connection, dataset = "ownerid/datasetid", names = list("file1.csv", "file2.csv"))
+#' data.world::deleteFilesAndSyncSources(connection, dataset = "ownerid/datasetid",
+#' names = list("file1.csv", "file2.csv"))
 #' @export
 deleteFilesAndSyncSources <- function(connection, dataset, names) {
   UseMethod("deleteFilesAndSyncSources")
@@ -78,7 +80,7 @@ deleteFilesAndSyncSources.data.world <- function(connection, dataset, names) {
     response <- httr::DELETE( apiUrl,
                               httr::add_headers(
                                 "Authorization" = auth
-                              ), httr::progress(),
+                              ),
                               httr::user_agent(data.world::userAgent()))
     ret <- httr::http_status(response)
     if (response$status_code == 200) {

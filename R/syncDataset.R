@@ -53,7 +53,7 @@ syncViaGet.data.world <- function(connection, dataset) {
 #' @param dataset the "agentid/datasetid" for the dataset against which to execute the query
 #' @examples
 #' connection <- data.world(token = "YOUR_API_TOKEN_HERE")
-#' data.world::sync(connection, dataset="user/dataset")
+#' data.world::sync(connection, dataset="ownerid/dataset")
 #' @export
 sync <- function(connection, dataset) {
   UseMethod("sync")

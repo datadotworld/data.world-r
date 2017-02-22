@@ -11,12 +11,14 @@ deleteFileAndSyncSources(connection, dataset, name)
 
 \item{dataset}{the "agentid/datasetid" for the dataset against which to execute the query}
 
-\item{name}{the filename including the file extension. If a file by that name already exists in the dataset, the file will be updated/overwritten.}
+\item{name}{the filename including the file extension. If a file by that name already
+exists in the dataset, the file will be updated/overwritten.}
 }
 \description{
 delete a file from the dataset
 }
 \examples{
 connection <- data.world(token = "YOUR_API_TOKEN_HERE")
-data.world::deleteFileAndSyncSources(connection, dataset = "ownerid/datasetid", name = "file.csv")
+data.world::deleteFileAndSyncSources(connection, dataset = "ownerid/datasetid",
+ name = "file.csv")
 }

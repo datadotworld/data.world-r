@@ -17,8 +17,15 @@ createDataset(connection, createDatasetRequest, ownerId)
 create a dataset and add metadata
 }
 \examples{
-request <- data.world::DatasetCreateRequest(title="testdataset", visibility = "OPEN", description = "Test Dataset by R-SDK" , tags = c("rsdk", "sdk", "arr") , licenseString = "Public Domain")
-request <- data.world::addFile(request = request, name = "file4.csv", url = "https://data.world/file4.csv")
+request <- data.world::DatasetCreateRequest(title="testdataset", visibility = "OPEN",
+ description = "Test Dataset by R-SDK" , tags = c("rsdk", "sdk", "arr") ,
+ licenseString = "Public Domain")
+
+request <- data.world::addFile(request = request, name = "file4.csv",
+ url = "https://data.world/file4.csv")
+
 conn <- data.world(token = "YOUR_API_TOKEN_HERE")
-data.world::createDataset(connection = conn, createDatasetRequest = request, ownerId = "ownerid")
+
+data.world::createDataset(connection = conn, createDatasetRequest = request,
+ ownerId = "ownerid")
 }

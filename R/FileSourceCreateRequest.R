@@ -17,7 +17,8 @@ This product includes software developed at data.world, Inc.(http://www.data.wor
 #' FileSourceCreateRequest per https://api.data.world/v0/swagger.json
 #' @param url the public, full direct-download path to file
 #' @examples
-#' fileSourceCreateRequest <- data.world::FileSourceCreateRequest("https://open.obamawhitehouse/file3.csv")
+#' fileSourceCreateRequest <- data.world::FileSourceCreateRequest(
+#' "https://open.obamawhitehouse/file3.csv")
 #' @export
 FileSourceCreateRequest <- function(url) {
   source <- data.world::FileSourceCreateOrUpdateRequest(url)
@@ -30,7 +31,8 @@ FileSourceCreateRequest <- function(url) {
 #' @param url the public, full direct-download path to file
 #'
 #' @examples
-#' fileSourceCreateOrUpdateRequest <- data.world::FileSourceCreateOrUpdateRequest("https://open.obamawhitehouse/file3.csv")
+#' fileSourceCreateOrUpdateRequest <- data.world::FileSourceCreateOrUpdateRequest(
+#' "https://open.obamawhitehouse/file3.csv")
 #' @export
 FileSourceCreateOrUpdateRequest <- function(url) {
   if (url == '') {

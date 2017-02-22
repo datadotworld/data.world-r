@@ -21,7 +21,8 @@ This product includes software developed at data.world, Inc.(http://www.data.wor
 #' @examples
 #' conn <- data.world(token = "YOUR_API_TOKEN_HERE")
 #' df = data.frame(a = c(1,2,3),b = c(4,5,6))
-#' uploadDataFrame(connection = conn, fileName="sample.csv", dataFrame = df, dataset = "ownerid/datasetid")
+#' uploadDataFrame(connection = conn, fileName="sample.csv",
+#' dataFrame = df, dataset = "ownerid/datasetid")
 #' @export
 uploadDataFrame <- function(connection, dataFrame, fileName, dataset) {
   UseMethod("uploadDataFrame")

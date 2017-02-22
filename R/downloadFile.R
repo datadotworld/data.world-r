@@ -16,9 +16,14 @@ This product includes software developed at data.world, Inc.(http://www.data.wor
 
 #' Download file from the latest dataset version
 #' @param connection the connection to data.world
-#' @param dataset    the "agentid/datasetid" for the dataset against which to execute the query
+#' @param dataset    the "agentid/datasetid" for the dataset against
+#' which to execute the query
 #' @param fileName the filename as listed in the data.world dataset
 #' @param output the local file to store the downloaded content
+#' @examples
+#' connection <- data.world(token = "YOUR_API_TOKEN_HERE")
+#' downloadFile(connection, dataset="ownerid/datasetid" , fileName = "file.csv",
+#' output = "tmp/file.csv")
 #' @export
 downloadFile <- function(connection, dataset, fileName, output) {
   UseMethod("downloadFile")

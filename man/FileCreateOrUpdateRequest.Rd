@@ -7,7 +7,8 @@
 FileCreateOrUpdateRequest(name, url)
 }
 \arguments{
-\item{name}{the filename including the file extension. If a file by that name already exists in the dataset, the file will be updated/overwritten.}
+\item{name}{the filename including the file extension. If a file by that name already
+exists in the dataset, the file will be updated/overwritten.}
 
 \item{url}{the public, full direct-download path to file}
 }
@@ -15,5 +16,6 @@ FileCreateOrUpdateRequest(name, url)
 FileCreateOrUpdateRequest per https://api.data.world/v0/swagger.json
 }
 \examples{
-fileCreateOrUpdateRequest <- data.world::FileCreateOrUpdateRequest(name = "file.csv", url = "https://data.world/file.csv")
+fileCreateOrUpdateRequest <- data.world::FileCreateOrUpdateRequest(name = "file.csv",
+ url = "https://data.world/file.csv")
 }

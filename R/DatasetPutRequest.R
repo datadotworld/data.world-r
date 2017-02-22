@@ -22,7 +22,8 @@ This product includes software developed at data.world, Inc.(http://www.data.wor
 #' @param visibility PRIVATE or OPEN (required)
 #' @param files list of \code{\link{FileCreateRequest}}
 #' @examples
-#' datasetPutRequest <- data.world::DatasetPutRequest(visibility = "OPEN", description = "updated description")
+#' datasetPutRequest <- data.world::DatasetPutRequest(visibility = "OPEN",
+#'  description = "updated description")
 #' @export
 DatasetPutRequest <- function(description =  NULL, summary = NULL, tags = NULL, license = NULL, visibility, files = NULL) {
   is.nothing <- function(x) is.null(x) || is.na(x) || is.nan(x)

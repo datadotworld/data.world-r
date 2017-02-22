@@ -23,8 +23,10 @@ This product includes software developed at data.world, Inc.(http://www.data.wor
 #' @param fileCreateRequests list of `FileCreateRequest`
 #' @param licenseString Public Domain, PDDL, CC-0, CC-BY, ODC-BY, CC-BY-SA, ODC-ODbL, CC BY-NC-SA
 #' @examples
-#' request <- data.world::DatasetCreateRequest(title="coffeeCounty", visibility = "OPEN", description = "coffee county , AL - census income" , tags = c("rsdk", "sdk", "arr") , licenseString = "Public Domain")
-#' request <- data.world::addFile(request = request, name = "file.csv", url = "http://data.world/file.csv")
+#' request <- data.world::DatasetCreateRequest(title="datasetid", visibility = "OPEN",
+#'  description = "description", tags = c("sdk") , licenseString = "Public Domain")
+#' request <- data.world::addFile(request = request, name = "file.csv",
+#'  url = "http://data.world/file.csv")
 #' @export
 DatasetCreateRequest <- function(title, visibility , description = "", summary = "" , tags = list(), licenseString = "" , fileCreateRequests = list()) {
   if (title == '') {

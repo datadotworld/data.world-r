@@ -13,5 +13,6 @@ FileSourceCreateOrUpdateRequest(url)
 FileSourceCreateOrUpdateRequest per https://api.data.world/v0/swagger.json
 }
 \examples{
-fileSourceCreateOrUpdateRequest <- data.world::FileSourceCreateOrUpdateRequest("https://open.obamawhitehouse/file3.csv")
+fileSourceCreateOrUpdateRequest <- data.world::FileSourceCreateOrUpdateRequest(
+"https://open.obamawhitehouse/file3.csv")
 }

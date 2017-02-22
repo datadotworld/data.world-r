@@ -9,7 +9,8 @@ downloadFile(connection, dataset, fileName, output)
 \arguments{
 \item{connection}{the connection to data.world}
 
-\item{dataset}{the "agentid/datasetid" for the dataset against which to execute the query}
+\item{dataset}{the "agentid/datasetid" for the dataset against
+which to execute the query}
 
 \item{fileName}{the filename as listed in the data.world dataset}
 
@@ -17,4 +18,9 @@ downloadFile(connection, dataset, fileName, output)
 }
 \description{
 Download file from the latest dataset version
+}
+\examples{
+connection <- data.world(token = "YOUR_API_TOKEN_HERE")
+downloadFile(connection, dataset="ownerid/datasetid" , fileName = "file.csv",
+output = "tmp/file.csv")
 }

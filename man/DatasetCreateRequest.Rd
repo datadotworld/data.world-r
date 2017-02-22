@@ -26,6 +26,8 @@ DatasetCreateRequest(title, visibility, description = "", summary = "",
 DatasetCreateRequest per https://api.data.world/v0/swagger.json
 }
 \examples{
-request <- data.world::DatasetCreateRequest(title="coffeeCounty", visibility = "OPEN", description = "coffee county , AL - census income" , tags = c("rsdk", "sdk", "arr") , licenseString = "Public Domain")
-request <- data.world::addFile(request = request, name = "file.csv", url = "http://data.world/file.csv")
+request <- data.world::DatasetCreateRequest(title="datasetid", visibility = "OPEN",
+ description = "description", tags = c("sdk") , licenseString = "Public Domain")
+request <- data.world::addFile(request = request, name = "file.csv",
+ url = "http://data.world/file.csv")
 }

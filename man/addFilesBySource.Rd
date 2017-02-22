@@ -2,23 +2,27 @@
 % Please edit documentation in R/addFilesBySource.R
 \name{addFilesBySource}
 \alias{addFilesBySource}
-\title{publish file(s) on the web to be added to a data.world dataset via `data.world::FileBatchUpdateRequest`}
+\title{publish file(s) on the web to be added to a data.world dataset via
+`data.world::FileBatchUpdateRequest`}
 \usage{
-addFilesBySource(connection, dataset, request)
+addFilesBySource(connection, dataset, fileBatchUpdateRequest)
 }
 \arguments{
 \item{connection}{the connection to data.world}
 
 \item{dataset}{the "agentid/datasetid" for the dataset against which to execute the query}
 
-\item{request}{a requet of type `data.world::FileBatchUpdateRequest`}
+\item{fileBatchUpdateRequest}{a requet of type `data.world::FileBatchUpdateRequest`}
 }
 \description{
-publish file(s) on the web to be added to a data.world dataset via `data.world::FileBatchUpdateRequest`
+publish file(s) on the web to be added to a data.world dataset via
+`data.world::FileBatchUpdateRequest`
 }
 \examples{
 request <- data.world::FileBatchUpdateRequest()
-request <- data.world::addFile(request = request, name = "file.csv", url = "https://data.world/some_file.csv")
+request <- data.world::addFile(request = request, name = "file.csv",
+ url = "https://data.world/some_file.csv")
 connection <- data.world(token = "YOUR_API_TOKEN_HERE")
-data.world::addFilesBySource(connection, dataset = "ownerid/datasetid", request = request)
+data.world::addFilesBySource(connection, dataset = "ownerid/datasetid",
+ fileBatchUpdateRequest = request)
 }

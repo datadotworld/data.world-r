@@ -16,5 +16,5 @@ Fetch latest files from source and update dataset
 }
 \examples{
 connection <- data.world(token = "YOUR_API_TOKEN_HERE")
-data.world::sync(connection, dataset="user/dataset")
+data.world::sync(connection, dataset="ownerid/dataset")
 }

@@ -21,5 +21,6 @@ Upload a dataframe to a data.world dataset as csv
 \examples{
 conn <- data.world(token = "YOUR_API_TOKEN_HERE")
 df = data.frame(a = c(1,2,3),b = c(4,5,6))
-uploadDataFrame(connection = conn, fileName="sample.csv", dataFrame = df, dataset = "ownerid/datasetid")
+uploadDataFrame(connection = conn, fileName="sample.csv",
+dataFrame = df, dataset = "ownerid/datasetid")
 }

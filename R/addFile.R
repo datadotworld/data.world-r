@@ -16,15 +16,27 @@ This product includes software developed at data.world, Inc.(http://www.data.wor
 
 #' Add a file to a container
 #' @param request some object with a file container
-#' @param name the filename including the file extension. If a file by that name already exists in the dataset, the file will be updated/overwritten.
+#' @param name the filename including the file extension. If a file by that name
+#' already exists in the dataset, the file will be updated/overwritten.
 #' @param url the public, full direct-download path to file
 #' @examples
 #' fileBatchUpdateRequest <- data.world::FileBatchUpdateRequest()
-#' fileBatchUpdateRequest <- data.world::addFile(request = fileBatchUpdateRequest, name = "file.csv", url = "https://data.world/file3.csv")
-#' createDatasetRequest <- data.world::DatasetCreateRequest(title="coffeeCounty", visibility = "OPEN", description = "coffee county , AL - census income" , tags = c("rsdk", "sdk", "arr") , licenseString = "Public Domain")
-#' createDatasetRequest <- data.world::addFile(request = createDatasetRequest, name = "file4.csv", url = "https://data.world/file4.csv")
-#' datasetPutRequest <- data.world::DatasetPutRequest(visibility = "OPEN", description = "updated description", files = list())
-#' datasetPutRequest <- data.world::addFile(request = createDatasetRequest, name = "file4.csv", url = "https://data.world/file4.csv")
+#'
+#' fileBatchUpdateRequest <- data.world::addFile(request = fileBatchUpdateRequest,
+#' name = "file.csv", url = "https://data.world/file3.csv")
+#'
+#' createDatasetRequest <- data.world::DatasetCreateRequest(title="coffeeCounty",
+#' visibility = "OPEN", description = "coffee county , AL - census income" ,
+#' tags = c("rsdk", "sdk", "arr") , licenseString = "Public Domain")
+#'
+#' createDatasetRequest <- data.world::addFile(request = createDatasetRequest,
+#'  name = "file4.csv", url = "https://data.world/file4.csv")
+#'
+#' datasetPutRequest <- data.world::DatasetPutRequest(visibility = "OPEN",
+#' description = "updated description", files = list())
+#'
+#' datasetPutRequest <- data.world::addFile(request = createDatasetRequest,
+#' name = "file4.csv", url = "https://data.world/file4.csv")
 #' @export
 addFile <- function(request, name, url) {
   UseMethod("addFile")

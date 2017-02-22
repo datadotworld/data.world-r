@@ -11,7 +11,8 @@ addFileBySource(connection, dataset, name, url)
 
 \item{dataset}{the "agentid/datasetid" for the dataset against which to execute the query}
 
-\item{name}{the filename including the file extension. If a file by that name already exists in the dataset, the file will be updated/overwritten.}
+\item{name}{the filename including the file extension. If a file by that name already
+exists in the dataset, the file will be updated/overwritten.}
 
 \item{url}{the public, full direct-download path to file}
 }
@@ -20,5 +21,6 @@ publish a single file on the web to be added to a data.world dataset
 }
 \examples{
 connection <- data.world(token = "YOUR_API_TOKEN_HERE")
-data.world::addFileBySource(connection, dataset = "ownerid/datasetid", name = "file.csv", url = "https://data.world/some_file.csv")
+data.world::addFileBySource(connection, dataset = "ownerid/datasetid",
+name = "file.csv", url = "https://data.world/some_file.csv")
 }

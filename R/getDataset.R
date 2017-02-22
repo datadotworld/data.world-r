@@ -36,16 +36,20 @@ getDataset.default <- function(connection, dataset) {
 getDataset.data.world <- function(connection, dataset) {
   url = sprintf("%sdatasets/%s", connection$baseDWApiUrl, dataset)
   auth = sprintf("Bearer %s", connection$token)
-  response <- httr::GET( url,
-                         httr::add_headers(
-                           "Content-Type" = "application/json",
-                           "Authorization" = auth),
-                         httr::user_agent(data.world::userAgent()))
-  ret <- httr::http_status(response)
+  response <- httr::GET(
+    url,
+    httr::add_headers("Content-Type" = "application/json",
+                      "Authorization" = auth),
+    httr::user_agent(data.world::userAgent())
+  )
   if (response$status_code == 200) {
-    ret <- data.world::DatasetSummaryResponse(rjson::fromJSON(httr::content(x=response, as='text')))
+    structuredResponse <-
+      rjson::fromJSON(httr::content(x = response, as = 'text'))
+    ret <- data.world::DatasetSummaryResponse(structuredResponse)
   } else {
-    ret <- data.world::ErrorMessage(rjson::fromJSON(httr::content(x=response, as='text')))
+    ret <-
+      data.world::ErrorMessage(rjson::fromJSON(httr::content(x = response, as =
+                                                               'text')))
   }
   ret
 }

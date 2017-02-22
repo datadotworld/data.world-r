@@ -44,7 +44,14 @@ DatasetSummaryResponse <- function(structure) {
   return(checkDatasetSummaryResponse(me))
 }
 
+#' Validating the required fields are there
+#' @param object the (supposedly) DatasetSummaryResponse object
+#'
+#' @export
 checkDatasetSummaryResponse <- function(object) {
+  if (class(object) != "DatasetSummaryResponse") {
+    stop("object is not of class DatasetSummaryResponse")
+  }
   ret <- object
   if (is.null(object$created) | is.null(object$id) | is.null(object$owner) | is.null(object$status) | is.null(object$title)
       | is.null(object$updated) | is.null(object$visibility)) {

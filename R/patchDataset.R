@@ -18,8 +18,16 @@ This product includes software developed at data.world, Inc.(http://www.data.wor
 #' @param connection the connection to data.world
 #'
 #' @param datasetPatchRequest a \code{\link{DatasetPatchRequest}}
-#' @param datasetid the "agentid/datasetid" for the dataset against which to execute the query
+#' @param datasetid the "agentid/datasetid" for the dataset against
+#' which to execute the query
+#' @examples
+#' conn <- data.world(token = "YOUR_API_TOKEN_HERE")
 #'
+#' request <- data.world::DatasetPatchRequest(visibility = "OPEN",
+#' description = "UPDATED DESCRIPTION !")
+#'
+#' data.world::patchDataset(connection = conn, datasetPatchRequest = request,
+#'  datasetid = "agentid/datasetid")
 #' @export
 patchDataset <- function(connection, datasetPatchRequest, datasetid) {
   UseMethod("patchDataset")
@@ -36,7 +44,7 @@ patchDataset.data.world <- function(connection, datasetPatchRequest, datasetid) 
   message(url)
   auth = sprintf("Bearer %s", connection$token)
   response <- httr::PATCH( url,
-                         body = rjson::toJSON(datasetPutRequest),
+                         body = rjson::toJSON(datasetPatchRequest),
                          httr::add_headers(
                            "Content-Type" = "application/json",
                            "Authorization" = auth),

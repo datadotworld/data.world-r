@@ -25,5 +25,6 @@ Upload a file to a dataset
 conn <- data.world(token = "YOUR_API_TOKEN_HERE")
 df = data.frame(a = c(1,2,3),b = c(4,5,6))
 write.csv(df, file = "file.csv")
-uploadFile(connection = conn, "file.csv", "file.csv", "ownerid/datasetid")
+uploadFile(connection = conn, fileName = "file.csv",
+path = "file.csv", dataset = "ownerid/datasetid")
 }

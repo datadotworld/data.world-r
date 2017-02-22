@@ -20,5 +20,6 @@ Upload one or more files to a dataset.
 conn <- data.world(token = "YOUR_API_TOKEN_HERE")
 write.csv(data.frame(a = c(1,2,3),b = c(4,5,6)), file = "file1.csv")
 write.csv(data.frame(c = c(1,2,3),d = c(4,5,6)), file = "file2.csv")
-uploadFiles(connection = conn, dataset = "ownerid/datasetid" , paths = list ("file1.csv", "file2.csv"))
+uploadFiles(connection = conn, dataset = "ownerid/datasetid",
+ paths = list ("file1.csv", "file2.csv"))
 }

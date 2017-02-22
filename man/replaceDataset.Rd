@@ -11,13 +11,16 @@ replaceDataset(connection, datasetPutRequest, datasetid)
 
 \item{datasetPutRequest}{a \code{\link{DatasetPutRequest}}}
 
-\item{datasetid}{the "agentid/datasetid" for the dataset against which to execute the query}
+\item{datasetid}{the "agentid/datasetid" for the dataset against which
+to execute the query}
 }
 \description{
 Replace an existing dataset.
 }
 \examples{
 conn <- data.world(token = "YOUR_API_TOKEN_HERE")
-datasetPutRequest <- data.world::DatasetPutRequest(visibility = "OPEN", description = "UPDATED DESCRIPTION !")
-data.world::replaceDataset(connection = conn, datasetPutRequest, "agentid/datasetid")
+datasetPutRequest <- data.world::DatasetPutRequest(visibility = "OPEN",
+ description = "UPDATED DESCRIPTION !")
+data.world::replaceDataset(connection = conn, datasetPutRequest,
+ "agentid/datasetid")
 }

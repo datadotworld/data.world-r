@@ -11,8 +11,18 @@ patchDataset(connection, datasetPatchRequest, datasetid)
 
 \item{datasetPatchRequest}{a \code{\link{DatasetPatchRequest}}}
 
-\item{datasetid}{the "agentid/datasetid" for the dataset against which to execute the query}
+\item{datasetid}{the "agentid/datasetid" for the dataset against
+which to execute the query}
 }
 \description{
 Update an existing dataset.
+}
+\examples{
+conn <- data.world(token = "YOUR_API_TOKEN_HERE")
+
+request <- data.world::DatasetPatchRequest(visibility = "OPEN",
+description = "UPDATED DESCRIPTION !")
+
+data.world::patchDataset(connection = conn, datasetPatchRequest = request,
+ datasetid = "agentid/datasetid")
 }

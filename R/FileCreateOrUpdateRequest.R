@@ -15,10 +15,12 @@ permissions and limitations under the License.
 This product includes software developed at data.world, Inc.(http://www.data.world/).'
 
 #' FileCreateOrUpdateRequest per https://api.data.world/v0/swagger.json
-#' @param name the filename including the file extension. If a file by that name already exists in the dataset, the file will be updated/overwritten.
+#' @param name the filename including the file extension. If a file by that name already
+#' exists in the dataset, the file will be updated/overwritten.
 #' @param url the public, full direct-download path to file
 #' @examples
-#' fileCreateOrUpdateRequest <- data.world::FileCreateOrUpdateRequest(name = "file.csv", url = "https://data.world/file.csv")
+#' fileCreateOrUpdateRequest <- data.world::FileCreateOrUpdateRequest(name = "file.csv",
+#'  url = "https://data.world/file.csv")
 #' @export
 FileCreateOrUpdateRequest <- function(name, url) {
   if (name == '' | url == '') {
@@ -34,10 +36,12 @@ FileCreateOrUpdateRequest <- function(name, url) {
 }
 
 #' FileCreateOrUpdateRequest per https://api.data.world/v0/swagger.json
-#' @param name the filename including the file extension. If a file by that name already exists in the dataset, the file will be updated/overwritten.
+#' @param name the filename including the file extension. If a file by that name already
+#' exists in the dataset, the file will be updated/overwritten.
 #' @param url the public, full direct-download path to file
 #' @examples
-#' fileCreateRequest <- data.world::FileCreateRequest(name = "file.csv", url = "https://data.world/file.csv")
+#' fileCreateRequest <- data.world::FileCreateRequest(name = "file.csv",
+#'  url = "https://data.world/file.csv")
 #' @export
 FileCreateRequest <- function(name, url) {
   if (name == '' | url == '') {

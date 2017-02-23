@@ -16,7 +16,7 @@ DatasetPatchRequest(description = NULL, summary = NULL, tags = NULL,
 
 \item{license}{Public Domain, PDDL, CC-0, CC-BY, ODC-BY, CC-BY-SA, ODC-ODbL, CC BY-NC-SA}
 
-\item{visibility}{PRIVATE or OPEN (required)}
+\item{visibility}{PRIVATE or OPEN}
 
 \item{files}{list of \code{\link{FileCreateOrUpdateRequest}}}
 }
@@ -25,5 +25,5 @@ DatasetPatchRequest per https://api.data.world/v0/swagger.json
 }
 \examples{
 request <- data.world::DatasetPatchRequest(description = "description", summary = "summary",
-   tags = list("sdk"), license = "Public Domain", visibility = "OPEN")
+   tags = list("sdk"), license = "Public Domain")
 }

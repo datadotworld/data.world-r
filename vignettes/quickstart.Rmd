@@ -26,33 +26,6 @@ then
 conn <- data.world()
 ```
 
-## Querying
-This function can be used to send a [`dwSQL`](https://docs.data.world/tutorials/dwsql/) 
-or a `SPARQL` query to a particular dataset's query endpoint.
-`query` returns a data frame
-e.g
-```{r dwsqlQueryTables, eval = FALSE}
-df <- data.world::query(conn, dataset="bryon/odin-2015-2016", query="SELECT * FROM Tables")
-```
-To select one specific table, use the Name of the specific table 
-*(note the backticks required for table names including special characters)*:
-```{r dwsqlQuerySelectTable, eval = FALSE}
-df <- data.world::query(conn, dataset="bryon/odin-2015-2016", query="SELECT * FROM `ODIN-2015-2016-standardized`")
-```
-To execute a `SPARQL` query, you need to specify the `type` as
-`sparql`:
-```{r sparqlQuery, eval = FALSE}
-df <- data.world::query(conn, dataset="bryon/odin-2015-2016", type="sparql", query='
-PREFIX : <http://data.world/bryon/odin-2015-2016/ODIN-2015-2016-raw.csv/ODIN-2015-2016-raw#>
-PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-SELECT *
-WHERE {
-  [ :Year ?year ; :Region ?region ; :Overall_subscore ?score ]
-  FILTER(?year = "2015")
-} 
-LIMIT 10')
-```
-
 ## Create Dataset
 To create a basic dataset with some metadata
 ```{r createDataset, eval = FALSE}

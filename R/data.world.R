@@ -17,20 +17,23 @@ This product includes software developed at data.world, Inc.(http://www.data.wor
 #' data.world client constructor
 #' @param propsfile a properties file containing configuration for your data.world client (defaults to ~/.data.world)
 #' @param token your data.world API token (optional, if not present, will be read from properties file)
-#'
+#' @param baseDWApiUrl data.world public api
+#' @param baseQueryApiUrl data.world query api
+#' @param baseDownloadApiUrl data.world download api
 #' @return a data.world client
 #' @seealso \code{\link{query}}
 #' @examples
-#' connection <- data.world()
-#' connection <- data.world(token = "YOUR_API_TOKEN_HERE")
-#' connection <- data.world(propsfile = "~/.data.world")
+#' connection1 <- data.world(token = "YOUR_API_TOKEN_HERE")
 #' @export
 data.world <- function(token = NULL,
-                       propsfile = sprintf("%s/.data.world", path.expand('~'))) {
+                       propsfile = sprintf("%s/.data.world", path.expand('~')),
+                       baseDWApiUrl = "https://api.data.world/v0/",
+                       baseQueryApiUrl = "https://query.data.world/",
+                       baseDownloadApiUrl = "https://download.data.world") {
   is.nothing <- function(x) is.null(x) || is.na(x) || is.nan(x)
 
   props <- if (file.exists(propsfile))
-    read.table(propsfile, header = FALSE, sep = "=", row.names = 1,
+    utils::read.table(propsfile, header = FALSE, sep = "=", row.names = 1,
                strip.white = TRUE,na.strings = "NA", stringsAsFactors = FALSE)
   else
     data.frame()
@@ -38,7 +41,10 @@ data.world <- function(token = NULL,
     stop("you must either provide an API token to this constructor, or create a
           .data.world file in your home directory with your API token")
   me <- list(
-    token = if(is.nothing(props["token", 1])) token else props["token", 1]
+    token = if(is.nothing(props["token", 1])) token else props["token", 1],
+    baseDWApiUrl = baseDWApiUrl,
+    baseQueryApiUrl = baseQueryApiUrl,
+    baseDownloadApiUrl = baseDownloadApiUrl
     )
   class(me) <- "data.world"
   return(me)

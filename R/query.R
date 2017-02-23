@@ -20,10 +20,11 @@ This product includes software developed at data.world, Inc.(http://www.data.wor
 #' @param type       the type of the query - either "sql" or "sparql"
 #' @param dataset    the "agentid/datasetid" for the dataset against which to execute the query
 #' @param query      the SQL or SPARQL query to run
-#'
+#' @param ...  additional param
 #' @return the query results as a data frame
 #' @seealso \code{\link{data.world}}
 #' @examples
+#' connection <- data.world(token = "YOUR_API_TOKEN_HERE")
 #' query(connection, dataset="user/dataset",
 #'       query="SELECT *
 #'                FROM TableName
@@ -46,12 +47,13 @@ query.default <- function(connection, type, dataset, query, ...) {
 #' @export
 query.data.world <- function(connection, type = "sql", dataset, query, ...) {
   url = sprintf("https://query.data.world/%s/%s", type, dataset)
+
   response <- httr::GET( url,
                    query = list(query = query),
                    httr::add_headers(
                      Accept = "text/csv",
-                     Authorization = sprintf("Bearer %s", connection$token)
-                   ))
+                     Authorization = sprintf("Bearer %s", connection$token)),
+                   httr::user_agent(data.world::userAgent()))
   ret <- httr::http_status(response)
   if (response$status_code == 200) {
     text <- httr::content(x=response, as='text')

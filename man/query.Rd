@@ -4,7 +4,7 @@
 \alias{query}
 \title{execute a SQL or SPARQL query against a data.world client}
 \usage{
-query(connection, type, dataset, query)
+query(connection, type, dataset, query, ...)
 }
 \arguments{
 \item{connection}{the connection to data.world}
@@ -14,6 +14,8 @@ query(connection, type, dataset, query)
 \item{dataset}{the "agentid/datasetid" for the dataset against which to execute the query}
 
 \item{query}{the SQL or SPARQL query to run}
+
+\item{...}{additional param}
 }
 \value{
 the query results as a data frame
@@ -22,6 +24,7 @@ the query results as a data frame
 execute a SQL or SPARQL query against a data.world client
 }
 \examples{
+connection <- data.world(token = "YOUR_API_TOKEN_HERE")
 query(connection, dataset="user/dataset",
       query="SELECT *
                FROM TableName
@@ -35,4 +38,3 @@ query(connection, dataset="user/dataset", type="sparql",
 \seealso{
 \code{\link{data.world}}
 }
-

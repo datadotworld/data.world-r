@@ -3,11 +3,14 @@ Type: Package
 Title: R Client Library for data.world
 Version: 0.1.1
 Author: Bryon Jacob (bryon@data.world)
-Maintainer: Who to complain to <help@data.world>
-Description: More about what it does (maybe more than one line)
-License: What license is it under?
+Maintainer: data.world help desk <help@data.world>
+Description: This contains support for easier integration with the data.world platform.
+License: file LICENSE
 LazyData: TRUE
 Imports:
     httr,
-    xml2
-RoxygenNote: 5.0.1
+    xml2, 
+    readr,
+    rjson
+RoxygenNote: 6.0.1
+Suggests: testthat

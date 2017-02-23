@@ -33,7 +33,7 @@ data.world <- function(token = NULL,
   is.nothing <- function(x) is.null(x) || is.na(x) || is.nan(x)
 
   props <- if (file.exists(propsfile))
-    read.table(propsfile, header = FALSE, sep = "=", row.names = 1,
+    utils::read.table(propsfile, header = FALSE, sep = "=", row.names = 1,
                strip.white = TRUE,na.strings = "NA", stringsAsFactors = FALSE)
   else
     data.frame()

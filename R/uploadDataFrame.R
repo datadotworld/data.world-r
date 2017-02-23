@@ -44,7 +44,7 @@ uploadDataFrame.data.world <- function(connection, dataFrame, fileName, dataset)
   }
   tmp_path = sprintf("%s/%s", tmp_dir, fileName)
   message(sprintf("tmp file %s created.", tmp_path))
-  write.csv(dataFrame, file = tmp_path, fileEncoding = "UTF-8", na = "", row.names = FALSE)
+  utils::write.csv(dataFrame, file = tmp_path, fileEncoding = "UTF-8", na = "", row.names = FALSE)
   ret <- data.world::uploadFile(connection, tmp_path, fileName, dataset)
   ret
 }

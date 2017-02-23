@@ -42,7 +42,7 @@ downloadFileAsDataFrame.data.world <- function(connection, dataset, fileName) {
   tmp_path = sprintf("%s/%s", tmp_dir, fileName)
   download_status <- data.world::downloadFile(connection, dataset, fileName, tmp_path)
   if (download_status$category == "Success") {
-    ret <- read.csv(file=tmp_path, header=TRUE)
+    ret <- utils::read.csv(file=tmp_path, header=TRUE)
     ret
   } else {
     stop(sprintf("failed to download %s/%s", dataset, fileName))

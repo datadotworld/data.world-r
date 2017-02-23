@@ -20,8 +20,8 @@ This product includes software developed at data.world, Inc.(http://www.data.wor
 #' @export
 sdkVersion <- function() {
   is.nothing <- function(x) is.null(x)
-  if (!is.nothing(sessionInfo()$otherPkgs$data.world)) {
-      ret <- sessionInfo()$otherPkgs$data.world$Version
+  if (!is.nothing(utils::sessionInfo()$otherPkgs$data.world)) {
+      ret <- utils::sessionInfo()$otherPkgs$data.world$Version
   } else {
     ret <- "X.X.X"
   }
@@ -33,6 +33,6 @@ sdkVersion <- function() {
 #' data.world::userAgent()
 #' @export
 userAgent <- function() {
-  ret <- sprintf("data.world-R - %s", sdkVersion())
+  ret <- sprintf("data.world-R - %s", data.world::sdkVersion())
   ret
 }

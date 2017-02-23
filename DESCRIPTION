@@ -1,7 +1,7 @@
 Package: data.world
 Type: Package
 Title: R Client Library for data.world
-Version: 0.1.0
+Version: 0.1.1
 Author: Bryon Jacob (bryon@data.world)
 Maintainer: Who to complain to <help@data.world>
 Description: More about what it does (maybe more than one line)

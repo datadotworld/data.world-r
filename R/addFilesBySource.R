@@ -23,7 +23,7 @@ This product includes software developed at data.world, Inc.(http://www.data.wor
 #' @examples
 #' connection <- data.world(token = "YOUR_API_TOKEN_HERE")
 #' data.world::addFileBySource(connection, dataset = "ownerid/datasetid",
-#' name = "file.csv", url = "https://data.world/some_file.csv")
+#'     name = "file.csv", url = "https://data.world/some_file.csv")
 #' @export
 addFileBySource <- function(connection, dataset, name, url) {
   UseMethod("addFileBySource")
@@ -50,10 +50,10 @@ addFileBySource.data.world <- function(connection, dataset, name, url) {
 #' @examples
 #' request <- data.world::FileBatchUpdateRequest()
 #' request <- data.world::addFile(request = request, name = "file.csv",
-#'  url = "https://data.world/some_file.csv")
+#'      url = "https://data.world/some_file.csv")
 #' connection <- data.world(token = "YOUR_API_TOKEN_HERE")
 #' data.world::addFilesBySource(connection, dataset = "ownerid/datasetid",
-#'  fileBatchUpdateRequest = request)
+#'      fileBatchUpdateRequest = request)
 #' @export
 addFilesBySource <- function(connection, dataset, fileBatchUpdateRequest) {
   UseMethod("addFilesBySource")

@@ -21,10 +21,12 @@ This product includes software developed at data.world, Inc.(http://www.data.wor
 #' @param license Public Domain, PDDL, CC-0, CC-BY, ODC-BY, CC-BY-SA, ODC-ODbL, CC BY-NC-SA
 #' @param visibility PRIVATE or OPEN (required)
 #' @param files list of \code{\link{FileCreateOrUpdateRequest}}
-#'
+#' @examples
+#' request <- data.world::DatasetPatchRequest(description = "description", summary = "summary",
+#'    tags = list("sdk"), license = "Public Domain", visibility = "OPEN")
 #' @export
 DatasetPatchRequest <- function(description =  NULL, summary = NULL, tags = NULL, license = NULL, visibility = NULL, files = NULL) {
-  is.nothing <- function(x) is.null(x) || is.na(x) || is.nan(x)
+  is.nothing <- function(x) is.null(x) || is.na(x)
   if (!is.null(visibility) & visibility != "PRIVATE" & visibility != "OPEN") {
     stop("visibility have to be either PRIVATE or OPEN")
   }

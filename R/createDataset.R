@@ -21,16 +21,16 @@ This product includes software developed at data.world, Inc.(http://www.data.wor
 #' @param ownerId Dataset owner username. Included in data.world dataset URL path, after domain.
 #' @examples
 #' request <- data.world::DatasetCreateRequest(title="testdataset", visibility = "OPEN",
-#'  description = "Test Dataset by R-SDK" , tags = c("rsdk", "sdk", "arr") ,
-#'  licenseString = "Public Domain")
+#'      description = "Test Dataset by R-SDK" , tags = c("rsdk", "sdk", "arr") ,
+#'      licenseString = "Public Domain")
 #'
 #' request <- data.world::addFile(request = request, name = "file4.csv",
-#'  url = "https://data.world/file4.csv")
+#'      url = "https://data.world/file4.csv")
 #'
 #' conn <- data.world(token = "YOUR_API_TOKEN_HERE")
 #'
 #' data.world::createDataset(connection = conn, createDatasetRequest = request,
-#'  ownerId = "ownerid")
+#'      ownerId = "ownerid")
 #' @export
 createDataset <- function(connection, createDatasetRequest, ownerId) {
   UseMethod("createDataset")

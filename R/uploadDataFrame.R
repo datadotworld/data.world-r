@@ -38,6 +38,9 @@ uploadDataFrame.data.world <- function(connection, dataFrame, fileName, dataset)
   if (!is.data.frame(dataFrame)) {
     stop("input is not a data frame")
   }
+  if (!endsWith(fileName, ".csv")) {
+    stop("we only support upload dataframe as a .csv file")
+  }
   tmp_dir = sprintf("%s/tmp/%s", getwd(), dataset)
   if (!dir.exists(tmp_dir)) {
     dir.create(tmp_dir, recursive = TRUE)

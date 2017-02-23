@@ -23,3 +23,7 @@ DatasetPatchRequest(description = NULL, summary = NULL, tags = NULL,
 \description{
 DatasetPatchRequest per https://api.data.world/v0/swagger.json
 }
+\examples{
+request <- data.world::DatasetPatchRequest(description = "description", summary = "summary",
+   tags = list("sdk"), license = "Public Domain", visibility = "OPEN")
+}

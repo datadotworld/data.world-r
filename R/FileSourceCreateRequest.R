@@ -38,7 +38,6 @@ FileSourceCreateOrUpdateRequest <- function(url) {
   if (url == '') {
     stop("url is required")
   }
-  # TODO validate url
   source <- list (
     url = url
   )

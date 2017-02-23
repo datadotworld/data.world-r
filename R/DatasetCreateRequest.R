@@ -21,12 +21,12 @@ This product includes software developed at data.world, Inc.(http://www.data.wor
 #' @param summary Dataset summary, markdown supported
 #' @param tags Array of strings to tag datase
 #' @param fileCreateRequests list of `FileCreateRequest`
-#' @param licenseString Public Domain, PDDL, CC-0, CC-BY, ODC-BY, CC-BY-SA, ODC-ODbL, CC BY-NC-SA
+#' @param licenseString Public Domain, PDDL, CC-0, CC-BY, ODC-BY, CC-BY-SA, ODC-ODbL, CC BY-NC-SA, Other
 #' @examples
 #' request <- data.world::DatasetCreateRequest(title="datasetid", visibility = "OPEN",
-#'  description = "description", tags = c("sdk") , licenseString = "Public Domain")
+#'      description = "description", tags = c("sdk") , licenseString = "Public Domain")
 #' request <- data.world::addFile(request = request, name = "file.csv",
-#'  url = "http://data.world/file.csv")
+#'      url = "http://data.world/file.csv")
 #' @export
 DatasetCreateRequest <- function(title, visibility , description = "", summary = "" , tags = list(), licenseString = "" , fileCreateRequests = list()) {
   if (title == '') {

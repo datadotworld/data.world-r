@@ -22,5 +22,5 @@ publish a single file on the web to be added to a data.world dataset
 \examples{
 connection <- data.world(token = "YOUR_API_TOKEN_HERE")
 data.world::addFileBySource(connection, dataset = "ownerid/datasetid",
-name = "file.csv", url = "https://data.world/some_file.csv")
+    name = "file.csv", url = "https://data.world/some_file.csv")
 }

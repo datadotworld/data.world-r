@@ -21,8 +21,8 @@ publish file(s) on the web to be added to a data.world dataset via
 \examples{
 request <- data.world::FileBatchUpdateRequest()
 request <- data.world::addFile(request = request, name = "file.csv",
- url = "https://data.world/some_file.csv")
+     url = "https://data.world/some_file.csv")
 connection <- data.world(token = "YOUR_API_TOKEN_HERE")
 data.world::addFilesBySource(connection, dataset = "ownerid/datasetid",
- fileBatchUpdateRequest = request)
+     fileBatchUpdateRequest = request)
 }

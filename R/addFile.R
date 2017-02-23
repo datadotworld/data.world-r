@@ -23,20 +23,20 @@ This product includes software developed at data.world, Inc.(http://www.data.wor
 #' fileBatchUpdateRequest <- data.world::FileBatchUpdateRequest()
 #'
 #' fileBatchUpdateRequest <- data.world::addFile(request = fileBatchUpdateRequest,
-#' name = "file.csv", url = "https://data.world/file3.csv")
+#'    name = "file.csv", url = "https://data.world/file3.csv")
 #'
 #' createDatasetRequest <- data.world::DatasetCreateRequest(title="coffeeCounty",
-#' visibility = "OPEN", description = "coffee county , AL - census income" ,
-#' tags = c("rsdk", "sdk", "arr") , licenseString = "Public Domain")
+#'     visibility = "OPEN", description = "coffee county , AL - census income" ,
+#'     tags = c("rsdk", "sdk", "arr") , licenseString = "Public Domain")
 #'
 #' createDatasetRequest <- data.world::addFile(request = createDatasetRequest,
-#'  name = "file4.csv", url = "https://data.world/file4.csv")
+#'     name = "file4.csv", url = "https://data.world/file4.csv")
 #'
 #' datasetPutRequest <- data.world::DatasetPutRequest(visibility = "OPEN",
-#' description = "updated description", files = list())
+#'     description = "updated description", files = list())
 #'
 #' datasetPutRequest <- data.world::addFile(request = createDatasetRequest,
-#' name = "file4.csv", url = "https://data.world/file4.csv")
+#'     name = "file4.csv", url = "https://data.world/file4.csv")
 #' @export
 addFile <- function(request, name, url) {
   UseMethod("addFile")

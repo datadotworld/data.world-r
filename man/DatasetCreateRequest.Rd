@@ -18,7 +18,7 @@ DatasetCreateRequest(title, visibility, description = "", summary = "",
 
 \item{tags}{Array of strings to tag datase}
 
-\item{licenseString}{Public Domain, PDDL, CC-0, CC-BY, ODC-BY, CC-BY-SA, ODC-ODbL, CC BY-NC-SA}
+\item{licenseString}{Public Domain, PDDL, CC-0, CC-BY, ODC-BY, CC-BY-SA, ODC-ODbL, CC BY-NC-SA, Other}
 
 \item{fileCreateRequests}{list of `FileCreateRequest`}
 }
@@ -27,7 +27,7 @@ DatasetCreateRequest per https://api.data.world/v0/swagger.json
 }
 \examples{
 request <- data.world::DatasetCreateRequest(title="datasetid", visibility = "OPEN",
- description = "description", tags = c("sdk") , licenseString = "Public Domain")
+     description = "description", tags = c("sdk") , licenseString = "Public Domain")
 request <- data.world::addFile(request = request, name = "file.csv",
- url = "http://data.world/file.csv")
+     url = "http://data.world/file.csv")
 }

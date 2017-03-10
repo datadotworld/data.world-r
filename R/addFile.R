@@ -35,7 +35,7 @@ This product includes software developed at data.world, Inc.(http://www.data.wor
 #' datasetPutRequest <- data.world::DatasetPutRequest(visibility = "OPEN",
 #'     description = "updated description", files = list())
 #'
-#' datasetPutRequest <- data.world::addFile(request = createDatasetRequest,
+#' datasetPutRequest <- data.world::addFile(request = datasetPutRequest,
 #'     name = "file4.csv", url = "https://data.world/file4.csv")
 #' @export
 addFile <- function(request, name, url) {

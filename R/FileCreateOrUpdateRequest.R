@@ -35,7 +35,7 @@ FileCreateOrUpdateRequest <- function(name, url) {
   return(me)
 }
 
-#' FileCreateOrUpdateRequest per https://api.data.world/v0/swagger.json
+#' FileCreateRequest per https://api.data.world/v0/swagger.json
 #' @param name the filename including the file extension. If a file by that name already
 #' exists in the dataset, the file will be updated/overwritten.
 #' @param url the public, full direct-download path to file

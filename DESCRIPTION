@@ -13,4 +13,7 @@ Imports:
     readr,
     rjson
 RoxygenNote: 6.0.1
-Suggests: testthat
+Suggests: testthat,
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr

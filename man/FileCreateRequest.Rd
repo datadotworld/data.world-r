@@ -2,7 +2,7 @@
 % Please edit documentation in R/FileCreateOrUpdateRequest.R
 \name{FileCreateRequest}
 \alias{FileCreateRequest}
-\title{FileCreateOrUpdateRequest per https://api.data.world/v0/swagger.json}
+\title{FileCreateRequest per https://api.data.world/v0/swagger.json}
 \usage{
 FileCreateRequest(name, url)
 }
@@ -13,7 +13,7 @@ exists in the dataset, the file will be updated/overwritten.}
 \item{url}{the public, full direct-download path to file}
 }
 \description{
-FileCreateOrUpdateRequest per https://api.data.world/v0/swagger.json
+FileCreateRequest per https://api.data.world/v0/swagger.json
 }
 \examples{
 fileCreateRequest <- data.world::FileCreateRequest(name = "file.csv",

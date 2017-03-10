@@ -19,9 +19,6 @@ This product includes software developed at data.world, Inc.(http://www.data.wor
 #' @param dataset the "agentid/datasetid" for the dataset against which to execute the query
 #' @param fileName the filename as listed in the data.world dataset
 #'   (only csv file is supported for now)
-#' @examples
-#' connection <- data.world(token = "YOUR_API_TOKEN_HERE")
-#' df <- downloadFile(connection, dataset="ownerid/datasetid" , fileName = "file.csv")
 #' @export
 downloadFileAsDataFrame <- function(connection, dataset, fileName) {
   UseMethod("downloadFileAsDataFrame")

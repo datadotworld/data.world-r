@@ -40,8 +40,9 @@ data.world <- function(token = NULL,
   if (is.nothing(token) && is.nothing(props["token", 1]))
     stop("you must either provide an API token to this constructor, or create a
           .data.world file in your home directory with your API token")
+  t = if (!is.nothing(token)) token else (if(is.nothing(props["token", 1])) token else props["token", 1])
   me <- list(
-    token = if(is.nothing(props["token", 1])) token else props["token", 1],
+    token = t,
     baseDWApiUrl = baseDWApiUrl,
     baseQueryApiUrl = baseQueryApiUrl,
     baseDownloadApiUrl = baseDownloadApiUrl

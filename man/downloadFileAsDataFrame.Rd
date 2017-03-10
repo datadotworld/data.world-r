@@ -17,7 +17,3 @@ downloadFileAsDataFrame(connection, dataset, fileName)
 \description{
 Download the input file into an R data frame
 }
-\examples{
-connection <- data.world(token = "YOUR_API_TOKEN_HERE")
-df <- downloadFile(connection, dataset="ownerid/datasetid" , fileName = "file.csv")
-}

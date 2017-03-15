@@ -1,0 +1,177 @@
+<!--
+%\VignetteEngine{knitr::knitr}
+%\VignetteIndexEntry{data.world quickstart guide}
+-->
+
+```{r, echo = FALSE}
+library(data.world)
+```
+
+# data.world quickstart guide
+The goal of this document is to give a quick guide on how to use the r-sdk
+to interact with data.world platform. 
+
+## Setting up the connection
+Once installed, you can instantiate a connection by providing your
+data.world API token to the constructor.  You can find your API
+token at https://data.world/settings/advanced
+
+you can insert your token into a `.data.world` file in your home
+directory, and the constructor will read it from there:
+```{bash from your terminal}
+echo 'token=YOUR_API_TOKEN' > ~/.data.world
+```
+then
+```{r}
+conn <- data.world()
+```
+
+## Querying
+This function can be used to send a [`dwSQL`](https://docs.data.world/tutorials/dwsql/) 
+or a `SPARQL` query to a particular dataset's query endpoint.
+`query` returns a data frame
+e.g
+```{r dwsqlQueryTables, eval = FALSE}
+df <- data.world::query(conn, dataset="bryon/odin-2015-2016", query="SELECT * FROM Tables")
+```
+To select one specific table, use the Name of the specific table 
+*(note the backticks required for table names including special characters)*:
+```{r dwsqlQuerySelectTable, eval = FALSE}
+df <- data.world::query(conn, dataset="bryon/odin-2015-2016", query="SELECT * FROM `ODIN-2015-2016-standardized`")
+```
+To execute a `SPARQL` query, you need to specify the `type` as
+`sparql`:
+```{r sparqlQuery, eval = FALSE}
+df <- data.world::query(conn, dataset="bryon/odin-2015-2016", type="sparql", query='
+PREFIX : <http://data.world/bryon/odin-2015-2016/ODIN-2015-2016-raw.csv/ODIN-2015-2016-raw#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT *
+WHERE {
+  [ :Year ?year ; :Region ?region ; :Overall_subscore ?score ]
+  FILTER(?year = "2015")
+} 
+LIMIT 10')
+```
+
+## Create Dataset
+To create a basic dataset with some metadata
+```{r createDataset, eval = FALSE}
+request <- data.world::DatasetCreateRequest(
+      title = "sampledataset",
+      visibility = "PRIVATE",
+      description = "your first dataset created by R-SDK" ,
+      tags = c("rsdk", "sdk") ,
+      licenseString = "Public Domain",
+      fileCreateRequests = list(data.world::FileCreateRequest("file1", "url1"))
+      )
+
+# Alternatively, you can also use data.world::addFile to add addtional files after the initial create construct
+request <- data.world::addFile(request = request, name = "file4.csv",
+      url = "https://data.world/file4.csv")
+
+data.world::createDataset(
+  connection = conn,
+  createDatasetRequest = request,
+  ownerId = "userid"
+  )
+```
+*(Note that `title` and `visibility` are required and `visibility` has to be either `PRIVATE` or `OPEN`)*
+
+## Replace Dataset
+To replace an existing dataset
+```{r replaceDataset, eval = FALSE}
+request <- data.world::DatasetPutRequest(visibility = "OPEN", 
+                                                   description = "new description", 
+                                                   files = list(data.world::FileCreateOrUpdateRequest("file1", "url1")))
+
+# Alternatively, you can also use data.world::addFile to add addtional files after the initial create construct
+request <- data.world::addFile(request = request, 
+                                         name = "file4.csv",
+                                         url = "https://data.world/file4.csv")
+
+data.world::replaceDataset(connection = conn, request, "userid/datasetid")
+```
+
+## Patch Dataset
+To update an existing dataset 
+```{r updateDataset, eval = FALSE}
+request <- data.world::DatasetPatchRequest(visibility = "OPEN",
+                                           description = "UPDATED DESCRIPTION !")
+
+data.world::patchDataset(connection = conn,
+                         datasetPatchRequest = request, 
+                         datasetid = "userid/datasetid")
+```
+
+## Add Files by Source
+Publish a single file on the web to be added to a data.world dataset
+```{r addFileBySource, eval = FALSE}
+data.world::addFileBySource(connection, 
+                            dataset = "ownerid/datasetid",
+                            name = "file.csv", 
+                            url = "https://data.world/some_file.csv")
+```
+To fetch the latest files from source and update dataset after the initial uploading 
+```{r sync, eval = FALSE}
+data.world::sync(connection, dataset="ownerid/dataset")
+```
+
+## Delete File 
+To delete a single file from a dataset
+```{r deleteFileAndSyncSources, eval = FALSE}
+data.world::deleteFileAndSyncSources(connection, 
+                                     dataset = "ownerid/datasetid", 
+                                     name = "file.csv")
+```
+To delete multiple files from a dataset
+```{r deleteFilesAndSyncSources, eval = FALSE}
+data.world::deleteFilesAndSyncSources(connection, 
+                                      dataset = "ownerid/datasetid",
+                                      names = list("file1.csv", "file2.csv"))
+```
+
+## Upload File
+To upload one or more files a dataset
+```{r uploadFiles, eval = FALSE}
+data.world::uploadFiles(connection = conn, 
+                        dataset = "ownerid/datasetid", 
+                        paths = list ("file1.csv", "file2.csv"))
+```
+*(Note `paths` is an array of local file path relative to `getwd()`)*
+
+## Upload Data Frame
+To upload a dataframe to a data.world dataset as csv
+```{r uploadDataFrame, eval = FALSE}
+df = data.frame(a = c(1,2,3),
+                b = c(4,5,6))
+data.world::uploadDataFrame(connection = conn, 
+                fileName="sample.csv",
+                dataFrame = df, 
+                dataset = "ownerid/datasetid")
+```
+*(Note that we only support upload a dataframe as a csv file)*
+
+## Get Dataset
+Retrieve a dataset metadata
+```{r getDataset, eval = FALSE}
+dataset <- getDataset(connection, dataset="user/dataset")
+```
+`getDataset` return a `data.world::DatasetSummaryResponse` object which is described here `https://api.data.world/v0/swagger.json`
+
+## Download File
+Download file from the latest dataset version
+```{r downloadFile, eval = FALSE}
+downloadFile(connection, 
+             dataset="ownerid/datasetid" , 
+             fileName = "file.csv",
+             output = "tmp/file.csv")
+```
+*(Note `output` is a local file path relative to `getwd()`)*
+
+## Download File as data frame
+Download the input tabular file into an R data frame
+```{r downloadFileAsDataFrame, eval = FALSE}
+df <- downloadFileAsDataFrame(connection, 
+                              dataset="ownerid/datasetid", 
+                              fileName = "file.csv")
+```

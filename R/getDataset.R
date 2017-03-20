@@ -44,12 +44,13 @@ getDataset.data.world <- function(connection, dataset) {
   )
   if (response$status_code == 200) {
     structuredResponse <-
-      rjson::fromJSON(httr::content(x = response, as = 'text'))
+      rjson::fromJSON(httr::content(x = response, as = 'text', encoding = "UTF-8"))
     ret <- data.world::DatasetSummaryResponse(structuredResponse)
   } else {
     ret <-
-      data.world::ErrorMessage(rjson::fromJSON(httr::content(x = response, as =
-                                                               'text')))
+      data.world::ErrorMessage(rjson::fromJSON(httr::content(x = response,
+                                                             as = 'text',
+                                                             encoding = "UTF-8")))
   }
   ret
 }

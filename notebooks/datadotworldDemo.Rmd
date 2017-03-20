@@ -19,13 +19,12 @@ echo 'token=YOUR_API_TOKEN' > ~/.data.world
 # load library
 library("data.world")
 conn <- data.world()
-userId <- YOUR_DATAWORLD_USERID
+userId <- "YOUR_DATA_WORLD_USER_ID"
 ```
 
 2. View the contents of a public dataset
 ```{r getDataset, echo=TRUE}
 cancer_dataset <- data.world::getDataset(connection = conn, dataset = "nrippner/cancer-trials")
-cancer_dataset$files
 ```
 or query a dataset
 ```{r}
@@ -36,7 +35,7 @@ query(connection = conn, type = "sql", dataset = "nrippner/cancer-trials", query
 ```{r createDataset, echo=TRUE}
 sample_dataset_title = "sampledataset"
 sample_dataset_id = sprintf("%s/%s", userId, sample_dataset_title)
-createDataset(
+response = createDataset(
   connection = conn,
   createDatasetRequest = data.world::DatasetCreateRequest(
       title = sample_dataset_title,
@@ -50,7 +49,7 @@ createDataset(
 
 4. Upload any files to a dataset to which the user is a contributor
 ```{r uploadFile, echo=TRUE}
-uploadFile(connection = conn, path = "README.md", fileName = "README.md", sample_dataset_id)
+response = uploadFile(connection = conn, path = "../README.md", fileName = "README.md", sample_dataset_id)
 ```
 
 5. Query any public dataset and store that in a data frame
@@ -61,12 +60,12 @@ cancer_trials_tables
 
 6. Upload that data frame to another dataset
 ```{r uploadDataFrame, echo = TRUE}
-uploadDataFrame(connection = conn, fileName="cancer_trials_table.csv", dataFrame = cancer_trials_tables, dataset = sample_dataset_id)
+response = uploadDataFrame(connection = conn, fileName="cancer_trials_table.csv", dataFrame = cancer_trials_tables, dataset = sample_dataset_id)
 ```
 
 7. Suppose that user wants to do a more involved calculation with a data file (maybe because the dwsql/sparql query maybe too complicated) . The user can download the file locally
 ```{r downloadFile, echo = TRUE}
-downloadFile(connection = conn, dataset = "nrippner/cancer-trials", fileName = "cen_income.csv", output = "tmp/cen_income.csv")
+response = downloadFile(connection = conn, dataset = "nrippner/cancer-trials", fileName = "cen_income.csv", output = "tmp/cen_income.csv")
 ```
 or the user can download that file directly into a data frame and perform additional operations
 ```{r downloadFileAsDataFrame}
@@ -76,7 +75,7 @@ coffee_county_cen_income
 ```
 and upload to the dataframe
 ```{r uploadDataframe, echo=TRUE}
-uploadDataFrame(connection = conn, fileName="coffee_county_cen_income.csv", dataFrame = coffee_county_cen_income, dataset = sample_dataset_id)
+response = uploadDataFrame(connection = conn, fileName="coffee_county_cen_income.csv", dataFrame = coffee_county_cen_income, dataset = sample_dataset_id)
 ```
 
 ```{r verify, echo=TRUE}
@@ -85,17 +84,17 @@ downloadFileAsDataFrame(connection = conn, dataset = sample_dataset_id, fileName
 
 8. User can collect, import(link) similar datas from the web to this dataset (discovered via https://data.world/opendata/data.gov for example)
 ```{r addFileBySource, echo=TRUE}
-addFileBySource(connection = conn, dataset = sample_dataset_id, name = "alabama_gravesites.csv", url = "https://inventory.data.gov/dataset/1cf2471d-cfc6-4004-9d98-1e8d3e9cb5ae/resource/868c08d1-27c9-41f9-b486-d7c24dfd4aa9/download/nglalabama.csv")
+response = addFileBySource(connection = conn, dataset = sample_dataset_id, name = "alabama_gravesites.csv", url = "https://inventory.data.gov/dataset/1cf2471d-cfc6-4004-9d98-1e8d3e9cb5ae/resource/868c08d1-27c9-41f9-b486-d7c24dfd4aa9/download/nglalabama.csv")
 
 ```
 
 9. Clean up / delete file(s)
 ```{r deleteFileAndSyncSources, echo=TRUE}
-deleteFileAndSyncSources(connection = conn, dataset = sample_dataset_id, name = "coffee_county_cen_income.csv")
+response = deleteFileAndSyncSources(connection = conn, dataset = sample_dataset_id, name = "coffee_county_cen_income.csv")
 ```
 
 10. Publish your dataset
 ```{r patchDataset, echo=TRUE}
 publish_dataset_request <- data.world::DatasetPatchRequest(visibility = "OPEN")
-data.world::patchDataset(connection = conn, datasetPatchRequest = publish_dataset_request, datasetid = sample_dataset_id)
+response = data.world::patchDataset(connection = conn, datasetPatchRequest = publish_dataset_request, datasetid = sample_dataset_id)
 ```

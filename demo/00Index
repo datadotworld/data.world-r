@@ -1,2 +1,3 @@
-connect			How to create a data.world client.
-create_dataset			How to create a new dataset.
+connect			R script demonstrating how to setup a data.world client.
+dataset_management			R script demonstrating high level operation one can do with a data.world dataset via data.world r library.
+util			Util script. Not a demo script

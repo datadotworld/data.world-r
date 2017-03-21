@@ -18,7 +18,7 @@ token at https://data.world/settings/advanced
 
 you can insert your token into a `.data.world` file in your home
 directory, and the constructor will read it from there:
-```{bash from your terminal}
+```{bash from your terminal, eval = FALSE}
 echo 'token=YOUR_API_TOKEN' > ~/.data.world
 ```
 then

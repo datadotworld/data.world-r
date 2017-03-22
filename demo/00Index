@@ -1,3 +1,5 @@
 connect			R script demonstrating how to setup a data.world client.
-dataset_management			R script demonstrating high level operation one can do with a data.world dataset via data.world r library.
-util			Util script. Not a demo script
+dataset_management			R script demonstrating various crud dataset operations
+pulling_data			R script demonstrating operations involving upload / pushing to a dataset
+pushing_data			R script demonstrating operations involving downloading / pulling data from a dataset
+util			Util script. NOT a demo script

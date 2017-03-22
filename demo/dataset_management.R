@@ -35,7 +35,6 @@ create_dataset <- function (dataset_owner, dataset_title) {
   message(sprintf("a demo dataset has been created %s", dataset_url))
 }
 
-create_dataset(dataset_owner = default_variables$dataset_owner, dataset_title = default_variables$dataset_title)
 
 # Replace Dataset
 
@@ -78,28 +77,4 @@ patch_dataset <- function (dataset_owner, dataset_title) {
 
 patch_dataset(dataset_owner = default_variables$dataset_owner, dataset_title = default_variables$dataset_title)
 
-# Add File by Source
 
-add_file_by_source <- function (dataset_owner, dataset_title) {
-  dataset_url <- dataset_url(dataset_owner, dataset_title)
-  readline(sprintf("press any key to add file to dataset %s", dataset_url))
-  response <- data.world::addFileBySource(connection = data.world(),
-                                          dataset = sprintf("%s/%s", dataset_owner, dataset_title),
-                                          name = "demo7.csv",
-                                          url = "https://docs.google.com/spreadsheets/d/1UheyB6pxTCfLpRmIGITM0fKb8jHVEvPuajmuejxxRyE/pub?gid=1371600687&single=true&output=csv")
-  message(response)
-}
-
-
-add_file_by_source(dataset_owner = default_variables$dataset_owner, dataset_title = default_variables$dataset_title)
-
-# Sync Dataset
-
-sync <- function (dataset_owner, dataset_title) {
-  dataset_url <- dataset_url(dataset_owner, dataset_title)
-  readline(sprintf("press any key to sync dataset %s", dataset_url))
-  response <- data.world::sync(connection = data.world(), dataset=sprintf("%s/%s", dataset_owner, dataset_title))
-  message(response)
-}
-
-sync(dataset_owner = default_variables$dataset_owner, dataset_title = default_variables$dataset_title)

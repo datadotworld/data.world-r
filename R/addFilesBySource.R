@@ -78,9 +78,9 @@ addFilesBySource.data.world <- function(connection, dataset, fileBatchUpdateRequ
                           httr::user_agent(data.world::userAgent()))
   ret <- httr::http_status(response)
   if (response$status_code == 200 | response$status_code == 202) {
-    ret <- data.world::SuccessMessage(rjson::fromJSON(httr::content(x=response, as='text')))
+    ret <- data.world::SuccessMessage(rjson::fromJSON(httr::content(x=response, as='text', encoding = "UTF-8")))
   } else {
-    ret <- data.world::ErrorMessage(rjson::fromJSON(httr::content(x=response, as='text')))
+    ret <- data.world::ErrorMessage(rjson::fromJSON(httr::content(x=response, as='text', encoding = "UTF-8")))
   }
   ret
 }

@@ -9,6 +9,9 @@ To get the current development version from github:
 ```
 # install.packages("devtools")
 devtools::install_github("datadotworld/data.world-r", build_vignettes = TRUE, force = TRUE)
+# For datapackage (http://frictionlessdata.io/data-packages/) related operations
+devtools::install_github("ropenscilabs/jsonvalidate")
+devtools::install_github("ropenscilabs/datapkg")
 ```
 
 ## Vignette 

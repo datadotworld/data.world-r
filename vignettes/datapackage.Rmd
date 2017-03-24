@@ -1,0 +1,52 @@
+<!--
+%\VignetteEngine{knitr::knitr}
+%\VignetteIndexEntry{data.world datapackage guide}
+-->
+
+```{r, echo = FALSE}
+library(data.world)
+```
+
+# datapackage
+The goal of this document is to give a quick introduction to the datapackage construct and how it should be used. 
+
+## Setting up the connection
+Once installed, you can instantiate a connection by providing your
+data.world API token to the constructor.  You can find your API
+token at https://data.world/settings/advanced
+
+you can insert your token into a `.data.world` file in your home
+directory, and the constructor will read it from there:
+```{bash from your terminal, eval = FALSE}
+echo 'token=YOUR_API_TOKEN' > ~/.data.world
+```
+then
+```{r}
+conn <- data.world()
+```
+
+## Datapackage
+datapackage is a standardized way to package data for simple sharing between tools and people.
+Learn more about the Data Package specification at frictionlessdata.io.
+
+To download a datapackage 
+```{r downloadDatapackage, eval = FALSE}
+introDataPackage <- data.world::downloadDatapackage(connection = data.world() , dataset = "jonloyens/an-intro-to-dataworld-dataset")
+```
+
+To list tables in a datapackage
+```{r listDatapackageTables, eval = FALSE}
+introDataPackagetables <- data.world::listTables(introDataPackage)
+introDataPackagetables
+```
+
+To load a datapackage table as a dataframe
+```{r loadDatapackageTable, eval = FALSE}
+changeLogTable <- data.world::loadTable(introDataPackage, 'changelog')
+```
+
+To view a table schema
+```{r viewDatapackageTableSchema, eval = FALSE}
+changeLogTableSchema <- data.world::loadSchema(introDataPackage, 'changelog')
+changeLogTableSchema
+```

@@ -1,0 +1,119 @@
+<!--
+%\VignetteEngine{knitr::knitr}
+%\VignetteIndexEntry{data.world quickstart guide}
+-->
+
+```{r, echo = FALSE}
+library(data.world)
+```
+
+# data.world query guide
+The goal of this document is to give a quick tutorial on how to query data.world datasets via the sdk
+
+## Setting up the connection
+Once installed, you can instantiate a connection by providing your
+data.world API token to the constructor.  You can find your API
+token at https://data.world/settings/advanced
+
+you can insert your token into a `.data.world` file in your home
+directory, and the constructor will read it from there:
+```{bash from your terminal, eval = FALSE}
+echo 'token=YOUR_API_TOKEN' > ~/.data.world
+```
+then
+```{r}
+conn <- data.world()
+```
+
+
+## Querying
+This function can be used to send a [`dwSQL`](https://docs.data.world/tutorials/dwsql/) 
+or a `SPARQL` query to a particular dataset's query endpoint.
+`query` returns a data frame
+e.g
+To execute a `DWSQL` query
+```{r dwsqlQueryTables, eval = FALSE}
+df <- data.world::query(conn, dataset="bryon/odin-2015-2016", query="SELECT * FROM Tables")
+df
+```
+To execute a `SPARQL` query, you need to specify the `type` as
+`sparql`:
+```{r sparqlQuery, eval = FALSE}
+df <- data.world::query(conn, dataset="bryon/odin-2015-2016", type="sparql", query='
+PREFIX : <http://data.world/bryon/odin-2015-2016/ODIN-2015-2016-raw.csv/ODIN-2015-2016-raw#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT *
+WHERE {
+  [ :Year ?year ; :Region ?region ; :Overall_subscore ?score ]
+  FILTER(?year = "2015")
+} 
+LIMIT 10')
+df
+```
+
+### Parameterized Query
+You can also pass in an optional `queryParameters` to  `data.world::query` function. At the moment , we only support 
+`logical` , `numeric` , `integer` , `character` (The function will fail if any other `class` types are passed in )
+
+1. To execute a parameterized query with dwsql , pass in a generic `list` of value (with supported types as mentioned above)
+e.g
+```{r parameterized query with dwsql example 1, eval = FALSE }
+  conn <- data.world()
+  query_result <- data.world::query(conn,
+                        dataset="bryon/odin-2015-2016",
+                        query="SELECT * FROM `ODIN-2015-2016-standardized` WHERE `Year` = ? AND `Country Code` = ?",
+                        queryParameters = list("2015", "BDI"))
+
+  query_result
+```
+or 
+```{r parameterized query with dwsql example 2 with numeric, eval = FALSE }
+  conn <- data.world()
+  query_result <- query(conn,
+                        dataset="bryon/odin-2015-2016",
+                        query="SELECT * FROM `ODIN-2015-2016-standardized` WHERE `Indicator Coverage and Disaggregation` < ? ",
+                        queryParameters = list(5.5))
+  query_result
+```
+
+2. To execute a parameterized query with sparql, pass in a named list 
+e.g 
+```{r parameterized query with sparql example 1, eval = FALSE}
+  conn <- data.world()
+  result <- query(conn, dataset="bryon/odin-2015-2016", type = "sparql",
+                  query=
+                  "PREFIX : <http://data.world/bryon/odin-2015-2016/ODIN-2015-2016-raw.csv/ODIN-2015-2016-raw#>
+                  PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+                  SELECT *
+                  WHERE {
+                  [ :Year ?year ; :Region ?region ; :Overall_subscore ?score ]
+                  FILTER(?region = $v1)
+                  }
+                  LIMIT 10
+                  ",
+                  queryParameters = list("$v1"="Western Africa"))
+  result
+```
+or 
+```{r parameterized query with sparql example 2, eval = FALSE}
+  conn <- data.world()
+  result <- query(conn, dataset="bryon/odin-2015-2016", type = "sparql",
+                  query=
+                    "PREFIX : <http://data.world/bryon/odin-2015-2016/ODIN-2015-2016-raw.csv/ODIN-2015-2016-raw#>
+                    PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+                  SELECT *
+                  WHERE {
+                  [ :Year ?year ; :Region ?region ; :Indicator_Coverage_and_Disaggregation ?score ]
+                  FILTER(?score > $v1)
+                  }
+                  LIMIT 10",
+                  queryParameters = list("$v1"=5.5))
+  result
+```
+
+## Tips 
+1.  To select one specific table, use the Name of the specific table 
+*(note the backticks required for table names including special characters)*:
+```{r dwsqlQuerySelectTable, eval = FALSE}
+df <- data.world::query(conn, dataset="bryon/odin-2015-2016", query="SELECT * FROM `ODIN-2015-2016-standardized`")
+```

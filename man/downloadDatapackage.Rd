@@ -4,7 +4,8 @@
 \alias{downloadDatapackage}
 \title{return a data package of the latest dataset version.}
 \usage{
-downloadDatapackage(connection, dataset, output = sprintf("tmp/\%s", dataset))
+downloadDatapackage(connection, dataset, workingDirId = generateTimestamp(),
+  output = sprintf("tmp/dp/\%s/\%s", dataset, workingDirId))
 }
 \arguments{
 \item{connection}{the connection to data.world}
@@ -21,7 +22,6 @@ A data package is a standardized way
 }
 \examples{
 \dontrun{
-data.world::downloadDatapackage(connection = data.world() , dataset = "ownerid/datasetid",
-       output = "tmp/ownerid/datasetid")
+data.world::downloadDatapackage(connection = data.world() , dataset = "ownerid/datasetid")
 }
 }

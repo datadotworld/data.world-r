@@ -18,30 +18,37 @@ library("data.world")
 library("testthat")
 source("testUtil.R")
 
+
+mockDownloadCall <- function () {
+  mockResponseLocalContentPath = "resources/datapackage.zip"
+  dataset = "jonloyens/an-intro-to-dataworld-dataset"
+  response <- with_mock(
+    `httr::GET` = function(url, header , progress, userAgent)  {
+      expect_equal(
+        url,
+        sprintf("https://download.data.world/datapackage/%s", dataset)
+      )
+      expect_equal(header$headers[["Authorization"]], "Bearer API_TOKEN")
+      expect_equal(userAgent$options$useragent, data.world::userAgent())
+      return(
+        successMessageResponseWithContent(mockResponseLocalContentPath, "application/zip")
+      )
+    },
+    `mime::guess_type` = function(...) NULL,
+    data.world::downloadDatapackage(
+      data.world(token = "API_TOKEN"),
+      dataset = dataset
+    )
+  )
+  return(response)
+}
+
 test_that("test datapackage construct" , {
   createTmpDir()
-
   tryCatch ({
     mockResponseLocalContentPath = "resources/datapackage.zip"
     dataset = "jonloyens/an-intro-to-dataworld-dataset"
-    response <- with_mock(
-      `httr::GET` = function(url, header , progress, userAgent)  {
-        expect_equal(
-          url,
-          sprintf("https://download.data.world/datapackage/%s", dataset)
-        )
-        expect_equal(header$headers[["Authorization"]], "Bearer API_TOKEN")
-        expect_equal(userAgent$options$useragent, data.world::userAgent())
-        return(
-          successMessageResponseWithContent(mockResponseLocalContentPath, "application/zip")
-        )
-      },
-      `mime::guess_type` = function(...) NULL,
-      data.world::downloadDatapackage(
-        data.world(token = "API_TOKEN"),
-        dataset = dataset
-      )
-    )
+    response <- mockDownloadCall()
     testthat::expect_s3_class(response, "DataPackage")
     tables <- data.world::listTables(response)
     testthat::expect_length(tables, 3)
@@ -56,7 +63,22 @@ test_that("test datapackage construct" , {
     clSchema <- data.world::loadSchema(response, table = 'changelog')
     testthat::expect_equal(as.character(clSchema[clSchema$name == 'Date', 'rtype']) , 'date')
     testthat::expect_equal(as.character(clSchema[clSchema$name == 'Change', 'rtype']) , 'character')
+    response <- data.world::addTable(response, iris, "iris")
+    tables <- data.world::listTables(response)
+    testthat::expect_length(tables, 4)
+    testthat::expect_true('changelog' %in% tables)
+    testthat::expect_true('datadotworldbballstats' %in% tables)
+    testthat::expect_true('datadotworldbballteam' %in% tables)
+    testthat::expect_true('iris' %in% tables)
+    responseNew <- mockDownloadCall()
+    diff <- data.world::diffDatapackage(response, responseNew)
+    print(diff$missing)
+    expect_true("iris" %in% diff$missing)
+    diff <- data.world::diffDatapackage(responseNew, response)
+    expect_true("iris" %in% diff$unexpected)
   }, finally = {
     cleanupTmpDir()
   })
 })
+
+

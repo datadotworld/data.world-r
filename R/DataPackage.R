@@ -18,18 +18,18 @@ This product includes software developed at data.world, Inc.(http://www.data.wor
 #' @param structure - a structure object returned `datapkg::datapkg_read`
 #' @param dataset the  "agentid/datasetid" for the dataset from
 #' which to download the datapackage
-#' @examples
-#' \dontrun{
-#' cities <- datapkg_read("git://github.com/datasets/world-cities")
-#' package <- data.world::dataPackage(cities)
-#' }
+#' @param datapackagePath path to where datapackage.json is
+#'
 #' @export
-DataPackage <- function(structure, dataset) {
+DataPackage <- function(dataset, datapackagePath, workingDirId = NULL) {
+  structure <- datapkg::datapkg_read(datapackagePath)
   me <- list (
     rawStructure = structure,
     dataset = dataset,
     name = structure$name,
-    url = structure$homepage
+    url = structure$homepage,
+    datapackagePath = datapackagePath,
+    workingDirId = workingDirId
   )
   class(me) <- "DataPackage"
   me
@@ -51,7 +51,7 @@ listTables.default <- function(dataPackage) {
 #' @export
 listTables.DataPackage <- function(dataPackage) {
   resources <- dataPackage$rawStructure$resources
-  return(resources[resources$format == "csv", ][["name"]] )
+  return(resources[["name"]])
 }
 
 #' Load table into a data frame
@@ -97,12 +97,279 @@ loadSchema.DataPackage <- function(datapackage, table) {
   return(schema)
 }
 
+#' Add a dataframe to a datapackage
+#' @param datapackage a data package
+#'
+#' @param dataframe a dataframe
+#' @param name this will be the name of the table / resource
+#' @export
+addTable <- function(datapackage, dataframe, name, forceOverride = FALSE) {
+  UseMethod("addTable")
+}
+
+#' @export
+addTable.default <- function(datapackage, dataframe, name, forceOverride = FALSE) {
+  stop("nope.")
+}
+
+#' @export
+addTable.DataPackage <- function(datapackage, dataframe, name, forceOverride = FALSE) {
+  if (forceOverride) {
+    data.world::datapkg_delete(name, path = datapackage$datapackagePath)
+  }
+  datapkg::datapkg_write(data = dataframe, name = name, path = datapackage$datapackagePath)
+  return(refresh(datapackage))
+}
+
+#' Remove a table from a datapackage
+#' @param datapackage a table
+#'
+#' @param name a valid table name inside this package
+#'
+#' @export
+deleteTable <- function(datapackage, name) {
+  UseMethod("deleteTable")
+}
+
+#' @export
+deleteTable.default <- function(datapackage, name) {
+  stop("nope.")
+}
+
+#' @export
+deleteTable.DataPackage <- function(datapackage, name) {
+  data.world::datapkg_delete(name, datapackage$datapackagePath)
+  return(refresh(datapackage))
+}
+
+#' @export
+refresh <- function(datapackage) {
+  datapackage$rawStructure <- datapkg::datapkg_read(datapackage$datapackagePath)
+  return(datapackage)
+}
+
 validateTableName <- function(datapackage, table) {
   tables <- data.world::listTables(datapackage)
+
   if (table %in% tables) {
     return(table)
   } else {
     stop(sprintf("table %s is not found. Available tables are : %s", table, paste(tables, collapse = ", ")))
   }
 }
+
+#' Comparing 2 datapackage
+#' @param thisDatapackage a datapackage
+#' @param otherDatapackage another datapackage with which to be diffed
+#' @export
+diffDatapackage <- function(thisDatapackage, otherDatapackage) {
+  UseMethod("diffDatapackage")
+}
+
+#' @export
+diffDatapackage.default <- function(thisDatapackage, otherDatapackage) {
+  stop("nope.")
+}
+
+#' @export
+diffDatapackage.DataPackage <- function(thisDatapackage, otherDatapackage) {
+  thisTables <- data.world::listTables(thisDatapackage)
+  otherTables <- data.world::listTables(otherDatapackage)
+  missingTables <- c() # missing ~ these are the tables that otherDatapackage need to add to be the same as thisDatapackage
+  unexpectedTables <- c() # unexpected ~ these are the tables that otherDatapackage need to delete to be the same as thisDatapackage
+  commonTables <- c()
+  for (table in thisTables) {
+    if (!table %in% otherTables) {
+      missingTables = c(missingTables, table)
+    } else {
+      commonTables = c(commonTables, table)
+    }
+  }
+  for (table in otherTables) {
+    if (!table %in% thisTables) {
+      unexpectedTables = c(unexpectedTables, table)
+    }
+  }
+  list('missing' = missingTables , 'unexpected' = unexpectedTables, 'common' = commonTables)
+  #TODO diff schema
+  #TODO diff dataframes
+}
+
+getPath <- function(datapackage, tableName) {
+  resources <- datapackage$rawStructure$resources
+  datapackagePath <- datapackage$datapackagePath
+  return(sub("datapackage.json$", resources[resources$name == tableName, ]$path, datapackagePath))
+}
+
+#' Diff this datapackage with the latest (remote) dataset on data.world
+#' @param datapackage a datapackage
+#'
+#' @export
+diffLatest <- function(datapackage, toClean = TRUE) {
+  UseMethod("diffLatest")
+}
+
+#' @export
+diffLatest.default <- function(datapackage, toClean = TRUE) {
+  stop("nope.")
+}
+
+#' @export
+diffLatest.DataPackage <- function(datapackage , toClean = TRUE) {
+  # TODO handle xls cases. Since the name of the file uploaded and the name of the table in the datapackage.json is not consistent
+  # TODO once we implement diffing table schema + data in data.world::diffPackage . We need to support "pick yours or their" operation
+  latest <- data.world::downloadDatapackage(connection = data.world(), dataset = datapackage$dataset)
+  diff <- data.world::diffDatapackage(datapackage, latest)
+  if (!is.null(diff$missing) && length(diff$missing) != 0) {
+    message(sprintf("tables %s are missing from %s", paste(diff$missing, collapse = ", ") , datapackage$url))
+  }
+  if (!is.null(diff$unexpected) && length(diff$unexpected) != 0) {
+    message(sprintf("%s contains new tables %s", datapackage$url, paste(diff$unexpected, collapse = ", ")))
+  }
+  if (toClean) {
+    data.world::clean(latest)
+  }
+  return(list("diff"=diff, "latest"=latest))
+}
+
+#' Clean up local artifact on which this datapackage is based
+#' @param datapackage a datapackage
+#'
+#' @export
+clean <- function(datapackage) {
+  UseMethod("clean")
+}
+
+#' @export
+clean.default <- function(datapackage) {
+  stop("nope.")
+}
+
+#' @export
+clean.DataPackage <- function(datapackage) {
+  datasetPath <- sub('/', '-', datapackage$dataset)
+  branchPath <- sub(sprintf("%s/datapackage.json$", datasetPath), "", datapackage$datapackagePath)
+  message(sprintf("Deleting %s", branchPath))
+  unlink(branchPath, recursive = TRUE)
+  rm(datapackage)
+}
+
+#' pull the latest table content from data.world
+#' @param datapackage a datapackage
+#'
+#' @export
+pull <- function(datapackage) {
+  tryCatch({
+    diffResult <- data.world::diffLatest(datapackage, toClean = FALSE)
+    intern_pull(datapackage, diffResult$diff, diffResult$latest)
+    intern_update(datapackage, diffResult$diff, diffResult$latest, direction = 'PULL')
+    return(refresh(datapackage))
+  }, finally = {
+    data.world::clean(diffResult$latest)
+  })
+}
+
+promptForLogical <- function(message) {
+  input <- as.logical(toupper(trimws(readline(message))))
+  return(input)
+}
+
+intern_pull <- function(datapackage, diff , latest) {
+  newTables <- diff$unexpected
+  if (!is.null(newTables) && length(newTables) > 0) {
+    for (table in newTables) {
+      # TODO let user decide whether  to pull the latest or delete the remote table
+      toAdd <- promptForLogical(sprintf("Pulling %s ? Enter T/F . ", table))
+      if (toAdd) {
+        message(sprintf("Adding %s", table))
+        df <- data.world::loadTable(latest, table)
+        data.world::addTable(datapackage = datapackage, name = table, dataframe = df, forceOverride = TRUE)
+      }
+    }
+  }
+}
+
+intern_update <- function(datapackage, diff , latest , direction  = NULL) {
+  commonTables <- diff$common
+  if (!is.null(commonTables) && length(commonTables) > 0) {
+    for (table in commonTables) {
+      toUpdate <- promptForLogical(sprintf("Updating %s ? Enter T/F . ", table))
+      if (toUpdate) {
+        if (is.null(direction)) {
+          ops <- readline(sprintf("PULL the latest %s or PUSH the latest %s to %s ?", table, table, datapackage$url))
+        }
+        stopifnot(ops == 'PULL' || ops == 'PUSH')
+        if (ops == 'PULL') {
+          message(sprintf("Updating %s", table))
+          df <- data.world::loadTable(latest, table)
+          data.world::addTable(datapackage = datapackage, name = table, dataframe = df, forceOverride = TRUE)
+        } else {
+          resources <- datapackage$rawStructure$resources
+          message(sprintf("Updating %s/%s", datapackage$url, table))
+          df <- data.world::loadTable(datapackage, table)
+          fileName <- sub("^data/", "", resources[resources$name == table, ]$path)
+          message(sprintf("Uploading %s to %s as %s ... ", table, datapackage$url, fileName))
+          data.world::uploadDataFrame(connection = data.world(), dataFrame = df, fileName = fileName, datapackage$dataset)
+        }
+        remove(ops)
+      }
+    }
+  }
+}
+
+#' @export
+push <- function(datapackage) {
+  tryCatch({
+    diffResult <- data.world::diffLatest(datapackage, toClean = FALSE)
+    intern_push(datapackage, diffResult$diff, diffResult$latest)
+    intern_update(datapackage, diffResult$diff, diffResult$latest, direction = 'PUSH')
+    return(refresh(datapackage))
+  }, finally = {
+    data.world::clean(diffResult$latest)
+  })
+}
+
+intern_push <- function(datapackage, diff , latest) {
+  tablesNotOnDataWorld <- diff$missing
+  if (!is.null(tablesNotOnDataWorld) && length(tablesNotOnDataWorld) > 0) {
+    for (table in tablesNotOnDataWorld) {
+      # TODO let user decide whether  to push the latest local or delete the local table
+      toUpload <- promptForLogical(sprintf("Pushing %s to %s ? Enter T/F . ", table, datapackage$url))
+      if (toUpload) {
+        resources <- datapackage$rawStructure$resources
+        df <- data.world::loadTable(datapackage, table)
+        fileName <- sub("^data/", "", resources[resources$name == table, ]$path)
+        message(sprintf("Uploading %s to %s as %s ... ", table, datapackage$url, fileName))
+        data.world::uploadDataFrame(connection = data.world(), dataFrame = df, fileName = fileName, datapackage$dataset)
+      }
+    }
+  }
+}
+
+#' Start the sync workflow
+#' @param datapackage a datapackage
+#'
+#' @export
+sync.DataPackage <- function(datapackage) {
+  tryCatch({
+    diffResult <- data.world::diffLatest(datapackage, toClean = FALSE)
+    intern_pull(datapackage, diffResult$diff, diffResult$latest)
+    intern_push(datapackage, diffResult$diff, diffResult$latest)
+    intern_update(datapackage, diffResult$diff, diffResult$latest)
+    return(refresh(datapackage))
+  }, finally = {
+    data.world::clean(diffResult$latest)
+  })
+}
+
+test <- function(lst , ops) {
+  ops <- list("ts" = generateTimestamp() , "ops" = ops)
+  class(ops) <- "SyncOps"
+  return(append(lst, list(ops)))
+}
+
+generateTimestamp <- function () {
+  return(as.integer(as.POSIXct(Sys.time(), "UTC")))
+}
+
 

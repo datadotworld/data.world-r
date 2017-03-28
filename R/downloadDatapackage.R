@@ -26,21 +26,20 @@ This product includes software developed at data.world, Inc.(http://www.data.wor
 #' @param output the cache dir where we are storing the datapackage content
 #' @examples
 #' \dontrun{
-#' data.world::downloadDatapackage(connection = data.world() , dataset = "ownerid/datasetid",
-#'        output = "tmp/ownerid/datasetid")
+#' data.world::downloadDatapackage(connection = data.world() , dataset = "ownerid/datasetid")
 #' }
 #' @export
-downloadDatapackage <- function(connection, dataset, output = sprintf("tmp/%s", dataset)) {
+downloadDatapackage <- function(connection, dataset, workingDirId = generateTimestamp(), output = sprintf("tmp/dp/%s/%s", dataset, workingDirId)) {
   UseMethod("downloadDatapackage")
 }
 
 #' @export
-downloadDatapackage.default <- function(connection, dataset, output = sprintf("tmp/%s", dataset)) {
+downloadDatapackage.default <- function(connection, dataset, workingDirId = generateTimestamp(), output = sprintf("tmp/dp/%s/%s", dataset, workingDirId)) {
   print("nope.")
 }
 
 #' @export
-downloadDatapackage.data.world <- function(connection, dataset, output = sprintf("tmp/%s", dataset)) {
+downloadDatapackage.data.world <- function(connection, dataset, workingDirId = generateTimestamp(), output = sprintf("tmp/dp/%s/%s", dataset, workingDirId)) {
   url = sprintf("%s/datapackage/%s", connection$baseDownloadApiUrl, dataset)
   response <- httr::GET( url,
                          httr::add_headers(
@@ -50,17 +49,24 @@ downloadDatapackage.data.world <- function(connection, dataset, output = sprintf
   ret <- httr::http_status(response)
   if (response$status_code == 200) {
     raw <- httr::content(x=response, as='raw')
+    if (dir.exists(output)) {
+      unlink(output,  recursive = TRUE, force = TRUE)
+    }
     dir.create(output, recursive = TRUE, showWarnings = FALSE)
     zipFileName <- sprintf("%s/datapackage.zip",output)
     writeBin(raw, zipFileName)
+    # zip content is extracted into the snapshotted output dir
     extracted <- utils::unzip(zipFileName, overwrite = TRUE , exdir = output)
     datapackageJsonPath <- extracted[endsWith(extracted, "datapackage.json")]
     if (is.null(datapackageJsonPath) || length(datapackageJsonPath) == 0) {
       stop(sprintf("%s does not contain a datapackage.json file. Please contact data.world help desk and report a bug.", url))
     }
-    pkg_info <- datapkg::datapkg_read(datapackageJsonPath)
-    data.world::DataPackage(structure = pkg_info, dataset = dataset)
+    data.world::DataPackage(dataset = dataset, datapackagePath = datapackageJsonPath, workingDirId = workingDirId)
   } else {
     stop(sprintf("%s return %s", url, response$status_code))
   }
+}
+
+generateTimestamp <- function () {
+  return(as.integer(as.POSIXct(Sys.time(), "UTC")))
 }

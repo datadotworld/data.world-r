@@ -9,7 +9,7 @@ License: file LICENSE
 LazyData: TRUE
 Imports:
     httr,
-    xml2, 
+    xml2,
     readr,
     rjson,
     jsonvalidate,

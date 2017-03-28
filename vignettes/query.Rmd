@@ -21,7 +21,7 @@ directory, and the constructor will read it from there:
 echo 'token=YOUR_API_TOKEN' > ~/.data.world
 ```
 then
-```{r}
+```{r connect client to d.w, eval = FALSE}
 conn <- data.world()
 ```
 

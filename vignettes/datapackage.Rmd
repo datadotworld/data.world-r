@@ -16,7 +16,7 @@ data.world API token to the constructor.  You can find your API
 token at https://data.world/settings/advanced
 
 you can insert your token into a `.data.world` file in your home
-directory, and the constructor will read it from there:
+directory, and the constructor will read it from there
 ```{bash from your terminal, eval = FALSE}
 echo 'token=YOUR_API_TOKEN' > ~/.data.world
 ```
@@ -26,9 +26,13 @@ conn <- data.world()
 ```
 
 ## Datapackage
-datapackage is a standardized way to package data for simple sharing between tools and people.
-Learn more about the Data Package specification at frictionlessdata.io.
+Release **0.1.4** introduce the construct of **DataPackage** as a first class citizen. 
+Treat this as another way to interact with the dataset from a different light (in addition 
+to the existing supports such as metadata, query result set, etc). A datapackage essentially
+is just a set (package) containing tables with embedded schema. Tables in a package are just 
+**data.frame** . The implementation is built on top of  the datapackage spec defined by [frictionlessdata.io](http://frictionlessdata.io/data-packages/) . 
 
+Release **0.1.4** introduces the following operations
 To download a datapackage 
 ```{r downloadDatapackage, eval = FALSE}
 introDataPackage <- data.world::downloadDatapackage(connection = data.world() , dataset = "jonloyens/an-intro-to-dataworld-dataset")

@@ -22,6 +22,7 @@ list_tables <- function (datapackage) {
   data.world::listTables(datapackage)
 }
 introDatasetTables <- list_tables(introDataPackage)
+message(paste(introDatasetTables, collapse = ", "))
 
 # Load Data Package tables
 load_tables <- function (datapackage, tables) {

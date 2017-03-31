@@ -13,7 +13,7 @@ datatypes(r = NULL, datapackage = NULL, sparql = NULL, ...)
 
 \item{sparql}{a valid sparql type per https://www.w3.org/TR/rdf-sparql-query/#abbrevRdfType (optional)}
 
-\item{...}{Further argument , potentially use for future platform}
+\item{...}{any additional platforms}
 }
 \value{
 given a type in one platform , this function return the corresponding types from other

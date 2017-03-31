@@ -19,3 +19,4 @@ Suggests: testthat,
     knitr,
     rmarkdown
 VignetteBuilder: knitr
+Remotes: datadotworld/datapackage-r

@@ -7,3 +7,4 @@ parameterized_dwsql_query			Demonstration of data.world paramterized query metho
 simple_sparql_query			Demonstration of how you query a data.world dataset using sparql
 parameterized_sparql_query			Demonstration of data.world paramterized query method using sparql
 util			Util script. NOT a demo script
+datapackage			R script demonstrating operations involving dataPackage (http://frictionlessdata.io/data-packages/)

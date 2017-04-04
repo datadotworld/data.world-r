@@ -21,7 +21,7 @@ successMessageResponse <- function() {
 
 #' @export
 successMessageResponseWithContent <- function(pathToLocalContent, contentType, israw = FALSE) {
-  content = charToRaw(readr::read_file(pathToLocalContent))
+  content = readBin(pathToLocalContent,  what = "raw" , n = 1e6)
   return (structure(
     list(
       status_code = 200 ,

@@ -34,7 +34,7 @@ create_dataset <- function (dataset_owner, dataset_title) {
   message(response)
   message(sprintf("a demo dataset has been created %s", dataset_url))
 }
-
+create_dataset(dataset_owner = default_variables$dataset_owner, dataset_title = default_variables$dataset_title)
 
 # Replace Dataset
 

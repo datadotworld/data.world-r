@@ -1,0 +1,63 @@
+<!--
+%\VignetteEngine{knitr::knitr}
+%\VignetteIndexEntry{data.world datapackage guide}
+-->
+
+```{r, echo = FALSE}
+library(data.world)
+```
+
+# datapackage
+The goal of this document is to give a quick introduction to the datapackage construct and how it should be used. 
+
+## Setting up the connection
+Once installed, you can instantiate a connection by providing your
+data.world API token to the constructor.  You can find your API
+token at https://data.world/settings/advanced
+
+you can insert your token into a `.data.world` file in your home
+directory, and the constructor will read it from there
+```{bash from your terminal, eval = FALSE}
+echo 'token=YOUR_API_TOKEN' > ~/.data.world
+```
+then
+```{r}
+conn <- data.world()
+```
+
+## Datapackage
+Release **0.1.4** introduces the construct of **DataPackage** as a first class citizen. 
+Treat this as another way to interact with the dataset from a "tabular" view (in addition 
+to the existing supports such as metadata, query result set, etc). In this view, a datapackage essentially
+is just a set (package) of tabular representations of a dataset's tabular files (Tables in a 
+**DataPackage** are just **data.frame**) The implementation is built on top of  the datapackage 
+spec defined by [frictionlessdata.io](http://frictionlessdata.io/data-packages/) . 
+(Note that our current implementation is only relevant to datasets with tabular files (csv, xlsx, etc))
+
+Release **0.1.4** introduces **DataPackage** as a read-only construct supporting the following methods 
+```{r listMethods, eval = TRUE}
+methods(class = "DataPackage")
+```
+
+downloading a datapackage
+```{r downloadDatapackage, eval = FALSE}
+introDataPackage <- data.world::downloadDatapackage(connection = data.world() , dataset = "jonloyens/an-intro-to-dataworld-dataset")
+```
+
+listing tables in a datapackage.
+```{r listDatapackageTables, eval = FALSE}
+introDataPackagetables <- data.world::listTables(introDataPackage)
+introDataPackagetables
+```
+
+loading a datapackage table as a dataframe
+```{r loadDatapackageTable, eval = FALSE}
+changeLogTable <- data.world::loadTable(introDataPackage, 'changelog')
+changeLogTable
+```
+
+loading a table schema as a dataframe
+```{r viewDatapackageTableSchema, eval = FALSE}
+changeLogTableSchema <- data.world::loadSchema(introDataPackage, 'changelog')
+changeLogTableSchema
+```

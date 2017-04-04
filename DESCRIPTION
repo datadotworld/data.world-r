@@ -1,7 +1,7 @@
 Package: data.world
 Type: Package
 Title: R Client Library for data.world
-Version: 0.1.2
+Version: 0.1.4
 Author: Bryon Jacob (bryon@data.world)
 Maintainer: data.world help desk <help@data.world>
 Description: This contains support for easier integration with the data.world platform.
@@ -11,9 +11,12 @@ Imports:
     httr,
     xml2, 
     readr,
-    rjson
+    rjson,
+    jsonvalidate,
+    datapkg
 RoxygenNote: 6.0.1
 Suggests: testthat,
     knitr,
     rmarkdown
 VignetteBuilder: knitr
+Remotes: datadotworld/datapackage-r

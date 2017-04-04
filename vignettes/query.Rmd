@@ -1,6 +1,6 @@
 <!--
 %\VignetteEngine{knitr::knitr}
-%\VignetteIndexEntry{data.world quickstart guide}
+%\VignetteIndexEntry{data.world query guide}
 -->
 
 ```{r, echo = FALSE}

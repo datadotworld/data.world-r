@@ -26,30 +26,37 @@ conn <- data.world()
 ```
 
 ## Datapackage
-Release **0.1.4** introduce the construct of **DataPackage** as a first class citizen. 
-Treat this as another way to interact with the dataset from a different light (in addition 
-to the existing supports such as metadata, query result set, etc). A datapackage essentially
-is just a set (package) containing tables with embedded schema. Tables in a package are just 
-**data.frame** . The implementation is built on top of  the datapackage spec defined by [frictionlessdata.io](http://frictionlessdata.io/data-packages/) . 
+Release **0.1.4** introduces the construct of **DataPackage** as a first class citizen. 
+Treat this as another way to interact with the dataset from a "tabular" view (in addition 
+to the existing supports such as metadata, query result set, etc). In this view, a datapackage essentially
+is just a set (package) of tabular representations of a dataset's tabular files (Tables in a 
+**DataPackage** are just **data.frame**) The implementation is built on top of  the datapackage 
+spec defined by [frictionlessdata.io](http://frictionlessdata.io/data-packages/) . 
+(Note that our current implementation is only relevant to datasets with tabular files (csv, xlsx, etc))
 
-Release **0.1.4** introduces the following operations
-To download a datapackage 
+Release **0.1.4** introduces **DataPackage** as a read-only construct supporting the following methods 
+```{r listMethods, eval = TRUE}
+methods(class = "DataPackage")
+```
+
+downloading a datapackage
 ```{r downloadDatapackage, eval = FALSE}
 introDataPackage <- data.world::downloadDatapackage(connection = data.world() , dataset = "jonloyens/an-intro-to-dataworld-dataset")
 ```
 
-To list tables in a datapackage
+listing tables in a datapackage.
 ```{r listDatapackageTables, eval = FALSE}
 introDataPackagetables <- data.world::listTables(introDataPackage)
 introDataPackagetables
 ```
 
-To load a datapackage table as a dataframe
+loading a datapackage table as a dataframe
 ```{r loadDatapackageTable, eval = FALSE}
 changeLogTable <- data.world::loadTable(introDataPackage, 'changelog')
+changeLogTable
 ```
 
-To view a table schema
+loading a table schema as a dataframe
 ```{r viewDatapackageTableSchema, eval = FALSE}
 changeLogTableSchema <- data.world::loadSchema(introDataPackage, 'changelog')
 changeLogTableSchema

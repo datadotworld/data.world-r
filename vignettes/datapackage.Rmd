@@ -29,35 +29,121 @@ conn <- data.world()
 Release **0.1.4** introduces the construct of **DataPackage** as a first class citizen. 
 Treat this as another way to interact with the dataset from a "tabular" view (in addition 
 to the existing supports such as metadata, query result set, etc). In this view, a datapackage essentially
-is just a set (package) of tabular representations of a dataset's tabular files (Tables in a 
+is just a (local) package of tabular representations of a dataset's tabular files (Tables in a 
 **DataPackage** are just **data.frame**) The implementation is built on top of  the datapackage 
 spec defined by [frictionlessdata.io](http://frictionlessdata.io/data-packages/) . 
 (Note that our current implementation is only relevant to datasets with tabular files (csv, xlsx, etc))
 
-Release **0.1.4** introduces **DataPackage** as a read-only construct supporting the following methods 
-```{r listMethods, eval = TRUE}
-methods(class = "DataPackage")
-```
-
-downloading a datapackage
+To download a datapackage
 ```{r downloadDatapackage, eval = FALSE}
 introDataPackage <- data.world::downloadDatapackage(connection = data.world() , dataset = "jonloyens/an-intro-to-dataworld-dataset")
 ```
 
-listing tables in a datapackage.
+Release **0.1.4** introduces **DataPackage** as a read-only construct supporting the following methods 
+
+1. listing tables in a datapackage.
 ```{r listDatapackageTables, eval = FALSE}
 introDataPackagetables <- data.world::listTables(introDataPackage)
 introDataPackagetables
 ```
 
-loading a datapackage table as a dataframe
+2. loading a datapackage table as a dataframe
 ```{r loadDatapackageTable, eval = FALSE}
 changeLogTable <- data.world::loadTable(introDataPackage, 'changelog')
 changeLogTable
 ```
 
-loading a table schema as a dataframe
+3. loading a table schema as a dataframe
 ```{r viewDatapackageTableSchema, eval = FALSE}
 changeLogTableSchema <- data.world::loadSchema(introDataPackage, 'changelog')
 changeLogTableSchema
 ```
+
+Release **0.1.5** (TBD) let you modify your DataPackage object and also support pulling and pushing (sync) data 
+from / to your data.world dataset.
+
+For the remaining of this doc assume you have a data.world dataset to which you have write access
+
+```{r datasetid, eval = FALSE}
+datasetOwner <- 'tle' # <-------  this is your data.world handler
+datasetTitle <- 'datapackgedemo' # <------- the title of the dataset you have write access to
+datasetKey <- sprintf("%s/%s", datasetOwner, datasetTitle)
+```
+
+If not , you can create a new dataset using the following snippet
+```{r createDataSet, eval = FALSE}
+request <- data.world::DatasetCreateRequest(
+    title = datasetTitle,
+    visibility = "PRIVATE",
+    description = "datapackage demo" ,
+    tags = c("rsdk","demo","datapackage") ,
+    licenseString = "Public Domain",
+    fileCreateRequests = list(data.world::FileCreateRequest("demo1.csv",
+                                                            "https://docs.google.com/spreadsheets/d/1UheyB6pxTCfLpRmIGITM0fKb8jHVEvPuajmuejxxRyE/pub?gid=1371600687&single=true&output=csv"))
+  )
+# enter your data.world handler here
+response <- data.world::createDataset(
+    connection = data.world(),
+    createDatasetRequest = request,
+    ownerId = datasetOwner
+  )
+```
+
+As above , to download the datapackage  for this dataset
+```{r downloadDemoDatasetPackage, eval = FALSE}
+demoDatapackage <- data.world::downloadDatapackage(connection = data.world() , dataset = datasetKey)
+```
+
+To add a table to the data package
+```{r addTable, eval = FALSE}
+demoDatapackage <- data.world::addTable(demoDatapackage, data.frame(a=c(1,2), b=c(3,4), c=c(7,8)), "sample")
+demoDatapackage <- data.world::addTable(demoDatapackage, data.frame(a=c(9,10), b=c(11,12)), "another_sample")
+```
+
+To delete a table 
+```{r deleteTable, eval = FALSE }
+demoDatapackage <- data.world::deleteTable(demoDatapackage, name = 'sample')
+```
+
+We add a sync method, which will calculate the difference between your local datapackage against its corresponding dataset on data.world platform and prompt for actions you can take to sync your local datapackage against the remote dataset e.g you can pull, push, or update a table
+```{r sync1, eval = FALSE}
+demoDatapackage <- data.world::sync(demoDatapackage)
+```
+This command will prompt whether you want to push tables `another_sample` to `https://data.world/tle/datapackgedemo`
+And whether to update ( pull or push ) tables that are in both the local datapackage and `https://data.world/tle/datapackgedemo` e.g table `demo1`
+
+Supposed you or another team member with a write access upload another table to this same dataset e.g. via the following command
+```{r uploadFileDirectly, eval = FALSE}
+data.world::uploadDataFrame(connection = conn,
+                                          fileName="demo2.csv",
+                                          dataFrame = data.frame(a = c(1,2,3),
+                                                                 b = c(4,5,6)),
+                                          dataset = datasetKey)
+```
+
+Re-running the sync command 
+```{r sync2, eval = FALSE}
+demoDatapackage <- data.world::sync(demoDatapackage)
+```
+will prompt you whether to pulling the `demo2` table from `https://data.world/tle/datapackgedemo` . If you select to pull the table, you can verify by 
+```{r loadDemo2, eval = FALSE}
+data.world::loadTable(demoDatapackage, 'demo2')
+```
+
+You can also update an existing table
+```{r updateTable, eval = FALSE}
+demoDatapackage <- data.world::addTable(demoDatapackage,
+                                        dataframe = data.frame(a = c(1,2,3),
+                                                               b = c(4,5,6),
+                                                               c = c(7,8,9)),
+                                        name = 'demo2',
+                                        forceOverride = TRUE
+                                        )
+```
+Re-running the sync command , you can choose to push the latest version of `demo2` to `https://data.world/tle/datapackgedemo`
+```{r sync3, eval = FALSE}
+demoDatapackage <- data.world::sync(demoDatapackage)
+```
+
+
+

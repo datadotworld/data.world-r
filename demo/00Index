@@ -6,4 +6,5 @@ simple_dwsql_query			Demonstration of how you query a data.world dataset using d
 parameterized_dwsql_query			Demonstration of data.world paramterized query method using dwsql
 simple_sparql_query			Demonstration of how you query a data.world dataset using sparql
 parameterized_sparql_query			Demonstration of data.world paramterized query method using sparql
+v1			demonstrate the data.world 1.0.0 SDK release
 util			Util script. NOT a demo script

@@ -14,28 +14,27 @@ permissions and limitations under the License.
 
 This product includes software developed at data.world, Inc.(http://www.data.world/).'
 
-#' Retrieve a dataset via data.world public api
-#' @param connection the connection to data.world
-#' @param dataset the "agentid/datasetid" for the dataset against which to execute the query
-#' @return the data.world dataset's metadata
-#' @seealso https://docs.data.world/documentation/api/
-#' @examples
-#' connection <- data.world(token = "YOUR_API_TOKEN_HERE")
-#' getDataset(connection, dataset="user/dataset")
 #' @export
-getDataset <- function(connection, dataset) {
+getDataset <- function(object, ...) {
   UseMethod("getDataset")
 }
 
 #' @export
-getDataset.default <- function(connection, dataset) {
+getDataset.default <- function(object, ...) {
   print("nope.")
 }
 
+#' Retrieve a dataset via data.world public api
+#' @param apiClient a data.world api client
+#' @param dataset the "agentid/datasetid" for the dataset against which to execute the query
+#' @return the data.world dataset's metadata
+#' @seealso https://docs.data.world/documentation/api/
+#' @examples
+#' getDataset(data.world()$apiClient, dataset="user/dataset")
 #' @export
-getDataset.data.world <- function(connection, dataset) {
-  url = sprintf("%sdatasets/%s", connection$baseDWApiUrl, dataset)
-  auth = sprintf("Bearer %s", connection$token)
+getDataset.ApiClient <- function(apiClient, dataset) {
+  url = sprintf("%sdatasets/%s", apiClient$baseDWApiUrl, dataset)
+  auth = sprintf("Bearer %s", apiClient$token)
   response <- httr::GET(
     url,
     httr::add_headers("Content-Type" = "application/json",

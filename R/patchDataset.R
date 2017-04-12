@@ -14,8 +14,18 @@ permissions and limitations under the License.
 
 This product includes software developed at data.world, Inc.(http://www.data.world/).'
 
+#' @export
+patchDataset <- function(object, ...) {
+  UseMethod("patchDataset")
+}
+
+#' @export
+patchDataset.default <- function(object, ...) {
+  print("nope.")
+}
+
 #' Update an existing dataset.
-#' @param connection the connection to data.world
+#' @param apiClient a data.world api client
 #'
 #' @param datasetPatchRequest a \code{\link{DatasetPatchRequest}}
 #' @param datasetid the "agentid/datasetid" for the dataset against
@@ -26,23 +36,13 @@ This product includes software developed at data.world, Inc.(http://www.data.wor
 #' request <- data.world::DatasetPatchRequest(visibility = "OPEN",
 #' description = "UPDATED DESCRIPTION !")
 #'
-#' data.world::patchDataset(connection = conn, datasetPatchRequest = request,
+#' data.world::patchDataset(data.world()$apiClient, datasetPatchRequest = request,
 #'  datasetid = "agentid/datasetid")
 #' @export
-patchDataset <- function(connection, datasetPatchRequest, datasetid) {
-  UseMethod("patchDataset")
-}
-
-#' @export
-patchDataset.default <- function(connection, datasetPatchRequest, datasetid) {
-  print("nope.")
-}
-
-#' @export
-patchDataset.data.world <- function(connection, datasetPatchRequest, datasetid) {
-  url = sprintf("%sdatasets/%s", connection$baseDWApiUrl, datasetid)
+patchDataset.ApiClient <- function(apiClient, datasetPatchRequest, datasetid) {
+  url = sprintf("%sdatasets/%s", apiClient$baseDWApiUrl, datasetid)
   message(url)
-  auth = sprintf("Bearer %s", connection$token)
+  auth = sprintf("Bearer %s", apiClient$token)
   response <- httr::PATCH( url,
                          body = rjson::toJSON(datasetPatchRequest),
                          httr::add_headers(

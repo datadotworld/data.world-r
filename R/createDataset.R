@@ -14,8 +14,18 @@ permissions and limitations under the License.
 
 This product includes software developed at data.world, Inc.(http://www.data.world/).'
 
+#' @export
+createDataset <- function(object, ...) {
+  UseMethod("createDataset")
+}
+
+#' @export
+createDataset.default <- function(object, ...) {
+  print("nope.")
+}
+
 #' create a dataset and add metadata
-#' @param connection the connection to data.world
+#' @param apiClient a data.world client
 #'
 #' @param createDatasetRequest the request payload
 #' @param ownerId Dataset owner username. Included in data.world dataset URL path, after domain.
@@ -23,28 +33,14 @@ This product includes software developed at data.world, Inc.(http://www.data.wor
 #' request <- data.world::DatasetCreateRequest(title="testdataset", visibility = "OPEN",
 #'      description = "Test Dataset by R-SDK" , tags = c("rsdk", "sdk", "arr") ,
 #'      licenseString = "Public Domain")
-#'
 #' request <- data.world::addFile(request = request, name = "file4.csv",
 #'      url = "https://data.world/file4.csv")
-#'
-#' conn <- data.world(token = "YOUR_API_TOKEN_HERE")
-#'
-#' data.world::createDataset(connection = conn, createDatasetRequest = request,
+#' data.world::createDataset(apiClient = data.world()$apiClient, createDatasetRequest = request,
 #'      ownerId = "ownerid")
 #' @export
-createDataset <- function(connection, createDatasetRequest, ownerId) {
-  UseMethod("createDataset")
-}
-
-#' @export
-createDataset.default <- function(connection, createDatasetRequest, ownerId) {
-  print("nope.")
-}
-
-#' @export
-createDataset.data.world <- function(connection, createDatasetRequest, ownerId) {
-  url = sprintf("%sdatasets/%s", connection$baseDWApiUrl, ownerId)
-  auth = sprintf("Bearer %s", connection$token)
+createDataset.ApiClient <- function(apiClient, createDatasetRequest, ownerId) {
+  url = sprintf("%sdatasets/%s", apiClient$baseDWApiUrl, ownerId)
+  auth = sprintf("Bearer %s", apiClient$token)
   acceptHeader = "application/json"
   contentType = "application/json"
   response <- httr::POST( url,

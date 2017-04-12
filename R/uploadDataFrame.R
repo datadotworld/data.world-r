@@ -13,28 +13,28 @@ implied. See the License for the specific language governing
 permissions and limitations under the License.
 
 This product includes software developed at data.world, Inc.(http://www.data.world/).'
-#' Upload a dataframe to a data.world dataset as csv
-#' @param connection the connection to data.world
-#' @param dataFrame the data frame need to be uploaded
-#' @param fileName the filename (with extension) to be view in the dataset
-#' @param dataset the data.world datasetid
-#' @examples
-#' conn <- data.world(token = "YOUR_API_TOKEN_HERE")
-#' df = data.frame(a = c(1,2,3),b = c(4,5,6))
-#' uploadDataFrame(connection = conn, fileName="sample.csv",
-#' dataFrame = df, dataset = "ownerid/datasetid")
+
 #' @export
-uploadDataFrame <- function(connection, dataFrame, fileName, dataset) {
+uploadDataFrame <- function(object, ...) {
   UseMethod("uploadDataFrame")
 }
 
 #' @export
-uploadDataFrame.default <- function(connection, dataFrame, fileName, dataset) {
+uploadDataFrame.default <- function(object, ...) {
   print("nope.")
 }
 
+#' Upload a dataframe to a data.world dataset as csv
+#' @param apiClient a data.world api client
+#' @param dataFrame the data frame need to be uploaded
+#' @param fileName the filename (with extension) to be view in the dataset
+#' @param dataset the data.world datasetid
+#' @examples
+#' df = data.frame(a = c(1,2,3),b = c(4,5,6))
+#' uploadDataFrame(data.world()$apiClient, fileName="sample.csv",
+#' dataFrame = df, dataset = "ownerid/datasetid")
 #' @export
-uploadDataFrame.data.world <- function(connection, dataFrame, fileName, dataset) {
+uploadDataFrame.ApiClient <- function(apiClient, dataFrame, fileName, dataset) {
   if (!is.data.frame(dataFrame)) {
     stop("input is not a data frame")
   }
@@ -48,6 +48,6 @@ uploadDataFrame.data.world <- function(connection, dataFrame, fileName, dataset)
   tmp_path = sprintf("%s/%s", tmp_dir, fileName)
   message(sprintf("tmp file %s created.", tmp_path))
   utils::write.csv(dataFrame, file = tmp_path, fileEncoding = "UTF-8", na = "", row.names = FALSE)
-  ret <- data.world::uploadFile(connection, tmp_path, fileName, dataset)
+  ret <- data.world::uploadFile(apiClient, tmp_path, fileName, dataset)
   ret
 }

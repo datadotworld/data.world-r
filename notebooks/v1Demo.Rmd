@@ -1,0 +1,62 @@
+
+
+```{r, echo = FALSE}
+library(data.world)
+```
+
+# data.world V1
+
+## Intro 
+a quick guide on how to use the r-sdk to interact with data.world platform. 
+## Installation 
+1. Install the latest from github
+```{r, echo=TRUE, eval=FALSE}
+devtools::install_github("datadotworld/data.world-r", ref = '1.0.0-sprint', build_vignettes = TRUE, force = TRUE)
+library(data.world)
+```
+2. Configuring your client
+Required initial setup step includes configurations such as data.world authentication
+```{r, echo=TRUE, eval=FALSE}
+data.world::configure()
+```
+Once this is setup, you can construct a data.world client e.g 
+```{r, echo=TRUE, eval=FALSE}
+datatdotworld <- data.world()
+```
+
+## SDK Usage
+The main SDK expose 2 functions
+
+```{r, echo=TRUE, eval=FALSE}
+methods(class='data.world')
+```
+1. Declare and load a dataset dependency via `data.world::loadDataset`
+```{r, echo=TRUE, eval=FALSE}
+dataset <- data.world::loadDataset(data.world(), 'https://data.world/jonloyens/an-intro-to-dataworld-dataset')
+```
+```{r, echo=TRUE, eval=FALSE}
+summary(dataset)
+```
+One can access tables available in a dataset via `LocalDataset$tables` properties
+```{r, echo=TRUE, eval=FALSE}
+names(dataset$tables)
+```
+```{r, echo=TRUE, eval=FALSE}
+dataset$tables$datadotworldbballstats
+```
+```{r, echo=TRUE, eval=FALSE}
+dataset$tables$datadotworldbballteam
+```
+
+2. Execute query e.g 
+```{r, echo=TRUE, eval=FALSE}
+queryResult <- data.world::query(data.world(), dataset = 'https://data.world/jonloyens/an-intro-to-dataworld-dataset', query = 'select * from DataDotWorldBBallTeam')
+queryResult
+```
+
+## Demo
+Re-running this tutorial as an R demo
+```{r, echo=TRUE, eval=FALSE}
+demo(package = 'data.world', topic = 'v1')
+```
+

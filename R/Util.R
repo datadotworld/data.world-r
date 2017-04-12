@@ -36,3 +36,13 @@ userAgent <- function() {
   ret <- sprintf("data.world-R - %s", data.world::sdkVersion())
   ret
 }
+
+
+#' @export
+parseDatasetUrl <- function(url) {
+  parsedUrl <- httr::parse_url(url)
+  stopifnot(parsedUrl$hostname == 'data.world' && parsedUrl$scheme == 'https')
+  datasetKey <- strsplit(parsedUrl$path , '/')[[1]]
+  stopifnot(length(datasetKey) == 2)
+  return(list('ownerid' = datasetKey[[1]] , 'datasetid' = datasetKey[[2]]))
+}

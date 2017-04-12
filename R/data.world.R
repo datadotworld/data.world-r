@@ -14,39 +14,44 @@ permissions and limitations under the License.
 
 This product includes software developed at data.world, Inc.(http://www.data.world/).'
 
-#' data.world client constructor
-#' @param propsfile a properties file containing configuration for your data.world client (defaults to ~/.data.world)
-#' @param token your data.world API token (optional, if not present, will be read from properties file)
-#' @param baseDWApiUrl data.world public api
-#' @param baseQueryApiUrl data.world query api
-#' @param baseDownloadApiUrl data.world download api
-#' @return a data.world client
-#' @seealso \code{\link{query}}
-#' @examples
-#' connection1 <- data.world(token = "YOUR_API_TOKEN_HERE")
 #' @export
-data.world <- function(token = NULL,
-                       propsfile = sprintf("%s/.data.world", path.expand('~')),
-                       baseDWApiUrl = "https://api.data.world/v0/",
-                       baseQueryApiUrl = "https://query.data.world/",
-                       baseDownloadApiUrl = "https://download.data.world") {
-  is.nothing <- function(x) is.null(x) || is.na(x) || is.nan(x)
-
-  props <- if (file.exists(propsfile))
-    utils::read.table(propsfile, header = FALSE, sep = "=", row.names = 1,
-               strip.white = TRUE,na.strings = "NA", stringsAsFactors = FALSE)
-  else
-    data.frame()
-  if (is.nothing(token) && is.nothing(props["token", 1]))
-    stop("you must either provide an API token to this constructor, or create a
-          .data.world file in your home directory with your API token")
-  t = if (!is.nothing(token)) token else (if(is.nothing(props["token", 1])) token else props["token", 1])
+data.world <- function(profileName = "default") {
+  data.world::assertConfig()
+  profile <- DW_PROFILES[[profileName]]
+  apiClient <- list(
+    token = profile$token,
+    baseDWApiUrl = profile$baseDWApiUrl,
+    baseDownloadApiUrl = profile$baseDownloadApiUrl,
+    baseQueryApiUrl = profile$baseQueryApiUrl
+  )
+  class(apiClient) <- 'ApiClient'
   me <- list(
-    token = t,
-    baseDWApiUrl = baseDWApiUrl,
-    baseQueryApiUrl = baseQueryApiUrl,
-    baseDownloadApiUrl = baseDownloadApiUrl
+    token = profile$token,
+    baseDWApiUrl = profile$baseDWApiUrl,
+    baseQueryApiUrl = profile$baseQueryApiUrl,
+    baseDownloadApiUrl = profile$baseDownloadApiUrl,
+    apiClient = apiClient
     )
   class(me) <- "data.world"
   return(me)
 }
+
+
+#' @export
+loadDataset <- function(x, datasetKey) {
+  UseMethod("loadDataset", x)
+}
+
+#' Declare and load a dataset dependency
+#'
+#' @param datadotworld a data.world sdk client
+#' @param datasetKey a data.world dataset url e.g https://data.world/jonloyens/an-intro-to-dataworld-dataset
+#' @examples
+#' \dontrun{
+#' data.world::loadDataset(data.world(), 'https://data.world/jonloyens/an-intro-to-dataworld-dataset')
+#' }
+#' @export
+loadDataset.data.world <- function(datadotworld, datasetKey) {
+  return(downloadDatapackage(datadotworld$apiClient, datasetKey))
+}
+

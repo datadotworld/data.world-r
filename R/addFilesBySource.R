@@ -14,32 +14,43 @@ permissions and limitations under the License.
 
 This product includes software developed at data.world, Inc.(http://www.data.world/).'
 
+
+#' @export
+addFileBySource <- function(object, ...) {
+  UseMethod("addFileBySource")
+}
+
+#' @export
+addFileBySource.default <- function(object, ...) {
+  print("nope.")
+}
+
 #' publish a single file on the web to be added to a data.world dataset
-#' @param connection the connection to data.world
+#' @param apiClient an apiClient
 #' @param dataset the "agentid/datasetid" for the dataset against which to execute the query
 #' @param name the filename including the file extension. If a file by that name already
 #'  exists in the dataset, the file will be updated/overwritten.
 #' @param url the public, full direct-download path to file
 #' @examples
-#' connection <- data.world(token = "YOUR_API_TOKEN_HERE")
-#' data.world::addFileBySource(connection, dataset = "ownerid/datasetid",
+#' data.world::addFileBySource(data.world()$apiClient, dataset = "ownerid/datasetid",
 #'     name = "file.csv", url = "https://data.world/some_file.csv")
 #' @export
-addFileBySource <- function(connection, dataset, name, url) {
-  UseMethod("addFileBySource")
-}
-
-#' @export
-addFileBySource.default <- function(connection, dataset, name, url) {
-  print("nope.")
-}
-
-#' @export
-addFileBySource.data.world <- function(connection, dataset, name, url) {
+addFileBySource.ApiClient <- function(apiClient, dataset, name, url) {
   request <- data.world::FileBatchUpdateRequest()
   request <- data.world::addFile(request = request, name = name, url = url)
-  ret <- data.world::addFilesBySource(connection = connection, dataset = dataset, fileBatchUpdateRequest = request)
+  ret <- data.world::addFilesBySource(apiClient = apiClient, dataset = dataset, fileBatchUpdateRequest = request)
   ret
+}
+
+
+#' @export
+addFilesBySource <- function(object, ...) {
+  UseMethod("addFilesBySource", object)
+}
+
+#' @export
+addFilesBySource.default <- function(object, ...) {
+  print("nope.")
 }
 
 #' publish file(s) on the web to be added to a data.world dataset via
@@ -55,20 +66,10 @@ addFileBySource.data.world <- function(connection, dataset, name, url) {
 #' data.world::addFilesBySource(connection, dataset = "ownerid/datasetid",
 #'      fileBatchUpdateRequest = request)
 #' @export
-addFilesBySource <- function(connection, dataset, fileBatchUpdateRequest) {
-  UseMethod("addFilesBySource")
-}
-
-#' @export
-addFilesBySource.default <- function(connection, dataset, fileBatchUpdateRequest) {
-  print("nope.")
-}
-
-#' @export
-addFilesBySource.data.world <- function(connection, dataset, fileBatchUpdateRequest) {
-  apiUrl = sprintf("%sdatasets/%s/files", connection$baseDWApiUrl, dataset)
+addFilesBySource.ApiClient <- function(apiClient, dataset, fileBatchUpdateRequest) {
+  apiUrl = sprintf("%sdatasets/%s/files", apiClient$baseDWApiUrl, dataset)
   contentTypeHeader <- "application/json"
-  authHeader = sprintf("Bearer %s", connection$token)
+  authHeader = sprintf("Bearer %s", apiClient$token)
   response <- httr::POST( apiUrl,
                           body = rjson::toJSON(fileBatchUpdateRequest),
                           httr::add_headers(

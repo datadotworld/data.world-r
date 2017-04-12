@@ -11,9 +11,13 @@ Imports:
     httr,
     xml2, 
     readr,
-    rjson
+    rjson,
+    jsonvalidate,
+    datapkg,
+    ini
 RoxygenNote: 6.0.1
 Suggests: testthat,
     knitr,
     rmarkdown
 VignetteBuilder: knitr
+Remotes: datadotworld/datapackage-r

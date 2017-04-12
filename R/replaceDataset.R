@@ -14,6 +14,17 @@ permissions and limitations under the License.
 
 This product includes software developed at data.world, Inc.(http://www.data.world/).'
 
+
+#' @export
+replaceDataset <- function(object, ...) {
+  UseMethod("replaceDataset")
+}
+
+#' @export
+replaceDataset.default <- function(object, ...) {
+  print("nope.")
+}
+
 #' Replace an existing dataset.
 #' @param connection the connection to data.world
 #'
@@ -21,26 +32,15 @@ This product includes software developed at data.world, Inc.(http://www.data.wor
 #' @param datasetid the "agentid/datasetid" for the dataset against which
 #' to execute the query
 #' @examples
-#' conn <- data.world(token = "YOUR_API_TOKEN_HERE")
 #' datasetPutRequest <- data.world::DatasetPutRequest(visibility = "OPEN",
 #'  description = "UPDATED DESCRIPTION !")
-#' data.world::replaceDataset(connection = conn, datasetPutRequest,
+#' data.world::replaceDataset(apiClient = data.world()$apiClient, datasetPutRequest,
 #'  "agentid/datasetid")
 #' @export
-replaceDataset <- function(connection, datasetPutRequest, datasetid) {
-  UseMethod("replaceDataset")
-}
-
-#' @export
-replaceDataset.default <- function(connection, datasetPutRequest, datasetid) {
-  print("nope.")
-}
-
-#' @export
-replaceDataset.data.world <- function(connection, datasetPutRequest, datasetid) {
-  url = sprintf("%sdatasets/%s", connection$baseDWApiUrl, datasetid)
+replaceDataset.ApiClient <- function(apiClient, datasetPutRequest, datasetid) {
+  url = sprintf("%sdatasets/%s", apiClient$baseDWApiUrl, datasetid)
   message(url)
-  auth = sprintf("Bearer %s", connection$token)
+  auth = sprintf("Bearer %s", apiClient$token)
   response <- httr::PUT( url,
                          body = rjson::toJSON(datasetPutRequest),
                          httr::add_headers(

@@ -46,7 +46,11 @@ summary.LocalDataset <- function(localDataset, ... ) {
 
 #' @export
 print.LocalDataset <- function(localDataset, ...) {
-  print(localDataset$rawStructure)
+  tables <- list()
+  for (tableName in names(dataset$tables)) (
+    tables[[tableName]] = names(dataset$tables[[tableName]])
+  )
+  return(list(dataset = localDataset$url, name = localDataset$dataset , tables = tables))
 }
 
 generateTimestamp <- function () {

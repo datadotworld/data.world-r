@@ -32,14 +32,14 @@ configure <- function(token = NULL,
   is.nothing <- function(x) is.null(x) || is.na(x) || is.nan(x)
   if (is.nothing(token)) {
     message(sprintf("configuring access for profile %s", profileName))
-    userid <- readline(prompt = "Enter the data.world user name associated with this token: ")
+    # userid <- readline(prompt = "Enter the data.world user name associated with this token: ")
     token <- readline(prompt = "Enter a data.world token (can be found at https://data.world/settings/advanced): ")
   }
   if (!exists("DW_PROFILES")) {
     DW_PROFILES <<- list()
   }
   DW_PROFILES[[profileName]] <<- list(token = token,
-                                      userid = userid,
+                                      # userid = userid,
                                       baseDWApiUrl = baseDWApiUrl,
                                       baseQueryApiUrl = baseQueryApiUrl,
                                       baseDownloadApiUrl = baseDownloadApiUrl)

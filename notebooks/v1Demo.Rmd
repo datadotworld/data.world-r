@@ -32,7 +32,7 @@ methods(class='data.world')
 ```
 1. Declare and load a dataset dependency via `data.world::loadDataset`
 ```{r, echo=TRUE, eval=FALSE}
-dataset <- data.world::loadDataset(data.world(), 'https://data.world/jonloyens/an-intro-to-dataworld-dataset')
+dataset <- data.world::loadDataset('https://data.world/jonloyens/an-intro-to-dataworld-dataset')
 ```
 ```{r, echo=TRUE, eval=FALSE}
 summary(dataset)
@@ -50,7 +50,7 @@ dataset$tables$datadotworldbballteam
 
 2. Execute query e.g 
 ```{r, echo=TRUE, eval=FALSE}
-queryResult <- data.world::query(data.world(), dataset = 'https://data.world/jonloyens/an-intro-to-dataworld-dataset', query = 'select * from DataDotWorldBBallTeam')
+queryResult <- data.world::query(dataset = 'https://data.world/jonloyens/an-intro-to-dataworld-dataset', query = 'select * from DataDotWorldBBallTeam')
 queryResult
 ```
 

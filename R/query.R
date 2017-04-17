@@ -15,55 +15,46 @@ permissions and limitations under the License.
 This product includes software developed at data.world, Inc.(http://www.data.world/).'
 
 
-#' @export
-query <- function(object, ...) {
-  UseMethod("query", object)
-}
-
-#' @export
-query.default <- function(object, ...) {
-  print("nope.")
-}
 
 
 #' execute a SQL or SPARQL query against a data.world client
 #'
-#' @param datadotworld a data.world sdk cient
 #' @param type       the type of the query - either "sql" or "sparql"
 #' @param datasetKey a data.world dataset url e.g https://data.world/jonloyens/an-intro-to-dataworld-dataset
 #' @param query      the SQL or SPARQL query to run .
 #' @param queryParameters Optional comma-separated ?name=value pairs
 #' @param ...  additional param
 #' @return the query results as a data frame
-#' @seealso \code{\link{data.world}}
 #' @examples
-#' query(data.world(), "https://data.world/user/dataset",
+#' \dontrun{
+#' query( "https://data.world/user/dataset",
 #'       query="SELECT *
 #'                FROM TableName
 #'               LIMIT 10")
 #'
-#' query(data.world(), "https://data.world/user/dataset",
+#' query("https://data.world/user/dataset",
 #'       query="SELECT *
 #'                FROM TableName where `field1` = ? AND `field2` > ?
 #'               LIMIT 10",
 #'       queryParameters = list("value", 5.0))
 #'
-#' query(data.world(), datasetKey = "https://data.world/user/dataset", type="sparql",
+#' query(datasetKey = "https://data.world/user/dataset", type="sparql",
 #'       query="SELECT *
 #'              WHERE {
 #'                ?s ?p ?o.
 #'              } LIMIT 10")
 #'
-#' query(data.world(), datasetKey = "https://data.world/user/dataset", type="sparql",
+#' query(datasetKey = "https://data.world/user/dataset", type="sparql",
 #'       query="SELECT *
 #'              WHERE {
 #'              [ :Year ?year ; :Region ?region ; :Indicator_Coverage_and_Disaggregation ?score ]
 #'              FILTER(?score > $v1)
 #'              } LIMIT 10",
 #'              queryParameters = list("$v1"=5.5))
-#'
+#' }
 #' @export
-query.data.world <- function(datadotworld, type = "sql", datasetKey, query, queryParameters = list(), ...) {
+query <- function(type = "sql", datasetKey, query, queryParameters = list(), ...) {
+  datadotworld <- data.world()
   parsedDatasetkey <- parseDatasetUrl(datasetKey)
   dataset <- sprintf('%s/%s', parsedDatasetkey$ownerid, parsedDatasetkey$datasetid)
   url = sprintf("https://query.data.world/%s/%s", type, dataset)

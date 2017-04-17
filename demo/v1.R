@@ -4,7 +4,7 @@ library(data.world)
 # Declare and load a dataset dependency via data.world::loadDataset
 dataset_url <- 'https://data.world/jonloyens/an-intro-to-dataworld-dataset'
 readline(sprintf("press any key to load dataset %s", dataset_url))
-dataset <- data.world::loadDataset(data.world(), 'https://data.world/jonloyens/an-intro-to-dataworld-dataset')
+dataset <- data.world::loadDataset('https://data.world/jonloyens/an-intro-to-dataworld-dataset')
 readline(sprintf("press any key to explore dataset %s", dataset_url))
 # this dataset is of class `LocalDataset`
 class(dataset)
@@ -20,4 +20,4 @@ View(dataset$tables$datadotworldbballteam)
 # Alternatively, one can also access data via data.world::query
 # e.g
 readline(sprintf("press any key to run query %s against %s",'select * from DataDotWorldBBallTeam', dataset_url))
-View(data.world::query(data.world(), dataset = 'https://data.world/jonloyens/an-intro-to-dataworld-dataset', query = 'select * from DataDotWorldBBallTeam'))
+View(data.world::query(dataset = 'https://data.world/jonloyens/an-intro-to-dataworld-dataset', query = 'select * from DataDotWorldBBallTeam'))

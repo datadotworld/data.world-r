@@ -36,22 +36,15 @@ data.world <- function(profileName = "default") {
   return(me)
 }
 
-
-#' @export
-loadDataset <- function(x, datasetKey) {
-  UseMethod("loadDataset", x)
-}
-
 #' Declare and load a dataset dependency
 #'
-#' @param datadotworld a data.world sdk client
 #' @param datasetKey a data.world dataset url e.g https://data.world/jonloyens/an-intro-to-dataworld-dataset
 #' @examples
 #' \dontrun{
-#' data.world::loadDataset(data.world(), 'https://data.world/jonloyens/an-intro-to-dataworld-dataset')
+#' data.world::loadDataset('https://data.world/jonloyens/an-intro-to-dataworld-dataset')
 #' }
 #' @export
-loadDataset.data.world <- function(datadotworld, datasetKey) {
-  return(downloadDatapackage(datadotworld$apiClient, datasetKey))
+loadDataset<- function(datasetKey) {
+  return(downloadDatapackage(data.world()$apiClient, datasetKey))
 }
 

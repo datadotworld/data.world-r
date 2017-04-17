@@ -19,10 +19,6 @@ Required initial setup step includes configurations such as data.world authentic
 ```{r, echo=TRUE, eval=FALSE}
 data.world::configure()
 ```
-Once this is setup, you can construct a data.world client e.g 
-```{r, echo=TRUE, eval=FALSE}
-datatdotworld <- data.world()
-```
 
 ## SDK Usage
 The main SDK expose 2 functions

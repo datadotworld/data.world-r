@@ -50,7 +50,7 @@ summary.LocalDataset <- function(localDataset, ... ) {
 print.LocalDataset <- function(localDataset, ...) {
   tables <- list()
   for (tableName in names(localDataset$tables)) (
-    tables[[tableName]] = names(dataset$tables[[tableName]])
+    tables[[tableName]] = names(localDataset$tables[[tableName]])
   )
   return(print(list(dataset = localDataset$url, name = localDataset$dataset , tables = tables)))
 }

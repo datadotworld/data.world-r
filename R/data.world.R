@@ -18,8 +18,11 @@ This product includes software developed at data.world, Inc.(http://www.data.wor
 #'
 #'
 #' @section data.world functions:
-#'
-#'
+#' The main SDK expose 2 functions :
+#' \enumerate{
+#'   \item Declare and load a dataset dependency via \code{\link{loadDataset}}
+#'   \item Execute query via \code{\link{query}}
+#' }
 #' @docType package
 #' @name data.world
 
@@ -50,8 +53,12 @@ data.world <- function(profileName = "default") {
 #' @param datasetKey a data.world dataset url e.g https://data.world/jonloyens/an-intro-to-dataworld-dataset
 #' @examples
 #' \dontrun{
-#' data.world::loadDataset('https://data.world/jonloyens/an-intro-to-dataworld-dataset')
+#' dataset <- data.world::loadDataset('https://data.world/jonloyens/an-intro-to-dataworld-dataset')
+#' summary(dataset)
+#' names(dataset$tables)
+#' dataset$tables$datadotworldbballstats
 #' }
+#' @return return a structure of class \code{\link{data.world::LocalDataset}}
 #' @export
 loadDataset<- function(datasetKey) {
   return(downloadDatapackage(data.world()$apiClient, datasetKey))

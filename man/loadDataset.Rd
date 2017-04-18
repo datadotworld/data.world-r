@@ -9,11 +9,17 @@ loadDataset(datasetKey)
 \arguments{
 \item{datasetKey}{a data.world dataset url e.g https://data.world/jonloyens/an-intro-to-dataworld-dataset}
 }
+\value{
+return a structure of class \code{\link{data.world::LocalDataset}}
+}
 \description{
 Declare and load a dataset dependency
 }
 \examples{
 \dontrun{
-data.world::loadDataset('https://data.world/jonloyens/an-intro-to-dataworld-dataset')
+dataset <- data.world::loadDataset('https://data.world/jonloyens/an-intro-to-dataworld-dataset')
+summary(dataset)
+names(dataset$tables)
+dataset$tables$datadotworldbballstats
 }
 }

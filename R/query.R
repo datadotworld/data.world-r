@@ -57,7 +57,7 @@ query <- function(type = "sql", datasetKey, query, queryParameters = list(), ...
   datadotworld <- data.world()
   parsedDatasetkey <- parseDatasetUrl(datasetKey)
   dataset <- sprintf('%s/%s', parsedDatasetkey$ownerid, parsedDatasetkey$datasetid)
-  url = sprintf("https://query.data.world/%s/%s", type, dataset)
+  url = sprintf("%s%s/%s",datadotworld$baseQueryApiUrl, type, dataset)
   requestQuery = list(query = query)
   if (length(queryParameters) > 0) {
     if (type == "sparql") {

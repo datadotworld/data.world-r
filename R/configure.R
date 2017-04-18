@@ -19,9 +19,9 @@ configure <- function(token = NULL,
                       userid = NULL,
                       profileName = "default",
                       propsfile = sprintf("%s/.data.world", path.expand('~')),
-                      baseDWApiUrl = "https://api.data.world/v0/",
-                      baseQueryApiUrl = "https://query.data.world/",
-                      baseDownloadApiUrl = "https://download.data.world",
+                      baseDWApiUrl = "http://localhost:9104/",
+                      baseQueryApiUrl = "http://localhost:9094/",
+                      baseDownloadApiUrl = "http://localhost:9094",
                       baseDWConfigPath = "~/.dw",
                       ...
 ) {

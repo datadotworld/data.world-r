@@ -23,9 +23,6 @@ data.world::configure()
 ## SDK Usage
 The main SDK expose 2 functions
 
-```{r, echo=TRUE, eval=FALSE}
-methods(class='data.world')
-```
 1. Declare and load a dataset dependency via `data.world::loadDataset`
 ```{r, echo=TRUE, eval=FALSE}
 dataset <- data.world::loadDataset('https://data.world/jonloyens/an-intro-to-dataworld-dataset')
@@ -42,6 +39,10 @@ dataset$tables$datadotworldbballstats
 ```
 ```{r, echo=TRUE, eval=FALSE}
 dataset$tables$datadotworldbballteam
+```
+One can also access the table schema in a dataset via 
+```{r, echo=TRUE, eval=FALSE}
+describe(dataset, 'datadotworldbballstats')
 ```
 
 2. Execute query e.g 

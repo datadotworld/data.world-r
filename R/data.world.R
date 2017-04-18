@@ -14,6 +14,15 @@ permissions and limitations under the License.
 
 This product includes software developed at data.world, Inc.(http://www.data.world/).'
 
+#' data.world: A package for interacting with data.world platform.
+#'
+#'
+#' @section data.world functions:
+#'
+#'
+#' @docType package
+#' @name data.world
+
 #' @export
 data.world <- function(profileName = "default") {
   data.world::assertConfig()

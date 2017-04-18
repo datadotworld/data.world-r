@@ -123,9 +123,8 @@ $(document).ready(function () {
 <h1>data.world V1</h1>
 <div id="intro" class="section level2">
 <h2>Intro</h2>
-<p>a quick guide on how to use the r-sdk to interact with data.world platform. ## Terminology ## Installation 1. Install the latest from github</p>
-<pre class="r"><code>install.packages('remotes')
-remotes::install_github(&quot;datadotworld/data.world-r@1.0.0-sprint&quot;)
+<p>a quick guide on how to use the r-sdk to interact with data.world platform. ## Installation 1. Install the latest from github</p>
+<pre class="r"><code>devtools::install_github(&quot;datadotworld/data.world-r&quot;, ref = '1.0.0-sprint', build_vignettes = TRUE, force = TRUE)
 library(data.world)</code></pre>
 <ol start="2" style="list-style-type: decimal">
 <li>Configuring your client Required initial setup step includes configurations such as data.world authentication</li>
@@ -134,12 +133,28 @@ library(data.world)</code></pre>
 </div>
 <div id="sdk-usage" class="section level2">
 <h2>SDK Usage</h2>
-<p>The main SDK expose 2 functions 1. Declare and load a dataset dependency e.g.</p>
-<pre class="r"><code>dataset &lt;- data.world::loadDataset(data.world(), 'https://data.world/jonloyens/an-intro-to-dataworld-dataset')</code></pre>
+<p>The main SDK expose 2 functions</p>
+<pre class="r"><code>methods(class='data.world')</code></pre>
+<pre><code>## no methods found</code></pre>
+<ol style="list-style-type: decimal">
+<li>Declare and load a dataset dependency via <code>data.world::loadDataset</code></li>
+</ol>
+<pre class="r"><code>dataset &lt;- data.world::loadDataset('https://data.world/jonloyens/an-intro-to-dataworld-dataset')</code></pre>
+<pre class="r"><code>summary(dataset)</code></pre>
+<p>One can access tables available in a dataset via <code>LocalDataset$tables</code> properties</p>
+<pre class="r"><code>names(dataset$tables)</code></pre>
+<pre class="r"><code>dataset$tables$datadotworldbballstats</code></pre>
+<pre class="r"><code>dataset$tables$datadotworldbballteam</code></pre>
 <ol start="2" style="list-style-type: decimal">
 <li>Execute query e.g</li>
 </ol>
-<pre class="r"><code>queryResult &lt;- data.world::query(data.world(), dataset = 'https://data.world/jonloyens/an-intro-to-dataworld-dataset', query = 'select * from DataDotWorldBBallTeam')</code></pre>
+<pre class="r"><code>queryResult &lt;- data.world::query(dataset = 'https://data.world/jonloyens/an-intro-to-dataworld-dataset', query = 'select * from DataDotWorldBBallTeam')
+queryResult</code></pre>
+</div>
+<div id="demo" class="section level2">
+<h2>Demo</h2>
+<p>Re-running this tutorial as an R demo</p>
+<pre class="r"><code>demo(package = 'data.world', topic = 'v1')</code></pre>
 </div>
 </div>
 

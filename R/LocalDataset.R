@@ -23,13 +23,16 @@ This product includes software developed at data.world, Inc.(http://www.data.wor
 #' @export
 LocalDataset <- function(dataset, datapackagePath) {
   structure <- datapkg::datapkg_read(datapackagePath)
+  # load dataset
+
   me <- list (
     rawStructure = structure,
     dataset = dataset,
     name = structure$name,
     url = structure$homepage,
     localCachepath = datapackagePath,
-    tables = structure$data
+    tables = structure$data,
+    schema = loadSchema(structure)
   )
   class(me) <- "LocalDataset"
   me
@@ -50,7 +53,30 @@ print.LocalDataset <- function(localDataset, ...) {
   for (tableName in names(dataset$tables)) (
     tables[[tableName]] = names(dataset$tables[[tableName]])
   )
-  return(list(dataset = localDataset$url, name = localDataset$dataset , tables = tables))
+  return(print(list(dataset = localDataset$url, name = localDataset$dataset , tables = tables)))
+}
+
+loadSchema <- function(rawStructure) {
+  schema <- list()
+  resources <- rawStructure$resources
+  for (tableName in  resources[['name']]) {
+    schema[[tableName]] <- resources[resources$name==tableName,]$schema$fields[[1]]
+  }
+  return(schema)
+}
+
+#' @export
+describe <- function(object, ...) {
+  UseMethod("describe")
+}
+
+#' @export
+describe.LocalDataset <- function(localDataset, tableName = NULL) {
+  if (is.null(tableName)) {
+    return(localDataset$schema)
+  } else {
+    return(localDataset$schema[[tableName]])
+  }
 }
 
 generateTimestamp <- function () {

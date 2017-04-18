@@ -10,7 +10,7 @@ loadDataset(datasetKey)
 \item{datasetKey}{a data.world dataset url e.g https://data.world/jonloyens/an-intro-to-dataworld-dataset}
 }
 \value{
-return a structure of class \code{\link{data.world::LocalDataset}}
+return a structure of class \code{\link{LocalDataset}}
 }
 \description{
 Declare and load a dataset dependency

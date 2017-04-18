@@ -58,7 +58,7 @@ data.world <- function(profileName = "default") {
 #' names(dataset$tables)
 #' dataset$tables$datadotworldbballstats
 #' }
-#' @return return a structure of class \code{\link{data.world::LocalDataset}}
+#' @return return a structure of class \code{\link{LocalDataset}}
 #' @export
 loadDataset<- function(datasetKey) {
   return(downloadDatapackage(data.world()$apiClient, datasetKey))

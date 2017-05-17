@@ -1,0 +1,48 @@
+"data.world-r
+Copyright 2017 data.world, Inc.
+
+Licensed under the Apache License, Version 2.0 (the \"License\");
+you may not use this file except in compliance with the License.
+
+You may obtain a copy of the License at
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an \"AS IS\" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+implied. See the License for the specific language governing
+permissions and limitations under the License.
+
+This product includes software developed at data.world, Inc.
+https://data.world"
+
+#' Return the current data.world version.
+#' @return Current package version.
+#' @keywords internal
+sdk_version <- function() {
+  is.nothing <- function(x)
+    is.null(x)
+  if (!is.nothing(utils::sessionInfo()$otherPkgs$data.world)) {
+    ret <- utils::sessionInfo()$otherPkgs$dwapi$Version
+  } else {
+    ret <- "X.X.X"
+  }
+  ret
+}
+
+#' Return the data.world user-agent.
+#' @return User-agent string.
+#' @keywords internal
+user_agent <- function() {
+  ret <- sprintf("data.world-R - %s", sdk_version())
+  ret
+}
+
+#' Extract the dataset key from URL or as provided.
+#' @param tentative_key key or URL.
+#' @return dataset key extracted form URL or as provided.
+#' @keywords internal
+extract_dataset_key <- function(tentative_key) {
+  url <- httr::parse_url(tentative_key)
+  return(url$path)
+}

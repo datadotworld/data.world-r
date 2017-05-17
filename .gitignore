@@ -2,5 +2,6 @@
 .Rhistory
 .RData
 .Ruserdata
+.Renviron
 tmp
 inst/doc

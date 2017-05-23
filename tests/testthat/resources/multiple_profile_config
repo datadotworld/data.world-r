@@ -1,0 +1,5 @@
+[DEFAULT]
+auth_token = DEFAULT_SAVED_TOKEN
+
+[CUSTOM_PROFILE]
+auth_token = CUSTOM_SAVED_TOKEN

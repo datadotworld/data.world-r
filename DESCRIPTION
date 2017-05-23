@@ -1,19 +1,24 @@
 Package: data.world
-Type: Package
-Title: R Client Library for data.world
-Version: 0.1.2
-Author: Bryon Jacob (bryon@data.world)
-Maintainer: data.world help desk <help@data.world>
-Description: This contains support for easier integration with the data.world platform.
-License: file LICENSE
+Title: Main R Package for Working with data.world Datasets
+Version: 1.0.0
+Authors@R: c(
+    person("Rafael", "Pereira", email = "rafael.pereira@data.world", role = c("aut", "cre")),
+    person("Triet", "Le", email = "triet.le@data.world", role = c("aut")),
+    person("Bryon", "Jacob", email = "bryon.jacob@data.world", role = c("aut")))
+Description: High-level tools for working with data.world datasets. Use this package
+    to access, query and explore datasets, and to integrate data into R projects.
+License: Apache License 2.0
 LazyData: TRUE
 Imports:
+    dwapi,
     httr,
-    xml2, 
+    ini,
     readr,
-    rjson
-RoxygenNote: 6.0.1
+    rjson,
+    xml2
 Suggests: testthat,
     knitr,
     rmarkdown
+RoxygenNote: 6.0.1
 VignetteBuilder: knitr
+Remotes: datadotworld/dwapi-r

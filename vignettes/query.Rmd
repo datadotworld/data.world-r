@@ -1,119 +1,149 @@
-<!--
-%\VignetteEngine{knitr::knitr}
-%\VignetteIndexEntry{data.world quickstart guide}
--->
-
+---
+title: "data.world query"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{data.world query}
+  %\VignetteEncoding{UTF-8}
+---
 ```{r, echo = FALSE}
-library(data.world)
+NOT_CRAN <- identical(tolower(Sys.getenv("NOT_CRAN")), "true")
+CONFIGURED <- !is.null(getOption("dw.auth_token"))
+knitr::opts_chunk$set(
+  collapse = FALSE,
+  comment = "##",
+  purl = NOT_CRAN & CONFIGURED,
+  eval = NOT_CRAN & CONFIGURED
+)
 ```
 
-# data.world query guide
-The goal of this document is to give a quick tutorial on how to query data.world datasets via the sdk
+# Querying
 
-## Setting up the connection
-Once installed, you can instantiate a connection by providing your
-data.world API token to the constructor.  You can find your API
-token at https://data.world/settings/advanced
+Datasets on data.world can be queried using SQL and SPARQL. A specific 
+dataset is the starting point for a query, but its not the end. The data 
+in that dataset can be joined with data from any other dataset on the platform.
 
-you can insert your token into a `.data.world` file in your home
-directory, and the constructor will read it from there:
-```{bash from your terminal, eval = FALSE}
-echo 'token=YOUR_API_TOKEN' > ~/.data.world
-```
-then
-```{r connect client to d.w, eval = FALSE}
-conn <- data.world()
-```
+If you are unfamiliar with or interested in learning more about SQL and SPARQL,
+check out our tutorials:
+
+* dwSQL: https://docs.data.world/tutorials/dwsql/
+* SPARQL: https://docs.data.world/tutorials/sparql/
 
 
-## Querying
-This function can be used to send a [`dwSQL`](https://docs.data.world/tutorials/dwsql/) 
-or a `SPARQL` query to a particular dataset's query endpoint.
-`query` returns a data frame
-e.g
-To execute a `DWSQL` query
-```{r dwsqlQueryTables, eval = FALSE}
-df <- data.world::query(conn, dataset="bryon/odin-2015-2016", query="SELECT * FROM Tables")
-df
-```
-To execute a `SPARQL` query, you need to specify the `type` as
-`sparql`:
-```{r sparqlQuery, eval = FALSE}
-df <- data.world::query(conn, dataset="bryon/odin-2015-2016", type="sparql", query='
-PREFIX : <http://data.world/bryon/odin-2015-2016/ODIN-2015-2016-raw.csv/ODIN-2015-2016-raw#>
-PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-SELECT *
-WHERE {
-  [ :Year ?year ; :Region ?region ; :Overall_subscore ?score ]
-  FILTER(?year = "2015")
-} 
-LIMIT 10')
-df
+# SQL queries
+
+## Inspecting the schema
+
+When using SQL, it's a good idea to start by understanding the schema inferred
+by data.world from the data that has been uploaded. That is 
+done by querying the `Tables` table.
+
+```{r tables}
+intro_ds <- "https://data.world/jonloyens/an-intro-to-dataworld-dataset"
+tables_df <- data.world::query(
+  data.world::qry_sql("SELECT * FROM Tables"),
+  dataset = intro_ds
+)
+tables_df
 ```
 
-### Parameterized Query
-You can also pass in an optional `queryParameters` to  `data.world::query` function. At the moment , we only support 
-`logical` , `numeric` , `integer` , `character` (The function will fail if any other `class` types are passed in )
+It is also possible to obtain information about columns. For that,
+use the `TableColumns` table instead.
 
-1. To execute a parameterized query with dwsql , pass in a generic `list` of value (with supported types as mentioned above)
-e.g
-```{r parameterized query with dwsql example 1, eval = FALSE }
-  conn <- data.world()
-  query_result <- data.world::query(conn,
-                        dataset="bryon/odin-2015-2016",
-                        query="SELECT * FROM `ODIN-2015-2016-standardized` WHERE `Year` = ? AND `Country Code` = ?",
-                        queryParameters = list("2015", "BDI"))
-
-  query_result
-```
-or 
-```{r parameterized query with dwsql example 2 with numeric, eval = FALSE }
-  conn <- data.world()
-  query_result <- query(conn,
-                        dataset="bryon/odin-2015-2016",
-                        query="SELECT * FROM `ODIN-2015-2016-standardized` WHERE `Indicator Coverage and Disaggregation` < ? ",
-                        queryParameters = list(5.5))
-  query_result
+Try:
+```{r columns, eval = FALSE}
+columns_df <- data.world::query(
+  data.world::qry_sql("SELECT * FROM TableColumns"),
+  dataset = intro_ds
+)
+columns_df
 ```
 
-2. To execute a parameterized query with sparql, pass in a named list 
-e.g 
-```{r parameterized query with sparql example 1, eval = FALSE}
-  conn <- data.world()
-  result <- query(conn, dataset="bryon/odin-2015-2016", type = "sparql",
-                  query=
-                  "PREFIX : <http://data.world/bryon/odin-2015-2016/ODIN-2015-2016-raw.csv/ODIN-2015-2016-raw#>
-                  PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-                  SELECT *
-                  WHERE {
-                  [ :Year ?year ; :Region ?region ; :Overall_subscore ?score ]
-                  FILTER(?region = $v1)
-                  }
-                  LIMIT 10
-                  ",
-                  queryParameters = list("$v1"="Western Africa"))
-  result
-```
-or 
-```{r parameterized query with sparql example 2, eval = FALSE}
-  conn <- data.world()
-  result <- query(conn, dataset="bryon/odin-2015-2016", type = "sparql",
-                  query=
-                    "PREFIX : <http://data.world/bryon/odin-2015-2016/ODIN-2015-2016-raw.csv/ODIN-2015-2016-raw#>
-                    PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-                  SELECT *
-                  WHERE {
-                  [ :Year ?year ; :Region ?region ; :Indicator_Coverage_and_Disaggregation ?score ]
-                  FILTER(?score > $v1)
-                  }
-                  LIMIT 10",
-                  queryParameters = list("$v1"=5.5))
-  result
+## SELECT queries
+
+Just like the queries above, any SQL query can be created using `qry_sql`.  
+For example:
+```{r SQL select}
+assists_vs_height <- data.world::qry_sql(paste0(
+  "SELECT t.Name, t.Height, s.AssistsPerGame ",
+  "FROM DataDotWorldBBallTeam as t ",
+  "JOIN DataDotWorldBBallStats as s ON t.Name = s.Name ",
+  "ORDER BY s.AssistsPerGame DESC"))
+
+data.world::query(assists_vs_height, dataset = intro_ds)
 ```
 
-## Tips 
-1.  To select one specific table, use the Name of the specific table 
-*(note the backticks required for table names including special characters)*:
-```{r dwsqlQuerySelectTable, eval = FALSE}
-df <- data.world::query(conn, dataset="bryon/odin-2015-2016", query="SELECT * FROM `ODIN-2015-2016-standardized`")
+## Parameterized queries
+SQL queries can be parameterized for maximum flexibility. Parameters are always
+positional and can be provided via the `qry_sql` object.  
+For example:
+```{r SQL parameterized}
+assists_greater_than <- data.world::qry_sql(paste0(
+  "SELECT t.Name, t.Height, s.AssistsPerGame ",
+  "FROM DataDotWorldBBallTeam as t ",
+  "JOIN DataDotWorldBBallStats as s ON t.Name = s.Name ",
+  "WHERE s.AssistsPerGame > ? ",
+  "ORDER BY s.AssistsPerGame DESC"))
+
+assists_greater_than$params <- c(10)
+data.world::query(assists_greater_than, intro_ds)
 ```
+
+# SPARQL
+
+Running SPARQL queries is very similar to running SQL queries, except that
+the `qry_sparql` constructor is used instead.
+
+Additionally, instead of a tabular schema, with SPARQL one queries a data graph.
+
+## SELECT queries
+
+The previous SELECT query from the SQL example, translated to SPARQL, 
+looks like this:
+```{r SPARQL select}
+assists_vs_height <- data.world::qry_sparql(paste(
+  "BASE <http://data.world/jonloyens/an-intro-to-dataworld-dataset/> ",
+  "PREFIX t: <DataDotWorldBBallTeam.csv/DataDotWorldBBallTeam#> ",
+  "PREFIX s: <DataDotWorldBBallStats.csv/DataDotWorldBBallStats#> ",
+  "SELECT ?name ?height ?assists WHERE { ",
+  "  ?pt t:Name ?name . ",
+  "  ?ps s:Name ?name . ", # the join column 
+  "  ?pt t:Height ?height . ",
+  "  ?ps s:AssistsPerGame ?assists . ",
+  "} ",
+  "ORDER BY DESC (?assists)", sep = "\n"
+))
+
+data.world::query(assists_vs_height, intro_ds)
+```
+
+## Parameterized SPARQL queries
+
+Similarly, the previous parameterized query from the SQL example can
+be translated to SPARQL as follows:
+```{r SPARQL parameterized}
+assists_greater_than <- data.world::qry_sparql(paste(
+  "BASE <http://data.world/jonloyens/an-intro-to-dataworld-dataset/> ",
+  "PREFIX t: <DataDotWorldBBallTeam.csv/DataDotWorldBBallTeam#> ",
+  "PREFIX s: <DataDotWorldBBallStats.csv/DataDotWorldBBallStats#> ",
+  "SELECT ?name ?height ?assists WHERE { ",
+  "  ?pt t:Name ?name . ",
+  "  ?ps s:Name ?name . ", # the join column 
+  "  ?pt t:Height ?height . ",
+  "  ?ps s:AssistsPerGame ?assists . ",
+  "  FILTER(?assists > $v1) ",
+  "} ",
+  "ORDER BY DESC (?assists)", sep = "\n"
+))
+assists_greater_than$params <- c("$v1" = 10)
+data.world::query(assists_greater_than, intro_ds)
+```
+
+Notice that in the SPARQL case, parameters are always named.
+
+## Next
+
+Queries are a powerful feature and are a great tool for pulling and wrangling data.  
+For additional examples, check out our tutorials and published queries
+[here](https://data.world/jonloyens/an-intro-to-dataworld-dataset/query) and
+[here](https://data.world/jonloyens/intermediate-data-world/query).

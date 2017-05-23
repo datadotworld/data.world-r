@@ -1,0 +1,3 @@
+[DEFAULT]
+auth_token = SINGLE_SAVED_TOKEN
+

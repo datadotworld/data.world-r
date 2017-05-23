@@ -2,57 +2,41 @@
 % Please edit documentation in R/query.R
 \name{query}
 \alias{query}
-\title{execute a SQL or SPARQL query against a data.world client}
+\alias{query.qry_sql}
+\alias{query.qry_sparql}
+\title{Execute a query on data.world.}
 \usage{
-query(connection, type, dataset, query, queryParameters = list(), ...)
+query(qry, ...)
+
+\method{query}{qry_sql}(qry, ...)
+
+\method{query}{qry_sparql}(qry, ...)
 }
 \arguments{
-\item{connection}{the connection to data.world}
+\item{qry}{Query object of type qry_sql or qry_sparql.}
 
-\item{type}{the type of the query - either "sql" or "sparql"}
-
-\item{dataset}{the "agentid/datasetid" for the dataset against which to execute the query}
-
-\item{query}{the SQL or SPARQL query to run .}
-
-\item{queryParameters}{Optional comma-separated ?name=value pairs}
-
-\item{...}{additional param}
+\item{...}{S3 method specific params.}
 }
 \value{
-the query results as a data frame
+Query results as a data frame.
 }
 \description{
-execute a SQL or SPARQL query against a data.world client
+Execute a query on data.world.
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{qry_sql}: Execute a SQL query on data.world.
+
+\item \code{qry_sparql}: Execute a SPARQL query on data.world.
+}}
+
 \examples{
-connection <- data.world(token = "YOUR_API_TOKEN_HERE")
-query(connection, dataset="user/dataset",
-      query="SELECT *
-               FROM TableName
-              LIMIT 10")
-
-query(connection, dataset="user/dataset",
-      query="SELECT *
-               FROM TableName where `field1` = ? AND `field2` > ?
-              LIMIT 10",
-      queryParameters = list("value", 5.0))
-
-query(connection, dataset="user/dataset", type="sparql",
-      query="SELECT *
-             WHERE {
-               ?s ?p ?o.
-             } LIMIT 10")
-
-query(connection, dataset="user/dataset", type="sparql",
-      query="SELECT *
-             WHERE {
-             [ :Year ?year ; :Region ?region ; :Indicator_Coverage_and_Disaggregation ?score ]
-             FILTER(?score > $v1)
-             } LIMIT 10",
-             queryParameters = list("$v1"=5.5))
-
+\dontrun{
+  sql_stmt <- data.world::sql("SELECT * FROM Tables")
+  query_results_df <- data.world::query(
+    sql_stmt, "jonloyens/an-intro-to-dataworld-dataset")
+}
 }
 \seealso{
-\code{\link{data.world}}
+\code{\link{sql}} \code{\link{sparql}}
 }

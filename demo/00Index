@@ -1,9 +1,0 @@
-connect			R script demonstrating how to setup a data.world client.
-dataset_management			R script demonstrating various crud dataset operations
-pulling_data			R script demonstrating operations involving upload / pushing to a dataset
-pushing_data			R script demonstrating operations involving downloading / pulling data from a dataset
-simple_dwsql_query			Demonstration of how you query a data.world dataset using dwsql
-parameterized_dwsql_query			Demonstration of data.world paramterized query method using dwsql
-simple_sparql_query			Demonstration of how you query a data.world dataset using sparql
-parameterized_sparql_query			Demonstration of data.world paramterized query method using sparql
-util			Util script. NOT a demo script

@@ -85,7 +85,7 @@ testthat::test_that("Config won't change using configuration profile that does n
 
 testthat::test_that("Config file can be created", {
   with_tmpdir({
-    tmp_cfg <- file.path(tempdir(), "config")
+    tmp_cfg <- file.path(tempdir(), "new-subdir", "config")
     with_options(dw.config_path = tmp_cfg, {
       data.world::save_config(auth_token = "TEST")
       testthat::expect(file.exists(tmp_cfg),

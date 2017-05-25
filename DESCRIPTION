@@ -1,6 +1,6 @@
 Package: data.world
 Title: Main R Package for Working with data.world Datasets
-Version: 1.0.0
+Version: 1.0.1
 Authors@R: c(
     person("Rafael", "Pereira", email = "rafael.pereira@data.world", role = c("aut", "cre")),
     person("Triet", "Le", email = "triet.le@data.world", role = c("aut")),

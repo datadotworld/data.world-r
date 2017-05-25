@@ -142,6 +142,9 @@ save_config <-
       }
       config[[profile]]$auth_token <- auth_token
     } else {
+      if (!dir.exists(dirname(config_path))) {
+        dir.create(dirname(config_path), recursive = TRUE)
+      }
       config <- list()
       config[[profile]] <- list(auth_token = auth_token)
     }

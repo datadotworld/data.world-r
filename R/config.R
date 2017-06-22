@@ -126,8 +126,10 @@ cfg_saved <- function(profile = "DEFAULT") {
 #' @param profile Configuration profile.
 #' @return Object of type \code{\link{cfg_saved}}
 #' @examples
-#' saved_cfg <- data.world::save_config(auth_token = "YOUR_TOKEN")
-#' data.world::set_config(saved_cfg)
+#' \dontrun{
+#'   saved_cfg <- data.world::save_config(auth_token = "YOUR_TOKEN")
+#'   data.world::set_config(saved_cfg)
+#' }
 #' @export
 save_config <-
   function(auth_token,

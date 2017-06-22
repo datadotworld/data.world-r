@@ -1,5 +1,7 @@
 # data.world-r
 
+[![CircleCI](https://circleci.com/gh/datadotworld/data.world-r.svg?style=svg)](https://circleci.com/gh/datadotworld/data.world-r)
+
 The `data.world` package is the main R package for working with datasets 
 on [data.world](https://data.world).  
 Using this packages users can:
@@ -64,3 +66,12 @@ data.world::set_config(saved_cfg)
 ```
 
 For additional configuration options, see `?set_config`
+
+# Next
+
+Check out the `quickstart` and `query` vignette and the package documentation (`?data.world`).
+```
+> vignette("quickstart", package = "data.world")
+> ?data.world
+```
+

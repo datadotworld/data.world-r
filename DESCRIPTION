@@ -1,24 +1,28 @@
 Package: data.world
-Title: Main R Package for Working with data.world Datasets
-Version: 1.0.1
+Title: Main R Package for Working with Data.world Datasets
+Version: 1.1.0
 Authors@R: c(
     person("Rafael", "Pereira", email = "rafael.pereira@data.world", role = c("aut", "cre")),
     person("Triet", "Le", email = "triet.le@data.world", role = c("aut")),
     person("Bryon", "Jacob", email = "bryon.jacob@data.world", role = c("aut")))
 Description: High-level tools for working with data.world datasets. Use this package
     to access, query and explore datasets, and to integrate data into R projects.
+Depends: R (>= 3.3.0)
 License: Apache License 2.0
 LazyData: TRUE
 Imports:
     dwapi,
     httr,
-    ini,
-    readr,
-    rjson,
-    xml2
-Suggests: testthat,
+    ini
+Suggests: 
+    testthat,
     knitr,
-    rmarkdown
+    rmarkdown,
+    readr
+License: Apache License 2.0
+Encoding: UTF-8
+LazyData: true
+URL: https://github.com/datadotworld/data.world-r
+BugReports: https://github.com/datadotworld/data.world-r/issues
 RoxygenNote: 6.0.1
 VignetteBuilder: knitr
-Remotes: datadotworld/dwapi-r

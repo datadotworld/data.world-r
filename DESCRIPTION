@@ -1,12 +1,16 @@
 Package: data.world
-Title: Main R Package for Working with Data.world Datasets
-Version: 1.1.0
+Title: Main Package for Working with 'data.world' Datasets
+Version: 1.1.1
 Authors@R: c(
     person("Rafael", "Pereira", email = "rafael.pereira@data.world", role = c("aut", "cre")),
     person("Triet", "Le", email = "triet.le@data.world", role = c("aut")),
     person("Bryon", "Jacob", email = "bryon.jacob@data.world", role = c("aut")))
-Description: High-level tools for working with data.world datasets. Use this package
-    to access, query and explore datasets, and to integrate data into R projects.
+Description: High-level tools for working with data.world datasets. data.world is a community 
+    where you can find interesting data, store and showcase your own data and data projects, 
+    and find and collaborate with other members. In addition to exploring, querying and 
+    charting data on the data.world site, you can access data via API endpoints and 
+    integrations. Use this package to access, query and explore datasets, and to 
+    integrate data into R projects. Visit <https://data.world>, for additional information.
 Depends: R (>= 3.3.0)
 License: Apache License 2.0
 LazyData: TRUE

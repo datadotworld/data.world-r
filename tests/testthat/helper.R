@@ -24,7 +24,8 @@ with_envvars <- function(..., .env = parent.frame()) {
   envs <- Sys.getenv(names = TRUE)
   on.exit({
     do.call(Sys.setenv, as.list(envs))
-  }, add = TRUE)
+  },
+    add = TRUE)
 
   args <- eval(substitute(alist(...)))
   tmp_vars <- (names(args) != "")
@@ -51,7 +52,8 @@ with_options <- function(..., .env = parent.frame()) {
   opts <- options()
   on.exit({
     options(opts)
-  }, add = TRUE)
+  },
+    add = TRUE)
 
   args <- eval(substitute(alist(...)))
   tmp_opts <- (names(args) != "")
@@ -75,7 +77,8 @@ with_options <- function(..., .env = parent.frame()) {
 with_tmpdir <- function(..., .env = parent.frame()) {
   on.exit({
     unlink(tempdir(), recursive = TRUE, force = FALSE)
-  }, add = TRUE)
+  },
+    add = TRUE)
 
   tmp_dir <- tempdir()
   if (!dir.exists(tmp_dir)) {

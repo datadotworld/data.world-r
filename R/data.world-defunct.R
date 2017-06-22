@@ -21,11 +21,7 @@ https://data.world"
 #' These functions have been removed from the data.world package.
 #' @rdname data.world-defunct
 #' @name data.world-defunct
-#' @aliases addFile addFileBySource addFilesBySource createDataset deleteFileAndSyncSources
-#'     deleteFileAndSyncSources deleteFilesAndSyncSources downloadFile downloadFileAsDataframe
-#'     getDataset patchDataset replaceDataset syncDataset uploadDataFrame uploadFile uploadFiles
-#'     DatasetCreateRequest DatasetPatchRequest DatasetPutRequest FileBatchUploadRequest
-#'     FileCreateOrUpdateRequest
+#' @aliases query.data.world
 #' @docType package
 #' @section A note on data.world vs. dwapi:
 #'     Most of these defunct functions are low-leve REST API endpoint wrappers and
@@ -33,6 +29,8 @@ https://data.world"
 #'     order to keep the data.world namespce as clean as possible.
 #' @section Details:
 #' \tabular{ll}{
+#'    \code{data.world} \tab is replaced by \code{\link{set_config}}\cr
+#'    \code{query.data.world} \tab is replaced by \code{\link{query}}\cr
 #'    \code{addFile} \tab is now \code{\link[dwapi]{add_file}}\cr
 #'    \code{addFileBySource} \tab is now \code{\link[dwapi]{add_file_by_source}}\cr
 #'    \code{addFilesBySource} \tab is now \code{\link[dwapi]{add_files_by_source}}\cr
@@ -57,65 +55,58 @@ https://data.world"
 #' @seealso \link[dwapi]{dwapi}
 NULL
 
-addFile <- function(...) {
-  .Defunct("dwapi::add_file", "data.world")
-}
-addFileBySource <- function(...) {
-  .Defunct("dwapi::add_file_by_source", "data.world")
-}
-addFilesBySource <- function(...) {
-  .Defunct("dwapi::add_files_by_source", "data.world")
-}
-createDataset <- function(...) {
-  .Defunct("dwapi::create_dataset", "data.world")
-}
-deleteFileAndSyncSources <- function(...) {
-  .Defunct("dwapi::delete_file", "data.world")
-}
-deleteFilesAndSyncSources <- function(...) {
-  .Defunct("dwapi::delete_files", "data.world")
-}
-downloadFile <- function(...) {
-  .Defunct("dwapi::download_file", "data.world")
-}
-downloadFileAsDataFrame <- function(...) {
-  .Defunct("dwapi::download_file_as_data_frame", "data.world")
-}
-getDataset <- function(...) {
-  .Defunct("dwapi::get_dataset", "data.world")
-}
-patchDataset <- function(...) {
-  .Defunct("dwapi::update_dataset", "data.world")
-}
-replaceDataset <- function(...) {
-  .Defunct("dwapi::replace_dataset", "data.world")
-}
-syncDataset <- function(...) {
-  .Defunct("dwapi::sync", "data.world")
-}
-uploadDataFrame <- function(...) {
-  .Defunct("dwapi::upload_data_frame", "data.world")
-}
-uploadFile <- function(...) {
-  .Defunct("dwapi::upload_file", "data.world")
-}
-uploadFiles <- function(...) {
-  .Defunct("dwapi::upload_files", "data.world")
-}
+#' @export
+# nolint start
+data.world <- function(token = NULL,
+  propsfile = sprintf("%s/.data.world", path.expand("~")),
+  baseDWApiUrl = "https://api.data.world/v0/",
+  baseQueryApiUrl = "https://query.data.world/",
+  baseDownloadApiUrl = "https://download.data.world") {
+  .Defunct("data.world::set_config", "data.world")
 
+  is.nothing <- function(x)
+    is.null(x) || is.na(x) || is.nan(x)
 
-DatasetCreateRequest <- function(...) {
-  .Defunct("dwapi::dataset_create_request", "data.world")
+  if (file.exists(propsfile)) {
+    props <-
+      utils::read.table(
+        propsfile,
+        header = FALSE,
+        sep = "=",
+        row.names = 1,
+        strip.white = TRUE,
+        na.strings = "NA",
+        stringsAsFactors = FALSE
+      )
+  } else {
+    props <- data.frame()
+  }
+
+  if (is.nothing(token) && is.nothing(props["token", 1])) {
+    stop(
+      "you must either provide an API token to this constructor, or create a
+      .data.world file in your home directory with your API token"
+    )
+  }
+
+  t <- if (!is.nothing(token))
+    token
+  else
+    (if (is.nothing(props["token", 1]))
+      token
+      else
+        props["token", 1])
+
+  me <- list(
+    token = t,
+    baseDWApiUrl = baseDWApiUrl,
+    baseQueryApiUrl = baseQueryApiUrl,
+    baseDownloadApiUrl = baseDownloadApiUrl
+  )
+  class(me) <- "data.world"
+
+  data.world::set_config(data.world::cfg(auth_token = t))
+
+  return(me)
 }
-DatasetPatchRequest <- function(...) {
-  .Defunct("dwapi::dataset_update_request", "data.world")
-}
-DatasetPutRequest <- function(...) {
-  .Defunct("dwapi::dataset_replace_request", "data.world")
-}
-FileBatchUpdateRequest <- function(...) {
-  .Defunct("dwapi::file_batch_update_request", "data.world")
-}
-FileCreateOrUpdateRequest <- function(...) {
-  .Defunct("dwapi::file_create_or_update_request", "data.world")
-}
+# nolint end

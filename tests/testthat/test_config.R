@@ -67,7 +67,8 @@ testthat::test_that(
   })
 )
 
-testthat::test_that("Config won't change using configuration file that does not exist.",
+testthat::test_that(
+  "Config won't change using configuration file that does not exist.",
   with_options({
     auth_token <- getOption("dw.auth_token")
     options(dw.config_path = "no__a_valid____file")
@@ -75,11 +76,14 @@ testthat::test_that("Config won't change using configuration file that does not 
     testthat::expect_equal(getOption("dw.auth_token"), auth_token)
   }))
 
-testthat::test_that("Config won't change using configuration profile that does not exist.",
+testthat::test_that(
+  "Config won't change using configuration profile that does not exist.",
   with_options({
     auth_token <- getOption("dw.auth_token")
     options(dw.config_path = "resources/single_profile_config")
-    testthat::expect_warning(data.world::set_config(data.world::cfg_saved(profile = "INVALID_PROFILE")))
+    testthat::expect_warning(
+      data.world::set_config(
+        data.world::cfg_saved(profile = "INVALID_PROFILE")))
     testthat::expect_equal(getOption("dw.auth_token"), auth_token)
   }))
 
@@ -119,7 +123,8 @@ testthat::test_that("Config file can be updated with new profile.", {
       testthat::expect(file.exists(tmp_cfg),
         paste0("Config file created at ", tmp_cfg))
       config <- ini::read.ini(tmp_cfg)
-      testthat::expect_equal(config$DEFAULT, list(auth_token = "SINGLE_SAVED_TOKEN"))
+      testthat::expect_equal(
+        config$DEFAULT, list(auth_token = "SINGLE_SAVED_TOKEN"))
       testthat::expect_equal(config$SECOND_PROFILE, list(auth_token = "TEST"))
     })
   })

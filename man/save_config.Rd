@@ -20,6 +20,8 @@ Object of type \code{\link{cfg_saved}}
 Save configuration to file.
 }
 \examples{
-saved_cfg <- data.world::save_config(auth_token = "YOUR_TOKEN")
-data.world::set_config(saved_cfg)
+\dontrun{
+  saved_cfg <- data.world::save_config(auth_token = "YOUR_TOKEN")
+  data.world::set_config(saved_cfg)
+}
 }

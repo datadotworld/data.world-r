@@ -3,26 +3,7 @@
 \docType{package}
 \name{data.world-defunct}
 \alias{data.world-defunct}
-\alias{addFile}
-\alias{addFileBySource}
-\alias{addFilesBySource}
-\alias{createDataset}
-\alias{deleteFileAndSyncSources}
-\alias{deleteFilesAndSyncSources}
-\alias{downloadFile}
-\alias{downloadFileAsDataframe}
-\alias{getDataset}
-\alias{patchDataset}
-\alias{replaceDataset}
-\alias{syncDataset}
-\alias{uploadDataFrame}
-\alias{uploadFile}
-\alias{uploadFiles}
-\alias{DatasetCreateRequest}
-\alias{DatasetPatchRequest}
-\alias{DatasetPutRequest}
-\alias{FileBatchUploadRequest}
-\alias{FileCreateOrUpdateRequest}
+\alias{query.data.world}
 \alias{data.world-defunct-package}
 \title{Defunct function(s) in the data.world package}
 \description{
@@ -38,6 +19,8 @@ These functions have been removed from the data.world package.
 \section{Details}{
 
 \tabular{ll}{
+   \code{data.world} \tab is replaced by \code{\link{set_config}}\cr
+   \code{query.data.world} \tab is replaced by \code{\link{query}}\cr
    \code{addFile} \tab is now \code{\link[dwapi]{add_file}}\cr
    \code{addFileBySource} \tab is now \code{\link[dwapi]{add_file_by_source}}\cr
    \code{addFilesBySource} \tab is now \code{\link[dwapi]{add_files_by_source}}\cr

@@ -1,0 +1,46 @@
+ version: 2
+ jobs:
+   build:
+     environment:
+       - LINTR_COMMENT_BOT: 'false'
+
+     working_directory: ~/data.world-r
+
+     docker:
+       - image: dataworld/r-devtools
+
+     steps:
+       - checkout
+       - run: mkdir build build/reports build/dist
+
+       - run:
+           name: Install data.world-r
+           command: RDscript -e 'devtools::install()'
+
+       - run:
+           name: Check against devel version
+           command: RDscript -e 'devtools::check()' && RDscript -e 'devtools::revdep_check(); devtools::revdep_check_print_problems()'
+
+       - run:
+           name: Check against release version
+           command: Rscript -e 'devtools::check()' && Rscript -e 'devtools::revdep_check(); devtools::revdep_check_print_problems()'
+
+       - run:
+           name: Lint
+           command: Rscript -e 'lintr::expect_lint_free()'
+
+       - run:
+           name: Collect test coverage stats
+           command: Rscript -e 'library(covr); x <- package_coverage(line_exclusions = c("R/data.world-defunct.R")); to_cobertura(x, filename = "build/reports/cobertura.xml"); coverage <- percent_coverage(x); q(status = coverage < 80);'
+
+       - run:
+           name: Build
+           command: Rscript -e 'devtools::build(path = "build/dist")'
+
+       - store_artifacts:
+           path: ~/data.world-r/build/dist
+           destination: dist
+
+       - store_artifacts:
+           path: ~/data.world-r/build/reports
+           destination: reports

@@ -28,7 +28,7 @@ testthat::test_that("SQL query making correct calls", {
       testthat::expect_equal(query_params, params)
       return(mock_response)
     },
-    {
+    { # nolint
       ret <-
         data.world::query(
           qry_sql(sql_query, params = params), dataset_key)
@@ -55,7 +55,7 @@ testthat::test_that("SPARQL query making correct calls", {
         testthat::expect_equal(query_params, params)
         return(mock_response)
       },
-      {
+      { # nolint
         ret <-
           data.world::query(
             qry_sparql(sql_query, params = params), dataset_key)

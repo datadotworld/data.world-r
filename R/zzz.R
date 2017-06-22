@@ -21,7 +21,8 @@ https://data.world"
 .onLoad <- function(...) {
   op <- options()
   op.dw <-
-    list(dw.config_path = path.expand(file.path("~", ".dw", "config")))
+    list(dw.config_path =
+      file.path(normalizePath("~", winslash = "/"), ".dw", "config"))
 
   toset <- !(names(op.dw) %in% names(op))
   if (any(toset))

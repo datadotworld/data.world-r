@@ -38,7 +38,7 @@
            command: |
              Rscript -e 'devtools::build(path = "ci-build/dist")'
              if [[ "${CIRCLE_BRANCH}" = "master" ]]; then
-               Rscript -e 'devtools::build_win(version = c("R-oldrelease", "R-release", "R-devel"), path = "ci-build/dist")'
+               Rscript -e 'devtools::build_win(version = c("R-oldrelease", "R-release", "R-devel"))'
              fi
 
        - store_artifacts:

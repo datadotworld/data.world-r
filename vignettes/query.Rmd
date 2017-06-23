@@ -1,9 +1,9 @@
 ---
-title: "data.world query"
+title: "data.world quickstart"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{data.world query}
   %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{query}
   %\VignetteEncoding{UTF-8}
 ---
 ```{r, echo = FALSE}

@@ -1,6 +1,7 @@
 # data.world-r
 
 [![CircleCI](https://circleci.com/gh/datadotworld/data.world-r.svg?style=svg)](https://circleci.com/gh/datadotworld/data.world-r)
+[![cran version](http://www.r-pkg.org/badges/version/data.world)](http://cran.rstudio.com/web/packages/data.world) 
 
 The `data.world` package is the main R package for working with datasets 
 on [data.world](https://data.world).  
@@ -38,7 +39,13 @@ Notice that `dataset` is parameter required by most functions and can be provide
 
 ## Installation
 
-To install the package from GitHub, use `devtools::install_github`:
+To get the current released version from CRAN:
+
+```R
+install.packages("data.world")
+```
+
+To get the current development version from GitHub:
 ```R
 devtools::install_github("datadotworld/data.world-r", build_vignettes = TRUE)
 ```

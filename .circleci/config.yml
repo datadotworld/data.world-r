@@ -11,7 +11,7 @@
 
      steps:
        - checkout
-       - run: mkdir build build/reports build/dist
+       - run: mkdir ci-build ci-build/reports ci-build/dist
 
        - run:
            name: Install data.world-r
@@ -31,16 +31,21 @@
 
        - run:
            name: Collect test coverage stats
-           command: Rscript -e 'library(covr); x <- package_coverage(line_exclusions = c("R/data.world-defunct.R")); to_cobertura(x, filename = "build/reports/cobertura.xml"); coverage <- percent_coverage(x); q(status = coverage < 80);'
+           command: Rscript -e 'library(covr); x <- package_coverage(line_exclusions = c("R/data.world-defunct.R")); to_cobertura(x, filename = "ci-build/reports/cobertura.xml"); coverage <- percent_coverage(x); q(status = coverage < 80);'
 
        - run:
            name: Build
-           command: Rscript -e 'devtools::build(path = "build/dist")'
+           command: |
+             if [[ "${CIRCLE_BRANCH}" = "master" ]]; then
+               Rscript -e 'devtools::build_win(version = c("R-oldrelease", "R-release", "R-devel"), path = "ci-build/dist")'
+             else
+               Rscript -e 'devtools::build(path = "ci-build/dist")'
+             fi
 
        - store_artifacts:
-           path: ~/data.world-r/build/dist
+           path: ~/data.world-r/ci-build/dist
            destination: dist
 
        - store_artifacts:
-           path: ~/data.world-r/build/reports
+           path: ~/data.world-r/ci-build/reports
            destination: reports

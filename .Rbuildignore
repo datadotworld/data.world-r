@@ -6,4 +6,4 @@
 ^LICENSE$
 ^revdep$
 ^.circleci$
-^build$
+^ci-build$

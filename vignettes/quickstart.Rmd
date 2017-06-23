@@ -3,7 +3,7 @@ title: "data.world quickstart"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteIndexEntry{data.world quickstart}
+  %\VignetteIndexEntry{quickstart}
   %\VignetteEncoding{UTF-8}
 ---
 ```{r, echo = FALSE}

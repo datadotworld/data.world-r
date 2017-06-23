@@ -17,8 +17,7 @@ Maintainer: 'Rafael Pereira <rafael.pereira@data.world>'
 New submission
 
 Possibly mis-spelled words in DESCRIPTION:
-  Datasets (2:51)
-  datasets (8:59, 9:34)
+  integrations (12:5)
 ```
 
 ## Downstream dependencies

@@ -1,5 +1,5 @@
 ---
-title: "data.world quickstart"
+title: "data.world query"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}

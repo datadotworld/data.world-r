@@ -35,7 +35,12 @@
 
        - run:
            name: Build
-           command: Rscript -e 'devtools::build(path = "ci-build/dist")'
+           command: |
+             if [[ "${CIRCLE_BRANCH}" = "master" ]]; then
+               Rscript -e 'devtools::build_win(version = c("R-oldrelease", "R-release", "R-devel"), path = "ci-build/dist")'
+             else
+               Rscript -e 'devtools::build(path = "ci-build/dist")'
+             fi
 
        - store_artifacts:
            path: ~/data.world-r/ci-build/dist

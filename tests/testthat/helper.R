@@ -70,23 +70,31 @@ with_options <- function(..., .env = parent.frame()) {
   }
 }
 
-#' Set up tempdir for tests then delete it after tests run
-#'
-#' @param ... Tests to run.
-#' @keywords internal
-with_tmpdir <- function(..., .env = parent.frame()) {
+dw_test_that <- function(...) {
+  auth_token_bkp <- getOption("dwapi.auth_token")
   on.exit({
-    unlink(tempdir(), recursive = TRUE, force = FALSE)
-  },
-    add = TRUE)
+    options(dwapi.auth_token = auth_token_bkp)
+  })
 
+  options(dwapi.auth_token = "API_TOKEN")
+
+  create_tmp_dir() #nolint
+  tryCatch({
+    return(testthat::test_that(...))
+  },
+  finally = {
+    cleanup_tmp_dir() #nolint
+  })
+}
+
+cleanup_tmp_dir <- function() {
+  unlink(tempdir(), recursive = TRUE, force = FALSE)
+}
+
+create_tmp_dir <- function() {
   tmp_dir <- tempdir()
   if (!dir.exists(tmp_dir)) {
     dir.create(tmp_dir, recursive = TRUE)
   }
-
-  tests <- eval(substitute(alist(...)))
-  for (test in tests) {
-    eval(test, .env)
-  }
+  return(tmp_dir)
 }

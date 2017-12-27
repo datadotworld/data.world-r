@@ -12,14 +12,12 @@ Description: High-level tools for working with data.world data sets. data.world 
     integrations. Use this package to access, query and explore data sets, and to 
     integrate data into R projects. Visit <https://data.world>, for additional information.
 Depends: R (>= 3.3.0)
-License: Apache License 2.0
-LazyData: TRUE
 Imports:
     dwapi,
     httr,
     ini
 Suggests: 
-    testthat,
+    testthat (>= 2.0.0),
     knitr,
     rmarkdown,
     readr

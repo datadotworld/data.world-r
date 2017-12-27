@@ -16,28 +16,25 @@ permissions and limitations under the License.
 This product includes software developed at data.world, Inc.
 https://data.world"
 
-testthat::test_that("SQL query making correct calls", {
+dw_test_that("SQL query making correct calls", {
   sql_query <- "SELECT * FROM TableName LIMIT 10"
   params <- list("value1", 1L, 1, TRUE, 1.5)
   dataset_key <- "ownerid/datasetid"
   mock_response <- readr::read_csv("resources/sample.csv")
-  testthat::with_mock(
+  ret <- testthat::with_mock(
     `dwapi::sql` = function(dataset, query, query_params) {
       testthat::expect_equal(dataset, dataset_key)
       testthat::expect_equal(query, sql_query)
       testthat::expect_equal(query_params, params)
       return(mock_response)
     },
-    { # nolint
-      ret <-
         data.world::query(
           qry_sql(sql_query, params = params), dataset_key)
-      testthat::expect_equal(ret, mock_response)
-    }
   )
+  testthat::expect_equal(ret, mock_response)
 })
 
-testthat::test_that("SPARQL query making correct calls", {
+dw_test_that("SPARQL query making correct calls", {
     sql_query <- "SELECT * WHERE { ?s ?p ?o }"
     params <- list(
       key1 = "value1",
@@ -48,18 +45,15 @@ testthat::test_that("SPARQL query making correct calls", {
     )
     dataset_key <- "ownerid/datasetid"
     mock_response <- readr::read_csv("resources/sample.csv")
-    testthat::with_mock(
+    ret <- testthat::with_mock(
       `dwapi::sparql` = function(dataset, query, query_params) {
         testthat::expect_equal(dataset, dataset_key)
         testthat::expect_equal(query, sql_query)
         testthat::expect_equal(query_params, params)
         return(mock_response)
       },
-      { # nolint
-        ret <-
           data.world::query(
             qry_sparql(sql_query, params = params), dataset_key)
-        testthat::expect_equal(ret, mock_response)
-      }
     )
-  })
+    testthat::expect_equal(ret, mock_response)
+})

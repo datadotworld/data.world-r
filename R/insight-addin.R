@@ -16,6 +16,8 @@ permissions and limitations under the License.
 This product includes software developed at data.world, Inc.
 https://data.world"
 
+#' Driver function for data.world Insight Add-in
+#' @keywords internal
 add_insight_addin <- function() {
 
   api_token <- getOption("dwapi.auth_token")
@@ -46,7 +48,7 @@ add_insight_addin <- function() {
 
   project_choice_list <- sapply(
     USE.NAMES = FALSE, project_list, function(project) {
-    project$id
+    paste0(project$owner, "/", project$id)
   }
   )
   names(project_choice_list) <- sapply(
@@ -78,23 +80,20 @@ add_insight_addin <- function() {
 
   server <- function(input, output, session) {
 
-    #shiny::observe({
-    #})
-
-
-
     shiny::observeEvent(input$done, {
       if (current_plot_exists()) {
-        save_insight(input$project, input$title, input$description)
+        save_image_as_insight(input$project, input$title, input$description,
+                     session$userData$f) # nolint
       } else {
         writeLines("Nothing to do...no current plot")
       }
       shiny::stopApp()
     })
 
-    output$thumb <- renderImage(deleteFile = TRUE, {
+    output$thumb <- renderImage(deleteFile = FALSE, {
 
       tf <- tempfile(fileext = ".png")
+      session$userData$f <- tf # nolint
 
       if (current_plot_exists()) {
         dev.copy(png, filename = tf, height = 300, width = 300)
@@ -112,19 +111,54 @@ add_insight_addin <- function() {
 
   }
 
-  # We'll use a pane viwer, and set the minimum height at
-  # 300px to ensure we get enough screen space to display the clock.
-  viewer <- shiny::paneViewer(300)
+  viewer <- shiny::dialogViewer("Add data.world Insight", height = 400)
   shiny::runGadget(ui, server, viewer = viewer)
 
 }
 
+#' Determine if there is a plot in the RStudio Plots view
+#' @return true if a plot exists
+#' @keywords internal
 current_plot_exists <- function() {
   "RStudioGD" %in% names(dev.list())
 }
 
-save_insight <- function(project_id, title, description) {
-  # todo: actually call the dwapi
-  writeLines(paste0("Submitting insight for project=", project_id,
-                    ", description=", description, ", title=", title))
+#' Save an image file as a data.world insight
+#' @param project_id the fully-qualified id of the project to house the insight
+#' @param title the title of the insight
+#' @param description the description of the insight (optional)
+#' @param image_file the file path containing the image
+#' @return a list containing the values returned by the upload_file and
+#' create_insight dwapi functions
+#' @keywords internal
+save_image_as_insight <- function(project_id, title, description, image_file) {
+
+  fn <- paste0(title, ".png")
+
+  upload_result <- dwapi::upload_file(project_id, image_file, fn)
+
+  unlink(image_file)
+
+  project_parts <- unlist(stringi::stri_split(project_id, regex = "/"))
+
+  image_url <- paste0("https://data.world/api/",
+                      project_parts[1],
+                      "/", "dataset", "/",
+                      project_parts[2],
+                      "/", "file", "/", "raw", "/",
+                      URLencode(fn))
+
+  insight_result <- dwapi::create_insight(
+    project_parts[1], project_parts[2],
+    dwapi::insight_create_request(title, description, image_url))
+
+  ret <- list(upload_result = upload_result, insight_result = insight_result)
+
+  writeLines(paste0(
+    "Successfully created insight ", title, " within project ",
+    project_id
+  ))
+
+  ret
+
 }

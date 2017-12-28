@@ -1,0 +1,4 @@
+Name: Add data.world insight
+Description: Adds an insight to a data.world project
+Binding: add_insight_addin
+Interactive: true

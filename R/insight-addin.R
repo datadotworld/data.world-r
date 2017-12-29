@@ -59,10 +59,17 @@ add_insight_addin <- function() {
 
   ui <- miniUI::miniPage(
 
-    shiny::tags$head(shiny::tags$style(
-      type = "text/css",
-      "img {max-width: 100%; width: 100%; height: auto}"
-    )),
+    shiny::tags$head(
+      shiny::tags$style(
+        type = "text/css",
+        "img {max-width: 100%; width: 100%; height: auto}"
+      ),
+      shiny::tags$link(
+        rel = "stylesheet", type = "text/css",
+        href = "http://fonts.googleapis.com/css?family=Lato:300,300i,400,400i,700,700i") # nolint
+    ),
+
+    shiny::includeCSS(system.file("dw-bootstrap.css", package="data.world")),
 
     miniUI::gadgetTitleBar("Add Insight to data.world"),
     miniUI::miniContentPanel(

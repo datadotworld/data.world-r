@@ -90,7 +90,7 @@ add_insight_addin <- function() {
       shiny::stopApp()
     })
 
-    output$thumb <- renderImage(deleteFile = FALSE, {
+    output$thumb <- shiny::renderImage(deleteFile = FALSE, {
 
       tf <- tempfile(fileext = ".png")
       session$userData$f <- tf # nolint

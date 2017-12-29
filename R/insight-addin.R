@@ -87,8 +87,10 @@ add_insight_addin <- function() {
 
   server <- function(input, output, session) {
 
+    current_plot_exists <- "RStudioGD" %in% names(dev.list())
+
     shiny::observeEvent(input$done, {
-      if (current_plot_exists()) {
+      if (current_plot_exists) {
         save_image_as_insight(input$project, input$title, input$description,
                      session$userData$f) # nolint
       } else {
@@ -102,7 +104,7 @@ add_insight_addin <- function() {
       tf <- tempfile(fileext = ".png")
       session$userData$f <- tf # nolint
 
-      if (current_plot_exists()) {
+      if (current_plot_exists) {
         dev.copy(png, filename = tf, height = 300, width = 300)
         dev.off()
       } else {
@@ -123,13 +125,6 @@ add_insight_addin <- function() {
 
 }
 
-#' Determine if there is a plot in the RStudio Plots view
-#' @return true if a plot exists
-#' @keywords internal
-current_plot_exists <- function() {
-  "RStudioGD" %in% names(dev.list())
-}
-
 #' Save an image file as a data.world insight
 #' @param project_id the fully-qualified id of the project to house the insight
 #' @param title the title of the insight
@@ -138,7 +133,20 @@ current_plot_exists <- function() {
 #' @return a list containing the values returned by the upload_file and
 #' create_insight dwapi functions
 #' @keywords internal
-save_image_as_insight <- function(project_id, title, description, image_file) {
+save_image_as_insight <- function(project_id, title, description=NULL,
+                                  image_file) {
+
+  if (is.null(project_id)) {
+    stop("project_id cannot be null")
+  }
+
+  if (!grepl(x=project_id, pattern="(.+)/(.+)")) {
+    stop("project_id invalid: must be ownerid/projectid")
+  }
+
+  if (is.null(title)) {
+    stop("title cannot be null")
+  }
 
   fn <- paste0(title, ".png")
 

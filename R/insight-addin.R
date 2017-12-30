@@ -30,27 +30,16 @@ add_insight_addin <- function() {
     #nolint end
   }
 
-  project_filter_function <- function(project) {
-    ret <- NULL
-    if (project[["accessLevel"]] %in% c("ADMIN", "WRITE")) {
-      ret <- project
-    }
-    ret
-  }
-
-  project_list <- lapply(c(dwapi::get_projects_user_contributing()$records,
-                           dwapi::get_projects_user_own()$records),
-                         project_filter_function)
-
-  project_list <- project_list[sapply(project_list, function(item) {
-    !is.null(item)
-  })]
+  project_list <- insight_project_filter(
+    c(dwapi::get_projects_user_contributing()$records,
+      dwapi::get_projects_user_own()$records))
 
   project_choice_list <- sapply(
     USE.NAMES = FALSE, project_list, function(project) {
     paste0(project$owner, "/", project$id)
   }
   )
+
   names(project_choice_list) <- sapply(
     USE.NAMES = FALSE, project_list, function(project) {
     project$title
@@ -69,7 +58,7 @@ add_insight_addin <- function() {
         href = "http://fonts.googleapis.com/css?family=Lato:300,300i,400,400i,700,700i") # nolint
     ),
 
-    shiny::includeCSS(system.file("dw-bootstrap.css", package="data.world")),
+    shiny::includeCSS(system.file("dw-bootstrap.css", package = "data.world")),
 
     miniUI::gadgetTitleBar("Add Insight to data.world"),
     miniUI::miniContentPanel(
@@ -125,6 +114,28 @@ add_insight_addin <- function() {
 
 }
 
+#' Filter the specified list of projects to those suitable for selection in
+#' the add-in
+#' @param project_list the list of projects
+#' @return the list filtered for those suitable for selection
+#' @keywords internal
+insight_project_filter <- function(project_list) {
+
+  project_list <- lapply(project_list, function(project) {
+    ret <- NULL
+    if (project[["accessLevel"]] %in% c("ADMIN", "WRITE")) {
+      ret <- project
+    }
+    ret
+  }
+  )
+
+  project_list[sapply(project_list, function(item) {
+    !is.null(item)
+  })]
+
+}
+
 #' Save an image file as a data.world insight
 #' @param project_id the fully-qualified id of the project to house the insight
 #' @param title the title of the insight
@@ -140,7 +151,7 @@ save_image_as_insight <- function(project_id, title, description=NULL,
     stop("project_id cannot be null")
   }
 
-  if (!grepl(x=project_id, pattern="(.+)/(.+)")) {
+  if (!grepl(x = project_id, pattern = "(.+)/(.+)")) {
     stop("project_id invalid: must be ownerid/projectid")
   }
 

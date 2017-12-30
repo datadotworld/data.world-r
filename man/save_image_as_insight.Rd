@@ -4,7 +4,7 @@
 \alias{save_image_as_insight}
 \title{Save an image file as a data.world insight}
 \usage{
-save_image_as_insight(project_id, title, description, image_file)
+save_image_as_insight(project_id, title, description = NULL, image_file)
 }
 \arguments{
 \item{project_id}{the fully-qualified id of the project to house the insight}

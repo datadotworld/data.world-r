@@ -31,7 +31,7 @@
 
        - run:
            name: Collect test coverage stats
-           command: Rscript -e 'library(covr); x <- package_coverage(line_exclusions = c("R/data.world-defunct.R"), function_exclusions = ".+_addin"); to_cobertura(x, filename = "ci-build/reports/cobertura.xml"); coverage <- percent_coverage(x); q(status = coverage < 80);'
+           command: Rscript -e 'library(covr); x <- package_coverage(line_exclusions = c("R/data.world-defunct.R")); to_cobertura(x, filename = "ci-build/reports/cobertura.xml"); coverage <- percent_coverage(x); q(status = coverage < 80);'
 
        - run:
            name: Build

@@ -20,6 +20,8 @@ https://data.world"
 #' @keywords internal
 add_insight_addin <- function() {
 
+  MAX_PROJECT_TITLE_LABEL <- 36
+
   api_token <- getOption("dwapi.auth_token")
 
   if (is.null(api_token)) {
@@ -42,29 +44,45 @@ add_insight_addin <- function() {
 
   names(project_choice_list) <- sapply(
     USE.NAMES = FALSE, project_list, function(project) {
-    project$title
+    ret <- project$title
+    if (nchar(ret) > MAX_PROJECT_TITLE_LABEL) {
+      ret <- paste0(substr(ret, 1, MAX_PROJECT_TITLE_LABEL), "...",
+                    collapse = "")
+    }
+    ret
   }
   )
 
   ui <- miniUI::miniPage(
 
+    shiny::includeCSS(system.file("dw-bootstrap.css", package = "data.world")),
+
     shiny::tags$head(
       shiny::tags$style(
         type = "text/css",
-        "img {max-width: 100%; width: 100%; height: auto}"
+        paste("img {max-width: 100%; width: 100%; height: auto}",
+              "div.item {font-size: 12px;}",
+              "div.selectize-dropdown-content {font-size: 12px;}",
+              "div.gadget-title {background-color: #fff}",
+              "div.gadget-content {background-color: #fff}",
+              sep = "\n"
+        )
       ),
       shiny::tags$link(
         rel = "stylesheet", type = "text/css",
         href = "http://fonts.googleapis.com/css?family=Lato:300,300i,400,400i,700,700i") # nolint
     ),
 
-    shiny::includeCSS(system.file("dw-bootstrap.css", package = "data.world")),
-
-    miniUI::gadgetTitleBar("Add Insight to data.world"),
+    miniUI::gadgetTitleBar("Add Insight to data.world",
+                           right = miniUI::miniTitleBarButton("done",
+                                                      "Create Insight",
+                                                      primary = TRUE)),
     miniUI::miniContentPanel(
       shiny::fillRow(
-        shiny::imageOutput("thumb", height = NULL, width = "90%"),
-        shiny::column(12,
+        shiny::column(6,
+          shiny::imageOutput("thumb", height = NULL, width = "90%"),
+          shiny::imageOutput("logo", height = NULL, width = "90%")),
+        shiny::column(6,
                       shiny::selectInput("project", "Project:",
                                          choices = project_choice_list),
                       shiny::textInput("title", "Title:"),
@@ -107,9 +125,15 @@ add_insight_addin <- function() {
 
     })
 
+    output$logo <- shiny::renderImage(deleteFile = FALSE, {
+      list(src = system.file("dw-logo@2x.png", package = "data.world"),
+           alt = "logo")
+    })
+
   }
 
-  viewer <- shiny::dialogViewer("Add data.world Insight", height = 400)
+  viewer <- shiny::dialogViewer("Add data.world Insight",
+                                height = 430, width = 740)
   shiny::runGadget(ui, server, viewer = viewer)
 
 }

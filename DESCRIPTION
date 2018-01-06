@@ -11,7 +11,7 @@ Description: High-level tools for working with data.world data sets. data.world 
     charting data on the data.world site, you can access data via 'API' endpoints and 
     integrations. Use this package to access, query and explore data sets, and to 
     integrate data into R projects. Visit <https://data.world>, for additional information.
-Depends: R (>= 3.3.0)
+Depends: R (>= 3.3.0), dwapi
 Imports:
     dwapi,
     httr,

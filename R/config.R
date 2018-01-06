@@ -67,7 +67,7 @@ set_config.cfg_saved <- function(cfg) {
   profile <- config[[cfg$profile]]
   if (!is.null(profile)) {
     # delegate to default method
-    data.world::set_config(cfg(auth_token = profile$auth_token))
+    set_config(cfg(auth_token = profile$auth_token))
   } else {
     warning(
       "Configuration profile \"", cfg$profile,

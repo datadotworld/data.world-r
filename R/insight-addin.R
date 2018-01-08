@@ -61,8 +61,10 @@ add_insight_addin <- function() {
       shiny::tags$style(
         type = "text/css",
         paste("img {max-width: 100%; width: 100%; height: auto}",
-              "div.item {font-size: 12px;}",
-              "div.selectize-dropdown-content {font-size: 12px;}",
+              ".form-group {font-size: 14px;}",
+              ".form-control {font-size: 14px;}",
+              "#title {font-size: 14px;}",
+              "#description {font-size: 14px;}",
               "div.gadget-title {background-color: #fff}",
               "div.gadget-content {background-color: #fff}",
               sep = "\n"
@@ -81,7 +83,7 @@ add_insight_addin <- function() {
       shiny::fillRow(
         shiny::column(6,
           shiny::imageOutput("thumb", height = NULL, width = "90%"),
-          shiny::imageOutput("logo", height = NULL, width = "90%")),
+          shiny::imageOutput("logo", height = 40, width = "166")),
         shiny::column(6,
                       shiny::selectInput("project", "Project:",
                                          choices = project_choice_list),

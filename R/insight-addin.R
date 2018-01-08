@@ -60,11 +60,12 @@ add_insight_addin <- function() {
     shiny::tags$head(
       shiny::tags$style(
         type = "text/css",
-        paste("img {max-width: 100%; width: 100%; height: auto}",
-              ".form-group {font-size: 14px;}",
+        paste(".form-group {font-size: 14px;}",
               ".form-control {font-size: 14px;}",
+              "#done {line-height: 1rem;}",
+              "#cancel {line-height: 1rem;}",
               "#title {font-size: 14px;}",
-              "#description {font-size: 14px;}",
+              "#description {font-size: 14px; min-height: 110px;}",
               "div.gadget-title {background-color: #fff}",
               "div.gadget-content {background-color: #fff}",
               sep = "\n"
@@ -81,15 +82,16 @@ add_insight_addin <- function() {
                                                       primary = TRUE)),
     miniUI::miniContentPanel(
       shiny::fillRow(
-        shiny::column(6,
-          shiny::imageOutput("thumb", height = NULL, width = "90%"),
-          shiny::imageOutput("logo", height = 40, width = "166")),
-        shiny::column(6,
+        shiny::column(12,
+          shiny::imageOutput("thumb", height = NULL, width = "90%")),
+        shiny::column(12,
                       shiny::selectInput("project", "Project:",
                                          choices = project_choice_list),
                       shiny::textInput("title", "Title:"),
-                      shiny::textAreaInput("description", "Description:")
-        )
+                      shiny::textAreaInput("description", "Description:",
+                                           height = "85px")
+        ),
+        flex = c(5, 3)
       )
     )
   )
@@ -114,10 +116,10 @@ add_insight_addin <- function() {
       session$userData$f <- tf # nolint
 
       if (current_plot_exists) {
-        dev.copy(png, filename = tf, height = 300, width = 300)
+        dev.copy(png, filename = tf, height = 300, width = 467)
         dev.off()
       } else {
-        png(filename = tf, height = 300, width = 300)
+        png(filename = tf, height = 300, width = 467)
         plot.new()
         mtext("No current plot available")
         dev.off()
@@ -135,7 +137,7 @@ add_insight_addin <- function() {
   }
 
   viewer <- shiny::dialogViewer("Add data.world Insight",
-                                height = 430, width = 740)
+                                height = 380, width = 850)
   shiny::runGadget(ui, server, viewer = viewer)
 
 }

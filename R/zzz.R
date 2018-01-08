@@ -43,7 +43,7 @@ set_dw_config <- function() {
   }
 
   cs <- cfg_saved(profile = profile)
-  set_config(cs)
+  suppressWarnings(set_config(cs))
 
   set_config(cfg_env())
 

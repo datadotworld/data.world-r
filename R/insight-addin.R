@@ -18,9 +18,9 @@ https://data.world"
 
 #' Driver function for data.world Insight Add-in
 #' @keywords internal
-add_insight_addin <- function() {
+add_insight_addin <- function() { # nocov start
 
-  MAX_PROJECT_TITLE_LABEL <- 36
+  MAX_PROJECT_TITLE_LABEL <- 34
 
   api_token <- getOption("dwapi.auth_token")
 
@@ -33,8 +33,8 @@ add_insight_addin <- function() {
   }
 
   project_list <- insight_project_filter(
-    c(dwapi::get_projects_user_contributing()$records,
-      dwapi::get_projects_user_own()$records))
+    c(dwapi::get_projects_user_own()$records,
+      dwapi::get_projects_user_contributing()$records))
 
   project_choice_list <- sapply(
     USE.NAMES = FALSE, project_list, function(project) {
@@ -44,7 +44,7 @@ add_insight_addin <- function() {
 
   names(project_choice_list) <- sapply(
     USE.NAMES = FALSE, project_list, function(project) {
-    ret <- project$title
+    ret <- paste0(project$owner, "/", project$title)
     if (nchar(ret) > MAX_PROJECT_TITLE_LABEL) {
       ret <- paste0(substr(ret, 1, MAX_PROJECT_TITLE_LABEL), "...",
                     collapse = "")
@@ -76,9 +76,9 @@ add_insight_addin <- function() {
         href = "http://fonts.googleapis.com/css?family=Lato:300,300i,400,400i,700,700i") # nolint
     ),
 
-    miniUI::gadgetTitleBar("Add Insight to data.world",
+    miniUI::gadgetTitleBar("Create a new insight",
                            right = miniUI::miniTitleBarButton("done",
-                                                      "Create Insight",
+                                                      "Create insight",
                                                       primary = TRUE)),
     miniUI::miniContentPanel(
       shiny::fillRow(
@@ -136,11 +136,11 @@ add_insight_addin <- function() {
 
   }
 
-  viewer <- shiny::dialogViewer("Add data.world Insight",
+  viewer <- shiny::dialogViewer("New insight",
                                 height = 380, width = 850)
   shiny::runGadget(ui, server, viewer = viewer)
 
-}
+} # nocov end
 
 #' Filter the specified list of projects to those suitable for selection in
 #' the add-in

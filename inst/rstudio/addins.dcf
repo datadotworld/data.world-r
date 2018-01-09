@@ -16,7 +16,7 @@
 # This product includes software developed at data.world, Inc.
 # https://data.world
 
-Name: Add data.world insight
+Name: New insight
 Description: Adds an insight to a data.world project
 Binding: add_insight_addin
 Interactive: true

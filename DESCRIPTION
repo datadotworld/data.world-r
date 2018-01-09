@@ -13,14 +13,18 @@ Description: High-level tools for working with data.world data sets. data.world 
     integrate data into R projects. Visit <https://data.world>, for additional information.
 Depends: R (>= 3.3.0), dwapi
 Imports:
-    dwapi,
     httr,
-    ini
+    ini,
+    miniUI,
+    shiny,
+    stringi
 Suggests: 
-    testthat (>= 2.0.0),
+    covr,
     knitr,
+    lintr,
+    readr,
     rmarkdown,
-    readr
+    testthat (>= 2.0.0)
 License: Apache License 2.0
 Encoding: UTF-8
 LazyData: true

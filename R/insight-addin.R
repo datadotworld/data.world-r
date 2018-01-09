@@ -18,7 +18,8 @@ https://data.world"
 
 #' Driver function for data.world Insight Add-in
 #' @keywords internal
-add_insight_addin <- function() { # nocov start
+# nocov start
+add_insight_addin <- function() {
 
   MAX_PROJECT_TITLE_LABEL <- 34
 
@@ -140,7 +141,8 @@ add_insight_addin <- function() { # nocov start
                                 height = 380, width = 850)
   shiny::runGadget(ui, server, viewer = viewer)
 
-} # nocov end
+}
+# nocov end
 
 #' Filter the specified list of projects to those suitable for selection in
 #' the add-in

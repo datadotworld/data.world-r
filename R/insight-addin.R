@@ -18,6 +18,9 @@ https://data.world"
 
 #' Driver function for data.world Insight Add-in
 #' @keywords internal
+#' @importFrom dwapi get_projects_user_own get_projects_user_contributing
+#' @importFrom grDevices dev.copy dev.list dev.off png
+#' @importFrom graphics mtext plot.new
 # nocov start
 add_insight_addin <- function() {
 
@@ -34,8 +37,8 @@ add_insight_addin <- function() {
   }
 
   project_list <- insight_project_filter(
-    c(dwapi::get_projects_user_own()$records,
-      dwapi::get_projects_user_contributing()$records))
+    c(get_projects_user_own()$records,
+      get_projects_user_contributing()$records))
 
   project_choice_list <- sapply(
     USE.NAMES = FALSE, project_list, function(project) {
@@ -137,8 +140,7 @@ add_insight_addin <- function() {
 
   }
 
-  viewer <- shiny::dialogViewer("New insight",
-                                height = 380, width = 850)
+  viewer <- shiny::dialogViewer("New insight", height = 380, width = 850)
   shiny::runGadget(ui, server, viewer = viewer)
 
 }
@@ -173,6 +175,8 @@ insight_project_filter <- function(project_list) {
 #' @param image_file the file path containing the image
 #' @return a list containing the values returned by the upload_file and
 #' create_insight dwapi functions
+#' @importFrom dwapi upload_file create_insight insight_create_request
+#' @importFrom utils URLencode
 #' @keywords internal
 save_image_as_insight <- function(project_id, title, description=NULL,
                                   image_file) {
@@ -191,7 +195,7 @@ save_image_as_insight <- function(project_id, title, description=NULL,
 
   fn <- paste0(title, ".png")
 
-  upload_result <- dwapi::upload_file(project_id, image_file, fn)
+  upload_result <- upload_file(project_id, image_file, fn)
 
   unlink(image_file)
 
@@ -204,9 +208,9 @@ save_image_as_insight <- function(project_id, title, description=NULL,
                       "/", "file", "/", "raw", "/",
                       URLencode(fn))
 
-  insight_result <- dwapi::create_insight(
+  insight_result <- create_insight(
     project_parts[1], project_parts[2],
-    dwapi::insight_create_request(title, description, image_url))
+    insight_create_request(title, description, image_url))
 
   ret <- list(upload_result = upload_result, insight_result = insight_result)
 

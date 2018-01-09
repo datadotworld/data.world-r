@@ -54,3 +54,30 @@ dw_test_that(
     )))
   }
 )
+
+dw_test_that(
+  "Insight saved", {
+    response <- with_mock(
+      `dwapi::upload_file` = function(project_id, image_file, fn) {
+        ret <- list()
+        ret$message <- "File uploaded"
+        class(ret) <- "success_message"
+        ret
+      },
+      `dwapi::create_insight` = function(
+        project_owner, project_id, create_insight_req) {
+        ret <- list()
+        ret$message <- "Insight created successfully."
+        ret$uri <- "https://data.world/test"
+        class(ret) <- "create_insight_response"
+        ret
+      },
+      save_image_as_insight("ownerid/projectid", "title",
+                            image_file = tempfile())
+    )
+    expect_equal(2, length(response))
+    expected_names <- c("upload_result", "insight_result")
+    expect_equal(0, length(setdiff(expected_names, names(response))))
+    expect_equal(0, length(setdiff(y = expected_names, names(response))))
+  }
+)

@@ -1,5 +1,5 @@
 "data.world-r
-Copyright 2017 data.world, Inc.
+Copyright 2018 data.world, Inc.
 
 Licensed under the Apache License, Version 2.0 (the \"License\");
 you may not use this file except in compliance with the License.
@@ -86,11 +86,11 @@ add_insight_addin <- function() {
                                                       primary = TRUE)),
     miniUI::miniContentPanel(
       shiny::fillRow(
-        shiny::column(12,
-          shiny::imageOutput("thumb", height = NULL, width = "90%")),
+      shiny::column(12,
+        shiny::imageOutput("thumb", height = NULL, width = "90%")),
         shiny::column(12,
                       shiny::selectInput("project", "Project:",
-                                         choices = project_choice_list),
+                                         choices = c("", project_choice_list)),
                       shiny::textInput("title", "Title:"),
                       shiny::textAreaInput("description", "Description:",
                                            height = "85px")
@@ -105,6 +105,7 @@ add_insight_addin <- function() {
     current_plot_exists <- "RStudioGD" %in% names(dev.list())
 
     shiny::observeEvent(input$done, {
+
       if (current_plot_exists) {
         save_image_as_insight(input$project, input$title, input$description,
                      session$userData$f) # nolint
@@ -181,7 +182,7 @@ insight_project_filter <- function(project_list) {
 save_image_as_insight <- function(project_id, title, description=NULL,
                                   image_file) {
 
-  if (is.null(project_id)) {
+  if (is.null(project_id) || project_id == "") {
     stop("project_id cannot be null")
   }
 

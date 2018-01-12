@@ -7,3 +7,4 @@
 ^revdep$
 ^.circleci$
 ^ci-build$
+^cobertura.xml$

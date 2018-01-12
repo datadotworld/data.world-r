@@ -1,5 +1,5 @@
 "data.world-r
-Copyright 2017 data.world, Inc.
+Copyright 2018 data.world, Inc.
 
 Licensed under the Apache License, Version 2.0 (the \"License\");
 you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@ query.default <- function(qry, ...) {
 #' @describeIn query Execute a SQL query on data.world.
 #' @examples
 #' \dontrun{
-#'   sql_stmt <- data.world::sql("SELECT * FROM Tables")
+#'   sql_stmt <- data.world::qry_sql("SELECT * FROM Tables")
 #'   query_results_df <- data.world::query(
 #'     sql_stmt, "jonloyens/an-intro-to-dataworld-dataset")
 #' }
@@ -57,6 +57,15 @@ query.qry_sql <- function(qry, ...) {
 }
 
 #' @describeIn query Execute a SPARQL query on data.world.
+#' @examples
+#' \dontrun{
+#'   sparql_stmt <- data.world::qry_sparql("SELECT ?s ?p ?o
+#'                                          WHERE {
+#'                                            ?s ?p ?o.
+#'                                          }")
+#'   query_results_df <- data.world::query(
+#'     sparql_stmt, "jonloyens/an-intro-to-dataworld-dataset")
+#' }
 #' @export
 query.qry_sparql <- function(qry, ...) {
   # Internal function to help unpack '...' param
@@ -77,7 +86,11 @@ query.qry_sparql <- function(qry, ...) {
 #'
 #' @param query_string SQL query string.
 #' @param params Sequence of positional query parameters.
-#' @return Object of type \code{sql}.
+#' @return Object of type \code{qry_sql}.
+#' @examples
+#' \dontrun{
+#'   sql_stmt <- data.world::qry_sql("SELECT * FROM Tables")
+#' }
 #' @export
 qry_sql <- function(query_string, params = NULL) {
   me <- list(query_string = query_string, params = params)
@@ -89,7 +102,14 @@ qry_sql <- function(query_string, params = NULL) {
 #'
 #' @param query_string SPARQL query string.
 #' @param params Sequence of named query parameters.
-#' @return Object of type \code{sparql}.
+#' @return Object of type \code{qry_sparql}.
+#' @examples
+#' \dontrun{
+#'   sparql_stmt <- data.world::qry_sparql("SELECT ?s ?p ?o
+#'                                          WHERE {
+#'                                            ?s ?p ?o.
+#'                                          }")
+#' }
 #' @export
 qry_sparql <- function(query_string, params = NULL) {
   me <- list(query_string = query_string, params = params)

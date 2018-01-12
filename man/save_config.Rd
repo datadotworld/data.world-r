@@ -2,7 +2,7 @@
 % Please edit documentation in R/config.R
 \name{save_config}
 \alias{save_config}
-\title{Save configuration to file.}
+\title{Save configuration to file in the user's home directory.}
 \usage{
 save_config(auth_token, ..., profile = "DEFAULT")
 }
@@ -17,7 +17,7 @@ save_config(auth_token, ..., profile = "DEFAULT")
 Object of type \code{\link{cfg_saved}}
 }
 \description{
-Save configuration to file.
+Save configuration to file in the user's home directory.
 }
 \examples{
 \dontrun{

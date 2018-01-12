@@ -1,5 +1,5 @@
 "data.world-r
-Copyright 2017 data.world, Inc.
+Copyright 2018 data.world, Inc.
 
 Licensed under the Apache License, Version 2.0 (the \"License\");
 you may not use this file except in compliance with the License.
@@ -20,7 +20,9 @@ https://data.world"
 #'
 #' @param cfg Configuration object.
 #' @examples
+#' data.world::set_config(data.world::cfg_saved())
 #' data.world::set_config(data.world::cfg_env())
+#' data.world::set_config(data.world::cfg("YOUR_TOKEN"))
 #' @export
 set_config <- function(cfg) {
   UseMethod("set_config")
@@ -119,7 +121,7 @@ cfg_saved <- function(profile = "DEFAULT") {
   return(me)
 }
 
-#' Save configuration to file.
+#' Save configuration to file in the user's home directory.
 #'
 #' @param auth_token API authorization token.
 #' @param ... Reserved for future configuration parameters.

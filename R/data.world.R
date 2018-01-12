@@ -1,5 +1,5 @@
 "data.world-r
-Copyright 2017 data.world, Inc.
+Copyright 2018 data.world, Inc.
 
 Licensed under the Apache License, Version 2.0 (the \"License\");
 you may not use this file except in compliance with the License.
@@ -29,6 +29,10 @@ https://data.world"
 #' Use \code{\link{query}} to run SPARQL and SQL queries.
 #' Use \code{\link{qry_sql}} and \code{\link{qry_sparql}} to construct query objects and
 #' to pass parameters to queries.
+#'
+#' @section Add-ins:
+#'
+#' Use the included "New insight" add-in to publish plots as project insights from R Studio.
 #'
 #' @section REST API:
 #'

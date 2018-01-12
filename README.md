@@ -1,7 +1,7 @@
 # data.world-r
 
 [![CircleCI](https://circleci.com/gh/datadotworld/data.world-r.svg?style=svg)](https://circleci.com/gh/datadotworld/data.world-r)
-[![cran version](http://www.r-pkg.org/badges/version/data.world)](http://cran.rstudio.com/web/packages/data.world) 
+[![cran version](https://www.r-pkg.org/badges/version/data.world)](https://cran.r-project.org/package=data.world) 
 
 The `data.world` package is the main R package for working with datasets 
 on [data.world](https://data.world).  
@@ -9,6 +9,7 @@ Using this packages users can:
 
 * Query and join datasets
 * Choose between SQL and SPARQL
+* Publish insights
 * Use data.world's REST API (via included `dwapi` package)
 
 # Getting Started
@@ -36,6 +37,24 @@ Notice that `dataset` is parameter required by most functions and can be provide
 
 1. URL: "https://data.world/jonloyens/an-intro-to-dataworld-dataset"
 2. Path: "jonloyens/an-intro-to-dataworld-dataset"
+
+# Publishing Insights
+
+For your convenience, this package allows you to publish
+[insights](https://meta.data.world/showcasing-your-data-work-using-insights-9c578698275b) 
+to 
+[data projects](https://meta.data.world/introducing-data-projects-e7cfa971b552)
+without leaving R Studio.
+
+Using R Studio's "Addins" menu, look for `DATA.WORLD > New insight`. 
+
+![Add-in Menu](vignettes/new_insight_menu.png)
+
+The add-in will automatically capture the active plot in R Studio's plot 
+view and give you the opportunity to quickly choose the project, and enter 
+title and description for your insight.
+
+![Add-in Window](vignettes/new_insight_window.png)
 
 ## Installation
 

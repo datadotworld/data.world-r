@@ -12,8 +12,8 @@ CONFIGURED <- !is.null(getOption("dw.auth_token"))
 knitr::opts_chunk$set(
   collapse = FALSE,
   comment = "##",
-  purl = NOT_CRAN & CONFIGURED,
-  eval = NOT_CRAN & CONFIGURED
+  purl = NOT_CRAN && CONFIGURED,
+  eval = NOT_CRAN && CONFIGURED
 )
 ```
 
@@ -60,6 +60,24 @@ team_df
 
 For additional examples, including parameterized queries and SPARQL, 
 see `query` vignette.
+
+## Publishing Insights
+
+For your convenience, this package allows you to publish
+[insights](https://meta.data.world/showcasing-your-data-work-using-insights-9c578698275b) 
+to 
+[data projects](https://meta.data.world/introducing-data-projects-e7cfa971b552)
+without leaving R Studio.
+
+Using R Studio's "Addins" menu, look for `DATA.WORLD > New insight`. 
+
+![Add-in Menu](new_insight_menu.png)
+
+The add-in will automatically capture the active plot in R Studio's plot 
+view and give you the opportunity to quickly choose the project, and enter 
+title and description for your insight.
+
+![Add-in Window](new_insight_window.png)
 
 ## data.world REST API
 

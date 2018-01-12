@@ -1,28 +1,31 @@
 Package: data.world
-Title: Main Package for Working with 'data.world' Data Sets
-Version: 1.1.1
+Title: Functions and Add-Ins for Working with 'data.world' Data Sets and Projects
+Version: 1.2.0
 Authors@R: c(
     person("Rafael", "Pereira", email = "rafael.pereira@data.world", role = c("aut", "cre")),
     person("Triet", "Le", email = "triet.le@data.world", role = c("aut")),
-    person("Bryon", "Jacob", email = "bryon.jacob@data.world", role = c("aut")))
-Description: High-level tools for working with data.world data sets. data.world is a community 
+    person("Bryon", "Jacob", email = "bryon.jacob@data.world", role = c("aut")),
+    person("Scott", "Came", email = "scott@cascadia-analytics.com", role = c("aut")))
+Description: High-level tools for working with 'data.world' data sets. 'data.world' is a platform 
     where you can find interesting data, store and showcase your own data and data projects, 
     and find and collaborate with other members. In addition to exploring, querying and 
     charting data on the data.world site, you can access data via 'API' endpoints and 
     integrations. Use this package to access, query and explore data sets, and to 
-    integrate data into R projects. Visit <https://data.world>, for additional information.
-Depends: R (>= 3.3.0)
-License: Apache License 2.0
-LazyData: TRUE
+    publish your insights. Visit <https://data.world>, for additional information.
+Depends: R (>= 3.3.0), dwapi
 Imports:
-    dwapi,
     httr,
-    ini
+    ini,
+    miniUI,
+    shiny,
+    stringi
 Suggests: 
-    testthat,
+    covr,
     knitr,
+    lintr,
+    readr,
     rmarkdown,
-    readr
+    testthat (>= 2.0.0)
 License: Apache License 2.0
 Encoding: UTF-8
 LazyData: true

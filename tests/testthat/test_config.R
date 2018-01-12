@@ -1,5 +1,5 @@
 "data.world-r
-Copyright 2017 data.world, Inc.
+Copyright 2018 data.world, Inc.
 
 Licensed under the Apache License, Version 2.0 (the \"License\");
 you may not use this file except in compliance with the License.
@@ -16,14 +16,14 @@ permissions and limitations under the License.
 This product includes software developed at data.world, Inc.
 https://data.world"
 
-testthat::test_that("Config can be changed using runtime variables.",
+dw_test_that("Config can be changed using runtime variables.",
   with_options({
     runtime_cfg <- data.world::cfg(auth_token = "RUNTIME_TOKEN")
     data.world::set_config(runtime_cfg)
     testthat::expect_equal(getOption("dw.auth_token"), "RUNTIME_TOKEN")
   }))
 
-testthat::test_that(
+dw_test_that(
   "Config can be changed using default environment variables.",
   with_options(with_envvars(DW_AUTH_TOKEN = "DEFAULT_ENV_VAR_TOKEN", {
     environment_cfg <- data.world::cfg_env()
@@ -32,7 +32,7 @@ testthat::test_that(
   }))
 )
 
-testthat::test_that(
+dw_test_that(
   "Config can be changed using custom environment variables.",
   with_options(with_envvars(MY_TEST_VAR = "CUSTOM_ENV_VAR_TOKEN", {
     environment_cfg <-
@@ -42,7 +42,7 @@ testthat::test_that(
   }))
 )
 
-testthat::test_that("Config won't change if environment variable is not set.",
+dw_test_that("Config won't change if environment variable is not set.",
   with_options({
     auth_token <- getOption("dw.auth_token")
     environment_cfg <-
@@ -51,7 +51,7 @@ testthat::test_that("Config won't change if environment variable is not set.",
     testthat::expect_equal(getOption("dw.auth_token"), auth_token)
   }))
 
-testthat::test_that(
+dw_test_that(
   "Config can be changed using configuration file.",
   with_options(dw.config_path = "resources/single_profile_config", {
     data.world::set_config(data.world::cfg_saved())
@@ -59,7 +59,7 @@ testthat::test_that(
   })
 )
 
-testthat::test_that(
+dw_test_that(
   "Config can be changed using configuration file and multiple profiles.",
   with_options(dw.config_path = "resources/multiple_profile_config", {
     data.world::set_config(data.world::cfg_saved(profile = "CUSTOM_PROFILE"))
@@ -67,7 +67,7 @@ testthat::test_that(
   })
 )
 
-testthat::test_that(
+dw_test_that(
   "Config won't change using configuration file that does not exist.",
   with_options({
     auth_token <- getOption("dw.auth_token")
@@ -76,7 +76,7 @@ testthat::test_that(
     testthat::expect_equal(getOption("dw.auth_token"), auth_token)
   }))
 
-testthat::test_that(
+dw_test_that(
   "Config won't change using configuration profile that does not exist.",
   with_options({
     auth_token <- getOption("dw.auth_token")
@@ -87,45 +87,39 @@ testthat::test_that(
     testthat::expect_equal(getOption("dw.auth_token"), auth_token)
   }))
 
-testthat::test_that("Config file can be created", {
-  with_tmpdir({
-    tmp_cfg <- file.path(tempdir(), "new-subdir", "config")
-    with_options(dw.config_path = tmp_cfg, {
-      data.world::save_config(auth_token = "TEST")
-      testthat::expect(file.exists(tmp_cfg),
-        paste0("Config file created at ", tmp_cfg))
-      config <- ini::read.ini(tmp_cfg)
-      testthat::expect_equal(config$DEFAULT, list(auth_token = "TEST"))
-    })
+dw_test_that("Config file can be created", {
+  tmp_cfg <- file.path(tempdir(), "new-subdir", "config")
+  with_options(dw.config_path = tmp_cfg, {
+    data.world::save_config(auth_token = "TEST")
+    testthat::expect(file.exists(tmp_cfg),
+                     paste0("Config file created at ", tmp_cfg))
+    config <- ini::read.ini(tmp_cfg)
+    testthat::expect_equal(config$DEFAULT, list(auth_token = "TEST"))
   })
 })
 
-testthat::test_that("Config file can be updated.", {
-  with_tmpdir({
-    tmp_cfg <- file.path(tempdir(), "config")
-    file.copy("resources/single_profile_config", tmp_cfg)
-    with_options(dw.config_path = tmp_cfg, {
-      data.world::save_config(auth_token = "TEST")
-      testthat::expect(file.exists(tmp_cfg),
-        paste0("Config file created at ", tmp_cfg))
-      config <- ini::read.ini(tmp_cfg)
-      testthat::expect_equal(config$DEFAULT, list(auth_token = "TEST"))
-    })
+dw_test_that("Config file can be updated.", {
+  tmp_cfg <- file.path(tempdir(), "config")
+  file.copy("resources/single_profile_config", tmp_cfg)
+  with_options(dw.config_path = tmp_cfg, {
+    data.world::save_config(auth_token = "TEST")
+    testthat::expect(file.exists(tmp_cfg),
+                     paste0("Config file created at ", tmp_cfg))
+    config <- ini::read.ini(tmp_cfg)
+    testthat::expect_equal(config$DEFAULT, list(auth_token = "TEST"))
   })
 })
 
-testthat::test_that("Config file can be updated with new profile.", {
-  with_tmpdir({
-    tmp_cfg <- file.path(tempdir(), "config")
-    file.copy("resources/single_profile_config", tmp_cfg)
-    with_options(dw.config_path = tmp_cfg, {
-      data.world::save_config(auth_token = "TEST", profile = "SECOND_PROFILE")
-      testthat::expect(file.exists(tmp_cfg),
-        paste0("Config file created at ", tmp_cfg))
-      config <- ini::read.ini(tmp_cfg)
-      testthat::expect_equal(
-        config$DEFAULT, list(auth_token = "SINGLE_SAVED_TOKEN"))
-      testthat::expect_equal(config$SECOND_PROFILE, list(auth_token = "TEST"))
-    })
+dw_test_that("Config file can be updated with new profile.", {
+  tmp_cfg <- file.path(tempdir(), "config")
+  file.copy("resources/single_profile_config", tmp_cfg)
+  with_options(dw.config_path = tmp_cfg, {
+    data.world::save_config(auth_token = "TEST", profile = "SECOND_PROFILE")
+    testthat::expect(file.exists(tmp_cfg),
+                     paste0("Config file created at ", tmp_cfg))
+    config <- ini::read.ini(tmp_cfg)
+    testthat::expect_equal(
+      config$DEFAULT, list(auth_token = "SINGLE_SAVED_TOKEN"))
+    testthat::expect_equal(config$SECOND_PROFILE, list(auth_token = "TEST"))
   })
 })

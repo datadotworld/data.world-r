@@ -31,7 +31,9 @@ Apply configuration to current R session.
 }}
 
 \examples{
+data.world::set_config(data.world::cfg_saved())
 data.world::set_config(data.world::cfg_env())
+data.world::set_config(data.world::cfg("YOUR_TOKEN"))
 }
 \seealso{
 \code{\link{cfg}}

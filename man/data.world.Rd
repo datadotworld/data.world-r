@@ -22,6 +22,12 @@ Use \code{\link{qry_sql}} and \code{\link{qry_sparql}} to construct query object
 to pass parameters to queries.
 }
 
+\section{Add-ins}{
+
+
+Use the included "New insight" add-in to publish plots as project insights from R Studio.
+}
+
 \section{REST API}{
 
 

@@ -12,8 +12,8 @@ CONFIGURED <- !is.null(getOption("dw.auth_token"))
 knitr::opts_chunk$set(
   collapse = FALSE,
   comment = "##",
-  purl = NOT_CRAN & CONFIGURED,
-  eval = NOT_CRAN & CONFIGURED
+  purl = NOT_CRAN && CONFIGURED,
+  eval = NOT_CRAN && CONFIGURED
 )
 ```
 
@@ -121,7 +121,7 @@ data.world::query(assists_vs_height, intro_ds)
 
 Similarly, the previous parameterized query from the SQL example can
 be translated to SPARQL as follows:
-```{r SPARQL parameterized}
+```{r SPARQL parameterized, eval = FALSE}
 assists_greater_than <- data.world::qry_sparql(paste(
   "BASE <http://data.world/jonloyens/an-intro-to-dataworld-dataset/> ",
   "PREFIX t: <DataDotWorldBBallTeam.csv/DataDotWorldBBallTeam#> ",

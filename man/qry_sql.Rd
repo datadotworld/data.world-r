@@ -12,8 +12,13 @@ qry_sql(query_string, params = NULL)
 \item{params}{Sequence of positional query parameters.}
 }
 \value{
-Object of type \code{sql}.
+Object of type \code{qry_sql}.
 }
 \description{
 Constructor function for SQL queries.
+}
+\examples{
+\dontrun{
+  sql_stmt <- data.world::qry_sql("SELECT * FROM Tables")
+}
 }

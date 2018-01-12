@@ -12,8 +12,16 @@ qry_sparql(query_string, params = NULL)
 \item{params}{Sequence of named query parameters.}
 }
 \value{
-Object of type \code{sparql}.
+Object of type \code{qry_sparql}.
 }
 \description{
 Constructor function for SPARQL queries.
+}
+\examples{
+\dontrun{
+  sparql_stmt <- data.world::qry_sparql("SELECT ?s ?p ?o
+                                         WHERE {
+                                           ?s ?p ?o.
+                                         }")
+}
 }

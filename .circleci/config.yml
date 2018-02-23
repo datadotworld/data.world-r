@@ -18,7 +18,7 @@
            name: Install data.world-r
            command: RDscript -e 'devtools::install()'
            
-      - run:
+       - run:
            name: Lint
            command: Rscript -e 'lintr::expect_lint_free()'
 

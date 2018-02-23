@@ -3,6 +3,7 @@
    build:
      environment:
        - LINTR_COMMENT_BOT: 'false'
+       - NOT_CRAN: 'true'
 
      working_directory: ~/data.world-r
 
@@ -16,18 +17,18 @@
        - run:
            name: Install data.world-r
            command: RDscript -e 'devtools::install()'
+           
+      - run:
+           name: Lint
+           command: Rscript -e 'lintr::expect_lint_free()'
 
        - run:
            name: Check against devel version
-           command: RDscript -e 'devtools::check()' && RDscript -e 'devtools::revdep_check(); devtools::revdep_check_print_problems()'
+           command: RDscript -e 'devtools::check()'
 
        - run:
            name: Check against release version
-           command: Rscript -e 'devtools::check()' && Rscript -e 'devtools::revdep_check(); devtools::revdep_check_print_problems()'
-
-       - run:
-           name: Lint
-           command: Rscript -e 'lintr::expect_lint_free()'
+           command: Rscript -e 'devtools::check()'
 
        - run:
            name: Collect test coverage stats
@@ -40,6 +41,10 @@
              if [[ "${CIRCLE_BRANCH}" = "master" ]]; then
                Rscript -e 'devtools::build_win(version = c("R-oldrelease", "R-release", "R-devel"))'
              fi
+
+       - run:
+           name: Check reverse dependencies
+           command: Rscript -e 'devtools::revdep_check(); devtools::revdep_check_print_problems()'
 
        - store_artifacts:
            path: ~/data.world-r/ci-build/dist

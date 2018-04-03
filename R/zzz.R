@@ -27,26 +27,16 @@ https://data.world"
   if (any(toset))
     options(op.dw[toset])
 
-  set_dw_config()
-
-  invisible()
-
-}
-
-#' Apply configuration from file or envvars and load dwapi
-#' @keywords internal
-set_dw_config <- function() {
-
   profile <- Sys.getenv("DW_PROFILE", unset = NA)
   if (is.na(profile)) {
     profile <- "DEFAULT"
   }
-
+  
   cs <- cfg_saved(profile = profile)
   suppressWarnings(set_config(cs))
-
+  
   set_config(cfg_env())
-
+  
   invisible()
 
 }

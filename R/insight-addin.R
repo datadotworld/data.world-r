@@ -29,16 +29,25 @@ add_insight_addin <- function() {
   api_token <- getOption("dwapi.auth_token")
 
   if (is.null(api_token)) {
-    #nolint start
-    stop(paste0("API authentication must be configured. ",
-                "To configure, use data.world::set_config(save_config(auth_token = \"YOUR API TOKEN\")) or ",
-                "dwapi::configure()"))
-    #nolint end
+    configure_package()
+    api_token <- getOption("dwapi.auth_token")
+    if (is.null(api_token)) {
+      #nolint start
+      stop(paste0("API authentication must be configured. ",
+                  "To configure, use data.world::set_config(data.world::save_config(auth_token = \"YOUR API TOKEN\"))"))
+      #nolint end
+    }
   }
 
   project_list <- insight_project_filter(
     c(get_projects_user_own()$records,
       get_projects_user_contributing()$records))
+
+  if (length(project_list) == 0) {
+    #nolint start
+    stop("You currently have no projects to which an insight can be added.  To add a project, visit https://data.world/create-a-project.")
+    #nolint end
+  }
 
   project_choice_list <- sapply(
     USE.NAMES = FALSE, project_list, function(project) {
@@ -163,9 +172,15 @@ insight_project_filter <- function(project_list) {
   }
   )
 
-  project_list[sapply(project_list, function(item) {
-    !is.null(item)
-  })]
+  ret <- list()
+
+  if (!is.null(project_list) & length(project_list) > 0) {
+    ret <- project_list[sapply(project_list, function(item) {
+      !is.null(item)
+    })]
+  }
+
+  ret
 
 }
 

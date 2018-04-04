@@ -1,3 +1,9 @@
+# 1.2.2
+
+* When insight add-in is activated but package is not attached, attempt to load saved configuration
+* Clarify error message that is displayed if environment is not configured
+* Gracefully handle activation of add-in if user has no suitable projects
+
 # 1.2.1
 
 * Set explicit versoin for dwapi dependency

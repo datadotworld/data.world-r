@@ -1,3 +1,8 @@
+# 1.2.1
+
+* Set explicit versoin for dwapi dependency
+* Fix installation and load issue related to use of `.onLoad`
+
 # 1.2.0
 
 * Introduce "Add Insight" add-in

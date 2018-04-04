@@ -6,7 +6,7 @@ As such, it uses the user's home directory by default.
 
 ## Test environments
 
-* local OS X install, R 3.5.0
+* local OS X install, R 3.4.4
 * CircleCI Ubuntu, Release and Devel
 * win-builder (all versions)
 
@@ -48,12 +48,24 @@ Found the following (possibly) invalid URLs:
     Status: Error
     Message: libcurl error code 35
     	error:1407742E:SSL routines:SSL23_GET_SERVER_HELLO:tlsv1 alert protocol version
+  URL: https://github.com/datadotworld/data.world-r
+    From: DESCRIPTION
+    Status: Error
+    Message: libcurl error code 35
+    	error:1407742E:SSL routines:SSL23_GET_SERVER_HELLO:tlsv1 alert protocol version
+  URL: https://github.com/datadotworld/data.world-r/issues
+    From: DESCRIPTION
+    Status: Error
+    Message: libcurl error code 35
+    	error:1407742E:SSL routines:SSL23_GET_SERVER_HELLO:tlsv1 alert protocol version
   URL: https://meta.data.world/introducing-data-projects-e7cfa971b552
     From: inst/doc/quickstart.html
+          README.md
     Status: 409
     Message: Conflict
   URL: https://meta.data.world/showcasing-your-data-work-using-insights-9c578698275b
     From: inst/doc/quickstart.html
+          README.md
     Status: 409
     Message: Conflict
 ```

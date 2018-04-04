@@ -56,6 +56,14 @@ dw_test_that(
 )
 
 dw_test_that(
+  "Graceful handling of user with no projects", {
+    test_project_list <- list()
+    filtered_project_list <- insight_project_filter(test_project_list)
+    expect_equal(0, length(filtered_project_list))
+  }
+)
+
+dw_test_that(
   "Insight saved", {
     response <- with_mock(
       `dwapi::upload_file` = function(project_id, image_file, fn) {

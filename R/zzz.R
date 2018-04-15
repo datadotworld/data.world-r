@@ -31,9 +31,22 @@ https://data.world"
   invisible()
 }
 
-#' Apply configuration from file or envvars and load dwapi
+#' Functionality to execute when package namespace is attached
 #' @keywords internal
 .onAttach <- function(...) {
+  configure_package()
+}
+
+#' Determine if library is already attached
+#' @keywords internal
+is_attached <- function(x) {
+  paste0("package:", x) %in% search()
+}
+
+#' Apply configuration from file or envvars and load dwapi
+#' @keywords internal
+configure_package <- function() {
+
   # Load dwapi as a result of data.world being attached
   if (!is_attached("dwapi")) {
     lapply(c("dwapi"), library, character.only = TRUE, warn.conflicts = FALSE)
@@ -51,10 +64,5 @@ https://data.world"
   data.world::set_config(data.world::cfg_env())
 
   invisible()
-}
 
-#' Determine if library is already attached
-#' @keywords internal
-is_attached <- function(x) {
-  paste0("package:", x) %in% search()
 }

@@ -1,3 +1,7 @@
+# 1.2.3
+
+* Add more user-friendly form validation and error reporting
+
 # 1.2.2
 
 * When insight add-in is activated but package is not attached, attempt to load saved configuration

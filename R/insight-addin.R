@@ -78,6 +78,7 @@ add_insight_addin <- function() {
               "#done {line-height: 1rem;}",
               "#cancel {line-height: 1rem;}",
               "#title {font-size: 14px;}",
+              "#message {font-size: 12px; font-style: italic; color: #D8000C;}",
               "#description {font-size: 14px; min-height: 110px;}",
               "div.gadget-title {background-color: #fff}",
               "div.gadget-content {background-color: #fff}",
@@ -102,7 +103,8 @@ add_insight_addin <- function() {
                                          choices = c("", project_choice_list)),
                       shiny::textInput("title", "Title:"),
                       shiny::textAreaInput("description", "Description:",
-                                           height = "85px")
+                                           height = "85px"),
+                      shiny::textOutput("message")
         ),
         flex = c(5, 3)
       )
@@ -113,15 +115,38 @@ add_insight_addin <- function() {
 
     current_plot_exists <- "RStudioGD" %in% names(dev.list())
 
+    shiny::observeEvent(input$cancel, {
+      shiny::stopApp()
+    })
+
     shiny::observeEvent(input$done, {
 
-      if (current_plot_exists) {
-        save_image_as_insight(input$project, input$title, input$description,
-                     session$userData$f) # nolint
-      } else {
-        writeLines("Nothing to do...no current plot")
+      messages <- character()
+
+      if (is.null(input$project) | input$project == "") {
+        messages <- c(messages, "Project is required")
       }
-      shiny::stopApp()
+
+      if (is.null(input$title) | input$title == "") {
+        messages <- c(messages, "Title is required")
+      }
+
+      if (length(messages) == 0) {
+
+        if (current_plot_exists) {
+          save_image_as_insight(input$project, input$title, input$description,
+                                session$userData$f) # nolint
+        } else {
+          writeLines("Nothing to do...no current plot")
+        }
+
+        shiny::stopApp()
+
+      } else {
+        message_text <- paste0(messages, collapse = "; ")
+        output$message <- shiny::renderText(message_text)
+      }
+
     })
 
     output$thumb <- shiny::renderImage(deleteFile = FALSE, {
@@ -150,7 +175,7 @@ add_insight_addin <- function() {
 
   }
 
-  viewer <- shiny::dialogViewer("New insight", height = 380, width = 850)
+  viewer <- shiny::dialogViewer("New insight", height = 400, width = 850)
   shiny::runGadget(ui, server, viewer = viewer)
 
 }

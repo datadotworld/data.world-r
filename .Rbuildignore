@@ -2,9 +2,11 @@
 ^\.Rproj\.user$
 ^\.Rprofile$
 ^cran-comments\.md$
+^CONTRIBUTING\.md$
 ^.*tmp$
 ^LICENSE$
 ^revdep$
 ^.circleci$
 ^ci-build$
 ^cobertura.xml$
+^docs$

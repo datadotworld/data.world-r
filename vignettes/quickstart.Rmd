@@ -35,7 +35,7 @@ saved_cfg <- data.world::save_config("YOUR API TOKEN")
 data.world::set_config(saved_cfg)
 ```
 
-To obtain your API token, visit: https://data.world/settings/advanced
+To obtain your API token, visit: https://data.world/integrations/r-and-r-studio
 For additional configuration options, see `?set_config`
 
 ### DO NOT SHARE YOUR AUTHENTICATION TOKEN

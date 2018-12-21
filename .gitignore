@@ -5,3 +5,5 @@
 .Renviron
 tmp
 inst/doc
+*.Rcheck
+revdep

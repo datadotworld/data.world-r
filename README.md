@@ -71,7 +71,7 @@ devtools::install_github("datadotworld/data.world-r", build_vignettes = TRUE)
 
 ## Configuration
 
-First, users must obtain an API authentication token at: https://data.world/settings/advanced
+First, users must obtain an API authentication token at: https://data.world/integrations/r-and-r-studio
 
 **IMPORTANT**: For your security, do not include your API authentication token in code that
 is intended to be shared with others.

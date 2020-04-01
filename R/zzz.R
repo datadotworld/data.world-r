@@ -16,8 +16,8 @@ permissions and limitations under the License.
 This product includes software developed at data.world, Inc.
 https://data.world"
 
-#' Set up default options
-#' @keywords internal
+## Set up default options
+## @keywords internal
 .onLoad <- function(...) {
   op <- options()
   op.dw <-
@@ -31,8 +31,8 @@ https://data.world"
   invisible()
 }
 
-#' Functionality to execute when package namespace is attached
-#' @keywords internal
+## Functionality to execute when package namespace is attached
+## @keywords internal
 .onAttach <- function(...) {
   configure_package()
 }

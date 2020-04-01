@@ -4,7 +4,6 @@
 \name{data.world-defunct}
 \alias{data.world-defunct}
 \alias{query.data.world}
-\alias{data.world-defunct-package}
 \title{Defunct function(s) in the data.world package}
 \description{
 These functions have been removed from the data.world package.

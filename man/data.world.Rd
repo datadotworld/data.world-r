@@ -3,7 +3,6 @@
 \docType{package}
 \name{data.world}
 \alias{data.world}
-\alias{data.world-package}
 \title{data.world: The main R package for working with data.world datasets.}
 \description{
 The data.world package makes it easy to access and work with data.world's datasets.

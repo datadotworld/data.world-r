@@ -1,6 +1,6 @@
 Package: data.world
 Title: Functions and Add-Ins for Working with 'data.world' Data Sets and Projects
-Version: 1.2.3
+Version: 1.2.4
 Authors@R: c(
     person("Rafael", "Pereira", email = "rafael.pereira@data.world", role = c("aut", "cre")),
     person("Triet", "Le", email = "triet.le@data.world", role = c("aut")),

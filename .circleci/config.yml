@@ -12,6 +12,7 @@
 
      steps:
        - checkout
+       - run: apt-get update && apt-get install -y qpdf
        - run: mkdir ci-build ci-build/reports ci-build/dist
 
        - run:

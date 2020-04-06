@@ -16,15 +16,15 @@
 
        - run:
            name: Install data.world-r
-           command: RDscript -e 'devtools::install()'
+           command: Rscript -e 'devtools::install()'
            
-       - run:
-           name: Lint
-           command: Rscript -e 'lintr::expect_lint_free()'
-
        - run:
            name: Check against release version
            command: Rscript -e 'devtools::check()'
+ 
+       - run:
+           name: Lint
+           command: Rscript -e 'lintr::expect_lint_free()'
 
        - run:
            name: Collect test coverage stats

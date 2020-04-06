@@ -24,7 +24,8 @@ https://data.world"
 #' @aliases query.data.world
 #' @docType package
 #' @section A note on data.world vs. dwapi:
-#'     Most of these defunct functions are low-leve REST API endpoint wrappers and
+#'     Most of these defunct functions are low-leve REST API
+#'     endpoint wrappers and
 #'     have been renamed for consistency and moved to the dwapi package in
 #'     order to keep the data.world namespce as clean as possible.
 #' @section Details:
@@ -32,25 +33,37 @@ https://data.world"
 #'    \code{data.world} \tab is replaced by \code{\link{set_config}}\cr
 #'    \code{query.data.world} \tab is replaced by \code{\link{query}}\cr
 #'    \code{addFile} \tab is now \code{\link[dwapi]{add_file}}\cr
-#'    \code{addFileBySource} \tab is now \code{\link[dwapi]{add_file_by_source}}\cr
-#'    \code{addFilesBySource} \tab is now \code{\link[dwapi]{add_files_by_source}}\cr
-#'    \code{createDataset} \tab is now \code{\link[dwapi]{create_dataset}}\cr
-#'    \code{deleteFileAndSyncSources} \tab is now \code{\link[dwapi]{delete_file}}\cr
-#'    \code{deleteFilesAndSyncSources} \tab is now \code{\link[dwapi]{delete_files}}\cr
+#'    \code{addFileBySource} \tab is
+#'    now \code{\link[dwapi]{add_file_by_source}}\cr
+#'    \code{addFilesBySource} \tab is
+#'    now \code{\link[dwapi]{add_files_by_source}}\cr
+#'    \code{createDataset} \tab is
+#'    now \code{\link[dwapi]{create_dataset}}\cr
+#'    \code{deleteFileAndSyncSources} \tab is
+#'    now \code{\link[dwapi]{delete_file}}\cr
+#'    \code{deleteFilesAndSyncSources} \tab is
+#'    now \code{\link[dwapi]{delete_files}}\cr
 #'    \code{downloadFile} \tab is now \code{\link[dwapi]{download_file}}\cr
-#'    \code{downloadFileAsDataFrame} \tab is now \code{\link[dwapi]{download_file_as_data_frame}}\cr
+#'    \code{downloadFileAsDataFrame} \tab is
+#'    now \code{\link[dwapi]{download_file_as_data_frame}}\cr
 #'    \code{getDataset} \tab is now \code{\link[dwapi]{get_dataset}}\cr
 #'    \code{patchDataset} \tab is now \code{\link[dwapi]{update_dataset}}\cr
 #'    \code{replaceDataset} \tab is now \code{\link[dwapi]{replace_dataset}}\cr
 #'    \code{syncDataset} \tab is now \code{\link[dwapi]{sync}}\cr
-#'    \code{uploadDataFrame} \tab is now \code{\link[dwapi]{upload_data_frame}}\cr
+#'    \code{uploadDataFrame} \tab is
+#'    now \code{\link[dwapi]{upload_data_frame}}\cr
 #'    \code{uploadFile} \tab is now \code{\link[dwapi]{upload_file}}\cr
 #'    \code{uploadFiles} \tab is now \code{\link[dwapi]{upload_files}}\cr
-#'    \code{DatasetCreateRequest} \tab is now \code{\link[dwapi]{dataset_create_request}}\cr
-#'    \code{DatasetPatchRequest} \tab is now \code{\link[dwapi]{dataset_update_request}}\cr
-#'    \code{DatasetPutRequest} \tab is now \code{\link[dwapi]{dataset_replace_request}}\cr
-#'    \code{FileBatchUpdateRequest} \tab is now \code{\link[dwapi]{file_batch_update_request}}\cr
-#'    \code{FileCreateOrUpdateRequest} \tab is now \code{\link[dwapi]{file_create_or_update_request}}\cr
+#'    \code{DatasetCreateRequest} \tab is
+#'    now \code{\link[dwapi]{dataset_create_request}}\cr
+#'    \code{DatasetPatchRequest} \tab is
+#'    now \code{\link[dwapi]{dataset_update_request}}\cr
+#'    \code{DatasetPutRequest} \tab is
+#'    now \code{\link[dwapi]{dataset_replace_request}}\cr
+#'    \code{FileBatchUpdateRequest} \tab is
+#'    now \code{\link[dwapi]{file_batch_update_request}}\cr
+#'    \code{FileCreateOrUpdateRequest} \tab is
+#'    now \code{\link[dwapi]{file_create_or_update_request}}\cr
 #' }
 #' @seealso \link[dwapi]{dwapi}
 NULL

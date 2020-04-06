@@ -95,7 +95,8 @@ cfg <- function(auth_token) {
 
 #' Construct configuration object using environment variables.
 #'
-#' @param auth_token_var Name of environment variable for API authorization token (default: \code{DW_AUTH_TOKEN}).
+#' @param auth_token_var Name of environment variable for API authorization
+#' token (default: \code{DW_AUTH_TOKEN}).
 #' @return Object of type \code{cfg_env}
 #' @examples
 #' envvars_cfg <- data.world::cfg_env()

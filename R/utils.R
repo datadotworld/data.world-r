@@ -20,10 +20,10 @@ https://data.world"
 #' @return Current package version.
 #' @keywords internal
 sdk_version <- function() {
-  is.nothing <- function(x)
+  is_nothing <- function(x)
     is.null(x)
   # nolint start
-  if (!is.nothing(utils::sessionInfo()$otherPkgs$data.world)) {
+  if (!is_nothing(utils::sessionInfo()$otherPkgs$data.world)) {
     ret <- utils::sessionInfo()$otherPkgs$dwapi$Version
   } else {
     ret <- "X.X.X"

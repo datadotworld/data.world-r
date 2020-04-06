@@ -5,7 +5,8 @@
 \alias{data.world}
 \title{data.world: The main R package for working with data.world datasets.}
 \description{
-The data.world package makes it easy to access and work with data.world's datasets.
+The data.world package makes it easy to access and work with
+data.world's datasets.
 }
 \section{Configuration}{
 
@@ -17,14 +18,15 @@ The package can be configured with the \code{\link{set_config}} function.
 
 
 Use \code{\link{query}} to run SPARQL and SQL queries.
-Use \code{\link{qry_sql}} and \code{\link{qry_sparql}} to construct query objects and
-to pass parameters to queries.
+Use \code{\link{qry_sql}} and \code{\link{qry_sparql}} to construct
+query objects and to pass parameters to queries.
 }
 
 \section{Add-ins}{
 
 
-Use the included "New insight" add-in to publish plots as project insights from R Studio.
+Use the included "New insight" add-in to publish plots as
+project insights from R Studio.
 }
 
 \section{REST API}{

@@ -1,6 +1,6 @@
 Package: data.world
 Title: Functions and Add-Ins for Working with 'data.world' Data Sets and Projects
-Version: 1.2.3
+Version: 1.2.4
 Authors@R: c(
     person("Rafael", "Pereira", email = "rafael.pereira@data.world", role = c("aut", "cre")),
     person("Triet", "Le", email = "triet.le@data.world", role = c("aut")),
@@ -26,10 +26,12 @@ Suggests:
     readr,
     rmarkdown,
     testthat (>= 2.0.0)
+Remotes:  
+    datadotworld/dwapi-r
 License: Apache License 2.0
 Encoding: UTF-8
 LazyData: true
 URL: https://github.com/datadotworld/data.world-r
 BugReports: https://github.com/datadotworld/data.world-r/issues
-RoxygenNote: 6.0.1
+RoxygenNote: 7.0.2
 VignetteBuilder: knitr

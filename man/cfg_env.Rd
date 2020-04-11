@@ -7,7 +7,8 @@
 cfg_env(auth_token_var = "DW_AUTH_TOKEN")
 }
 \arguments{
-\item{auth_token_var}{Name of environment variable for API authorization token (default: \code{DW_AUTH_TOKEN}).}
+\item{auth_token_var}{Name of environment variable for API authorization
+token (default: \code{DW_AUTH_TOKEN}).}
 }
 \value{
 Object of type \code{cfg_env}

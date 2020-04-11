@@ -1,3 +1,7 @@
+# 1.2.4
+
+* Change dependency on `dwapi` package to point to github
+
 # 1.2.3
 
 * Add more user-friendly form validation and error reporting

@@ -16,24 +16,24 @@ permissions and limitations under the License.
 This product includes software developed at data.world, Inc.
 https://data.world"
 
-#' Set up default options
-#' @keywords internal
-.onLoad <- function(...) {
+## Set up default options
+## @keywords internal
+.onLoad <- function(...) { # nolint
   op <- options()
-  op.dw <-
+  op_dw <-
     list(dw.config_path =
            file.path(normalizePath("~", winslash = "/"), ".dw", "config"))
 
-  toset <- !(names(op.dw) %in% names(op))
+  toset <- !(names(op_dw) %in% names(op))
   if (any(toset))
-    options(op.dw[toset])
+    options(op_dw[toset])
 
   invisible()
 }
 
-#' Functionality to execute when package namespace is attached
-#' @keywords internal
-.onAttach <- function(...) {
+## Functionality to execute when package namespace is attached
+## @keywords internal
+.onAttach <- function(...) { # nolint
   configure_package()
 }
 

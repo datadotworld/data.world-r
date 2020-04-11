@@ -8,27 +8,24 @@
      working_directory: ~/data.world-r
 
      docker:
-       - image: dataworld/r-devtools
+       - image: rocker/tidyverse
 
      steps:
        - checkout
+       - run: apt-get update && apt-get install -y qpdf
        - run: mkdir ci-build ci-build/reports ci-build/dist
 
        - run:
            name: Install data.world-r
-           command: RDscript -e 'devtools::install()'
+           command: Rscript -e 'devtools::install()'
            
-       - run:
-           name: Lint
-           command: Rscript -e 'lintr::expect_lint_free()'
-
-       - run:
-           name: Check against devel version
-           command: RDscript -e 'devtools::check()'
-
        - run:
            name: Check against release version
            command: Rscript -e 'devtools::check()'
+ 
+       - run:
+           name: Lint
+           command: Rscript -e 'lintr::expect_lint_free()'
 
        - run:
            name: Collect test coverage stats
@@ -41,10 +38,6 @@
              if [[ "${CIRCLE_BRANCH}" = "master" ]]; then
                Rscript -e 'devtools::build_win(version = c("R-oldrelease", "R-release", "R-devel"))'
              fi
-
-       - run:
-           name: Check reverse dependencies
-           command: Rscript -e 'devtools::revdep_check(); devtools::revdep_check_print_problems()'
 
        - store_artifacts:
            path: ~/data.world-r/ci-build/dist

@@ -24,7 +24,7 @@ https://data.world"
 # nocov start
 add_insight_addin <- function() {
 
-  MAX_PROJECT_TITLE_LABEL <- 34
+  MAX_PROJECT_TITLE_LABEL <- 34 # nolint
 
   api_token <- getOption("dwapi.auth_token")
 

@@ -1,3 +1,8 @@
+# 1.3.0
+
+* Align with `dwapi` version 0.3.0 (major change is to separate dataset
+references into owner ID and dataset ID)
+
 # 1.2.4
 
 * Change dependency on `dwapi` package to point to github

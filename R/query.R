@@ -37,16 +37,17 @@ query.default <- function(qry, ...) {
 #' \dontrun{
 #'   sql_stmt <- data.world::qry_sql("SELECT * FROM Tables")
 #'   query_results_df <- data.world::query(
-#'     sql_stmt, "jonloyens/an-intro-to-dataworld-dataset")
+#'     sql_stmt, "jonloyens", "an-intro-to-dataworld-dataset")
 #' }
 #' @export
 query.qry_sql <- function(qry, ...) {
   # Internal function to help unpack '...' param
   # TODO Promote dataset param to S3 generic when query.data.world is removed
-  query_fn <- function(qry, dataset) {
+  query_fn <- function(qry, owner_id, dataset_id) {
     return(
       dwapi::sql(
-        dataset = dataset,
+        owner_id = owner_id,
+        dataset_id = dataset_id,
         query = qry$query_string,
         query_params = qry$params
       )
@@ -64,16 +65,17 @@ query.qry_sql <- function(qry, ...) {
 #'                                            ?s ?p ?o.
 #'                                          }")
 #'   query_results_df <- data.world::query(
-#'     sparql_stmt, "jonloyens/an-intro-to-dataworld-dataset")
+#'     sparql_stmt, "jonloyens", "an-intro-to-dataworld-dataset")
 #' }
 #' @export
 query.qry_sparql <- function(qry, ...) {
   # Internal function to help unpack '...' param
   # TODO Promote dataset param to S3 generic when query.data.world is removed
-  query_fn <- function(qry, dataset) {
+  query_fn <- function(qry, owner_id, dataset_id) {
     return(
       dwapi::sparql(
-        dataset = dataset,
+        owner_id = owner_id,
+        dataset_id = dataset_id,
         query = qry$query_string,
         query_params = qry$params
       )

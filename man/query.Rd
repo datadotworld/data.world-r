@@ -34,7 +34,7 @@ Execute a query on data.world.
 \dontrun{
   sql_stmt <- data.world::qry_sql("SELECT * FROM Tables")
   query_results_df <- data.world::query(
-    sql_stmt, "jonloyens/an-intro-to-dataworld-dataset")
+    sql_stmt, "jonloyens", "an-intro-to-dataworld-dataset")
 }
 \dontrun{
   sparql_stmt <- data.world::qry_sparql("SELECT ?s ?p ?o
@@ -42,7 +42,7 @@ Execute a query on data.world.
                                            ?s ?p ?o.
                                          }")
   query_results_df <- data.world::query(
-    sparql_stmt, "jonloyens/an-intro-to-dataworld-dataset")
+    sparql_stmt, "jonloyens", "an-intro-to-dataworld-dataset")
 }
 }
 \seealso{

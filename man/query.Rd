@@ -15,7 +15,10 @@ query(qry, ...)
 \arguments{
 \item{qry}{Query object of type qry_sql or qry_sparql.}
 
-\item{...}{S3 method specific params.}
+\item{...}{either a single parameter \code{dataset} that is a full
+URL to a data.world dataset or a qualified dataset reference of the form
+owner/dataset, OR separate parameters \code{owner_id} and
+\code{dataset_id}}
 }
 \value{
 Query results as a data frame.

@@ -37,6 +37,46 @@ dw_test_that("SQL query making correct calls", {
   testthat::expect_equal(ret, mock_response)
 })
 
+dw_test_that("SQL query with combined dataset reference", {
+  expected_query <- "SELECT * FROM TableName LIMIT 10"
+  expected_query_params <- list("value1", 1L, 1, TRUE, 1.5)
+  expected_dataset_ref <- "ownerid/datasetid"
+  mock_response <- readr::read_csv("resources/sample.csv")
+  ret <- testthat::with_mock(
+    `dwapi::sql` = function(owner_id, dataset_id, query, query_params) {
+      testthat::expect_equal(owner_id, "ownerid")
+      testthat::expect_equal(dataset_id, "datasetid")
+      testthat::expect_equal(query, expected_query)
+      testthat::expect_equal(query_params, expected_query_params)
+      return(mock_response)
+    },
+    data.world::query(
+      qry_sql(expected_query, params = expected_query_params),
+      expected_dataset_ref)
+  )
+  testthat::expect_equal(ret, mock_response)
+})
+
+dw_test_that("SQL query with URL dataset reference", {
+  expected_query <- "SELECT * FROM TableName LIMIT 10"
+  expected_query_params <- list("value1", 1L, 1, TRUE, 1.5)
+  expected_dataset_ref <- "https://data.world/ownerid/datasetid"
+  mock_response <- readr::read_csv("resources/sample.csv")
+  ret <- testthat::with_mock(
+    `dwapi::sql` = function(owner_id, dataset_id, query, query_params) {
+      testthat::expect_equal(owner_id, "ownerid")
+      testthat::expect_equal(dataset_id, "datasetid")
+      testthat::expect_equal(query, expected_query)
+      testthat::expect_equal(query_params, expected_query_params)
+      return(mock_response)
+    },
+    data.world::query(
+      qry_sql(expected_query, params = expected_query_params),
+      expected_dataset_ref)
+  )
+  testthat::expect_equal(ret, mock_response)
+})
+
 dw_test_that("SPARQL query making correct calls", {
   expected_query <- "SELECT * WHERE { ?s ?p ?o }"
   expected_query_params <- list(

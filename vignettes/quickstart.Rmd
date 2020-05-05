@@ -49,12 +49,10 @@ Use the data.world package to retrieve data from the site using SQL or SPARQL.
 
 Here is an example:
 ```{r SQL}
-intro_ds_owner <- "jonloyens"
-intro_ds <- "an-intro-to-dataworld-dataset"
+intro_ds <- "https://data.world/jonloyens/an-intro-to-dataworld-dataset"
 team_df <- data.world::query(
   data.world::qry_sql("SELECT * FROM DataDotWorldBBallTeam"),
-  owner_id = intro_ds_owner,
-  dataset_id = intro_ds
+  dataset = intro_ds
 )
 
 team_df

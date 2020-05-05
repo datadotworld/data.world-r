@@ -39,21 +39,23 @@ by data.world from the data that has been uploaded. That is
 done by querying the `Tables` table.
 
 ```{r tables}
-intro_ds_owner <- "jonloyens"
-intro_ds <- "an-intro-to-dataworld-dataset"
+intro_ds <- "https://data.world/jonloyens/an-intro-to-dataworld-dataset"
 tables_df <- data.world::query(
   data.world::qry_sql("SELECT * FROM Tables"),
-  owner_id = intro_ds_owner,
-  dataset_id = intro_ds
+  dataset = intro_ds
 )
 tables_df
 ```
 
 It is also possible to obtain information about columns. For that,
-use the `TableColumns` table instead.
+use the `TableColumns` table instead. Note that this time, we use the alternate
+means of calling the `qry_sql` constructor, by separating the dataset
+owner and dataset id.
 
 Try:
 ```{r columns, eval = FALSE}
+intro_ds_owner <- "jonloyens"
+intro_ds <- "an-intro-to-dataworld-dataset"
 columns_df <- data.world::query(
   data.world::qry_sql("SELECT * FROM TableColumns"),
   owner_id = intro_ds_owner,

@@ -48,13 +48,18 @@ tables_df
 ```
 
 It is also possible to obtain information about columns. For that,
-use the `TableColumns` table instead.
+use the `TableColumns` table instead. Note that this time, we use the alternate
+means of calling the `qry_sql` constructor, by separating the dataset
+owner and dataset id.
 
 Try:
 ```{r columns, eval = FALSE}
+intro_ds_owner <- "jonloyens"
+intro_ds <- "an-intro-to-dataworld-dataset"
 columns_df <- data.world::query(
   data.world::qry_sql("SELECT * FROM TableColumns"),
-  dataset = intro_ds
+  owner_id = intro_ds_owner,
+  dataset_id = intro_ds
 )
 columns_df
 ```
@@ -70,7 +75,8 @@ assists_vs_height <- data.world::qry_sql(paste0(
   "JOIN DataDotWorldBBallStats as s ON t.Name = s.Name ",
   "ORDER BY s.AssistsPerGame DESC"))
 
-data.world::query(assists_vs_height, dataset = intro_ds)
+data.world::query(assists_vs_height, owner_id = intro_ds_owner,
+  dataset_id = intro_ds)
 ```
 
 ## Parameterized queries
@@ -86,7 +92,7 @@ assists_greater_than <- data.world::qry_sql(paste0(
   "ORDER BY s.AssistsPerGame DESC"))
 
 assists_greater_than$params <- c(10)
-data.world::query(assists_greater_than, intro_ds)
+data.world::query(assists_greater_than, intro_ds_owner, intro_ds)
 ```
 
 # SPARQL
@@ -114,7 +120,7 @@ assists_vs_height <- data.world::qry_sparql(paste(
   "ORDER BY DESC (?assists)", sep = "\n"
 ))
 
-data.world::query(assists_vs_height, intro_ds)
+data.world::query(assists_vs_height, intro_ds_owner, intro_ds)
 ```
 
 ## Parameterized SPARQL queries
@@ -136,7 +142,7 @@ assists_greater_than <- data.world::qry_sparql(paste(
   "ORDER BY DESC (?assists)", sep = "\n"
 ))
 assists_greater_than$params <- c("$v1" = 10)
-data.world::query(assists_greater_than, intro_ds)
+data.world::query(assists_greater_than, intro_ds_owner, intro_ds)
 ```
 
 Notice that in the SPARQL case, parameters are always named.

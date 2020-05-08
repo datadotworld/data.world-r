@@ -15,7 +15,10 @@ query(qry, ...)
 \arguments{
 \item{qry}{Query object of type qry_sql or qry_sparql.}
 
-\item{...}{S3 method specific params.}
+\item{...}{either a single parameter \code{dataset} that is a full
+URL to a data.world dataset or a qualified dataset reference of the form
+owner/dataset, OR separate parameters \code{owner_id} and
+\code{dataset_id}}
 }
 \value{
 Query results as a data frame.
@@ -34,7 +37,7 @@ Execute a query on data.world.
 \dontrun{
   sql_stmt <- data.world::qry_sql("SELECT * FROM Tables")
   query_results_df <- data.world::query(
-    sql_stmt, "jonloyens/an-intro-to-dataworld-dataset")
+    sql_stmt, "jonloyens", "an-intro-to-dataworld-dataset")
 }
 \dontrun{
   sparql_stmt <- data.world::qry_sparql("SELECT ?s ?p ?o
@@ -42,7 +45,7 @@ Execute a query on data.world.
                                            ?s ?p ?o.
                                          }")
   query_results_df <- data.world::query(
-    sparql_stmt, "jonloyens/an-intro-to-dataworld-dataset")
+    sparql_stmt, "jonloyens", "an-intro-to-dataworld-dataset")
 }
 }
 \seealso{

@@ -17,43 +17,89 @@ This product includes software developed at data.world, Inc.
 https://data.world"
 
 dw_test_that("SQL query making correct calls", {
-  sql_query <- "SELECT * FROM TableName LIMIT 10"
-  params <- list("value1", 1L, 1, TRUE, 1.5)
-  dataset_key <- "ownerid/datasetid"
+  expected_query <- "SELECT * FROM TableName LIMIT 10"
+  expected_query_params <- list("value1", 1L, 1, TRUE, 1.5)
+  expected_owner_id <- "ownerid"
+  expected_dataset_id <- "datasetid"
   mock_response <- readr::read_csv("resources/sample.csv")
   ret <- testthat::with_mock(
-    `dwapi::sql` = function(dataset, query, query_params) {
-      testthat::expect_equal(dataset, dataset_key)
-      testthat::expect_equal(query, sql_query)
-      testthat::expect_equal(query_params, params)
+    `dwapi::sql` = function(owner_id, dataset_id, query, query_params) {
+      testthat::expect_equal(owner_id, expected_owner_id)
+      testthat::expect_equal(dataset_id, expected_dataset_id)
+      testthat::expect_equal(query, expected_query)
+      testthat::expect_equal(query_params, expected_query_params)
       return(mock_response)
     },
-        data.world::query(
-          qry_sql(sql_query, params = params), dataset_key)
+    data.world::query(
+      qry_sql(expected_query, params = expected_query_params),
+      expected_owner_id, expected_dataset_id)
+  )
+  testthat::expect_equal(ret, mock_response)
+})
+
+dw_test_that("SQL query with combined dataset reference", {
+  expected_query <- "SELECT * FROM TableName LIMIT 10"
+  expected_query_params <- list("value1", 1L, 1, TRUE, 1.5)
+  expected_dataset_ref <- "ownerid/datasetid"
+  mock_response <- readr::read_csv("resources/sample.csv")
+  ret <- testthat::with_mock(
+    `dwapi::sql` = function(owner_id, dataset_id, query, query_params) {
+      testthat::expect_equal(owner_id, "ownerid")
+      testthat::expect_equal(dataset_id, "datasetid")
+      testthat::expect_equal(query, expected_query)
+      testthat::expect_equal(query_params, expected_query_params)
+      return(mock_response)
+    },
+    data.world::query(
+      qry_sql(expected_query, params = expected_query_params),
+      expected_dataset_ref)
+  )
+  testthat::expect_equal(ret, mock_response)
+})
+
+dw_test_that("SQL query with URL dataset reference", {
+  expected_query <- "SELECT * FROM TableName LIMIT 10"
+  expected_query_params <- list("value1", 1L, 1, TRUE, 1.5)
+  expected_dataset_ref <- "https://data.world/ownerid/datasetid"
+  mock_response <- readr::read_csv("resources/sample.csv")
+  ret <- testthat::with_mock(
+    `dwapi::sql` = function(owner_id, dataset_id, query, query_params) {
+      testthat::expect_equal(owner_id, "ownerid")
+      testthat::expect_equal(dataset_id, "datasetid")
+      testthat::expect_equal(query, expected_query)
+      testthat::expect_equal(query_params, expected_query_params)
+      return(mock_response)
+    },
+    data.world::query(
+      qry_sql(expected_query, params = expected_query_params),
+      expected_dataset_ref)
   )
   testthat::expect_equal(ret, mock_response)
 })
 
 dw_test_that("SPARQL query making correct calls", {
-    sql_query <- "SELECT * WHERE { ?s ?p ?o }"
-    params <- list(
-      key1 = "value1",
-      "?key2" = 1L,
-      "?key3" = 1,
-      "?key4" = TRUE,
-      "?key5" = 1.5
-    )
-    dataset_key <- "ownerid/datasetid"
-    mock_response <- readr::read_csv("resources/sample.csv")
-    ret <- testthat::with_mock(
-      `dwapi::sparql` = function(dataset, query, query_params) {
-        testthat::expect_equal(dataset, dataset_key)
-        testthat::expect_equal(query, sql_query)
-        testthat::expect_equal(query_params, params)
-        return(mock_response)
-      },
-          data.world::query(
-            qry_sparql(sql_query, params = params), dataset_key)
-    )
-    testthat::expect_equal(ret, mock_response)
+  expected_query <- "SELECT * WHERE { ?s ?p ?o }"
+  expected_query_params <- list(
+    key1 = "value1",
+    "?key2" = 1L,
+    "?key3" = 1,
+    "?key4" = TRUE,
+    "?key5" = 1.5
+  )
+  expected_owner_id <- "ownerid"
+  expected_dataset_id <- "datasetid"
+  mock_response <- readr::read_csv("resources/sample.csv")
+  ret <- testthat::with_mock(
+    `dwapi::sparql` = function(owner_id, dataset_id, query, query_params) {
+      testthat::expect_equal(owner_id, expected_owner_id)
+      testthat::expect_equal(dataset_id, expected_dataset_id)
+      testthat::expect_equal(query, expected_query)
+      testthat::expect_equal(query_params, expected_query_params)
+      return(mock_response)
+    },
+    data.world::query(
+      qry_sparql(expected_query, params = expected_query_params),
+      expected_owner_id, expected_dataset_id)
+  )
+  testthat::expect_equal(ret, mock_response)
 })

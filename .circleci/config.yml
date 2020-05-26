@@ -14,6 +14,7 @@
        - checkout
        - run: apt-get update && apt-get install -y qpdf
        - run: mkdir ci-build ci-build/reports ci-build/dist
+       - run: Rscript -e 'install.packages(c("lintr", "covr"))'
 
        - run:
            name: Install data.world-r

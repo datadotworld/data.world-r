@@ -1,6 +1,6 @@
 Package: data.world
 Title: Functions and Add-Ins for Working with 'data.world' Data Sets and Projects
-Version: 1.3.0
+Version: 1.3.1
 Authors@R: c(
     person("Rafael", "Pereira", email = "rafael.pereira@data.world", role = c("aut", "cre")),
     person("Triet", "Le", email = "triet.le@data.world", role = c("aut")),
@@ -12,7 +12,7 @@ Description: High-level tools for working with 'data.world' data sets. 'data.wor
     charting data on the data.world site, you can access data via 'API' endpoints and 
     integrations. Use this package to access, query and explore data sets, and to 
     publish your insights. Visit <https://data.world>, for additional information.
-Depends: R (>= 3.3.0), dwapi (>= 0.3.0)
+Depends: R (>= 3.3.0), dwapi (>= 0.3.1)
 Imports:
     httr,
     ini,

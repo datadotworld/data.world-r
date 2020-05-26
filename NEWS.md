@@ -1,3 +1,8 @@
+# 1.3.1
+
+* Update to `dwapi` version 0.3.1 for better handling of column types when downloading
+  files
+
 # 1.3.0
 
 * Align with `dwapi` version 0.3.0 (major change is to separate dataset

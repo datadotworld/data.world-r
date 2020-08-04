@@ -62,6 +62,11 @@ To install directly from GitHub:
 devtools::install_github("datadotworld/data.world-r", build_vignettes = TRUE)
 ```
 
+**Note:** You will need to have the devtools package for R installed to run the previous command.  If that is not already installed, you can install it from CRAN using the command:
+```R
+install.packages("devtools")
+```
+
 ## Configuration
 
 First, users must obtain an API authentication token at: https://data.world/settings/advanced

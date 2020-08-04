@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+
+    <title>data.world and R</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i" rel="stylesheet">
+  </head>
+  <body style="color:#333D49;">
+<!--jumbotron header-->
+    <div class="header" style="background:#333D49; max-height:150px;">
+      
+      <div class="container p-responsive py-6 py-lg-10 text-center" style="color:#fff;">
+        <img src="dw+r_light.png" class="mb-3 mb-sm-5 col-6 col-sm-12" style="max-width:550px;">
+      </div>
+
+    </div>
+<!--first intro-->
+  <div class="container align-items-center text-center form-group align-items-center" style="padding-bottom:1em;padding-top:4em;">
+    <h1 style="font-weight:400"> You've enabled R, now what?</h1>
+            <p class="h5" style="font-weight:300"> The data.world R package makes it easy to query datasets and use data.world's REST API.  
+            </p>
+            
+  </div>
+<!--first section-->
+  <div class="container" style="padding-bottom:1em;padding-top:2em;">
+  <div class="row">
+  <div class="col">
+    <h2 style="font-weight:400"> Install and configure the data.world R package.</h2>
+            <p class="h5" style="font-weight:300; padding-bottom:1em;"> Using an R console (like <a href="https://www.rstudio.com/products/RStudio/#Desktop" target="_blank">R Studio</a>), you can use the data.world R package to run queries, import datasets, upload data, and more</p>
+            <ol style="list-style-position: inside;">
+              <li style="padding-bottom:1em; font-weight:300; padding-top:1em;">Install the data.world package for R
+              </li>
+              <div class="alert alert-light border col-sm-8" style="background-color:#f2f2f2">
+                    <code>
+                      devtools::install_github("datadotworld/data.world-r", build_vignettes = TRUE)
+                    </code>
+              </div>
+              <div class="alert alert-info col-sm-10" style="font-weight:300; font-size:90%">
+                     <b>Note: </b>You will need to have the devtools package for R installed to run the previous command.  If that is not already installed, you can install it from CRAN using the command <b>install.packages("devtools")</b>
+              </div>
+              <div class="col-sm-10" style="padding-top:1em;">
+                  <img src="r_install.png" class="img-fluid rounded" style="box-shadow:7px 7px 30px grey;">
+              </div>
+              <li style="padding-bottom:1em; font-weight:300; padding-top:3em;">Configure the package with your API token.
+              </li>
+              <div class="alert alert-light border col-sm-8" style="background-color:#f2f2f2">
+                     <code>
+                     saved_cfg <- data.world::save_config("YOUR API TOKEN")<br>
+                     data.world::set_config(saved_cfg)</code>
+              </div>
+              <div class="alert alert-info col-sm-10" style="font-weight:300; font-size:90%">
+                     <b>Note: </b>You will need to have your data.world API token, which you can get from data.world's <a href="https://data.world/integrations/r-and-r-studio?tab=settings" target="_blank">R & R Studio integration page</a>.
+              </div>
+              <div class="col-sm-10" style="padding-top:1em;">
+                  <img src="r_config.png" class="img-fluid rounded" style="box-shadow:7px 7px 30px grey;">
+              </div>
+              <li style="padding-bottom:1em; font-weight:300; padding-top:3em;">View the <b>Quickstart</b> vignette to view more information on the data.world package.
+              </li>
+              <div class="alert alert-light border col-sm-8" style="background-color:#f2f2f2">
+                     <code>
+                     library(data.world)<br>
+                     vignette("quickstart", package = "data.world")
+                     </code>
+              </div>
+              <div class="col-sm-10" style="padding-top:1em;">
+                  <img src="r_quickstart.png" class="img-fluid rounded" style="box-shadow:7px 7px 30px grey;">
+              </div>
+            </ol>
+            
+            
+</div>            
+ </div>
+ </div>
+<!--second section-->
+  <div class="container" style="padding-bottom:1em;padding-top:2em;">
+    <div class="row">
+        <div class="col">
+            <h2 style="font-weight:400"> Import your first query.</h2>
+              <p class="h5" style="font-weight:300"> Using the data.world package, import your first query:</p>
+        </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+        <div class="col">
+            <ol style="list-style-position: inside;">
+              <li style="font-weight:300; padding-top:2em; padding-bottom:1em;">Choose your dataset and retrieve your SQL or SPARQL query.
+              </li>
+              <div class="alert alert-secondary col-sm-10" style="margin-top:1em; font-weight:300;">
+                  <b>Example:</b> Note the below query includes specific query parameters. You can also simplify your query by using <code>SELECT * FROM DataDotWorldBBallTeam</code>
+                  <div class="alert alert-light border col-sm-10" style="margin-top:1em; color:#333D49; background-color:#f2f2f2">
+                         <pre>
+intro_ds <- "https://data.world/jonloyens/an-intro-to-dataworld-dataset"
+
+sample_query <- data.world::qry_sql(paste0(
+"SELECT t.Name, t.Height, s.AssistsPerGame ",
+"FROM DataDotWorldBBallTeam as t ",
+"JOIN DataDotWorldBBallStats as s ON t.Name = s.Name ",
+"ORDER BY s.AssistsPerGame DESC"))
+
+data.world::query(sample_query, dataset = intro_ds)</pre>
+                  </div>
+              </div>
+               <div class="col-sm-10" style="padding-top:1em;">
+                  <img src="r_dataset.png" class="img-fluid rounded" style="box-shadow:7px 7px 30px grey;">
+              </div>
+              <li style="font-weight:300; padding-top:2em; padding-bottom:1em;">Use the available functions to begin modeling your data.
+              </li>
+</div>  
+</div> 
+</div>   
+<!--what's next-->
+<hr style="margin-top:2em;">
+<div class="container" style="padding-bottom:1em;">
+<div class="row">
+<div class="col">
+
+    <h2 style="font-weight:400; padding-top:1em;"> What next?</h2>
+            <p class="h5" style="font-weight:300"> Here are some things you can do with R and data.world:</p>
+            <ul style="list-style-position: inside; padding-top:1em;">
+              <li style="padding-bottom:1em; font-weight:300;">Use the <b>Addins</b> menu to quickly add a new Insight to data.world from R Studio.
+              </li>
+              <li style="padding-bottom:1em; padding-top:1em; font-weight:300;">
+              Use the included <code>dwapi</code> package to update datasets, upload files, list all tables in a project, and more.
+              </li>
+            </ul>
+  </div> 
+  </div>
+  </div>     
+<!--footer-->
+<div class="jumbotron-fluid text-center align-items-center border-top" style="margin-top:1em; padding-top:2em; padding-bottom: 3em; background-color:#F2F2F2; color:#36454f">
+    <h4 style="font-weight:300"> Want to see more information on the data.world + R Integration? <u><a href="https://github.com/datadotworld/data.world-r#dataworld-r" style="color:#36454f; font-weight:600;" target="_blank">check it out here</a></u>.
+    </h4>
+</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+  </body>
+</html>

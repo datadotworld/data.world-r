@@ -37,7 +37,12 @@
               <li style="padding-bottom:1em; font-weight:300; padding-top:1em;">Install the data.world package for R
               </li>
               <div class="alert alert-light border col-sm-8" style="background-color:#f2f2f2">
-                     <code>install.packages("data.world")</code>
+                    <code>
+                      devtools::install_github("datadotworld/data.world-r", build_vignettes = TRUE)
+                    </code>
+              </div>
+              <div class="alert alert-info col-sm-10" style="font-weight:300; font-size:90%">
+                     <b>Note: </b>You will need to have the devtools package for R installed to run the previous command.  If that is not already installed, you can install it from CRAN using the command <b>install.packages("devtools")</b>
               </div>
               <div class="col-sm-10" style="padding-top:1em;">
                   <img src="r_install.png" class="img-fluid rounded" style="box-shadow:7px 7px 30px grey;">
